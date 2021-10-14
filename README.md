@@ -10,7 +10,7 @@
 
 .
 
-**QemuJuicy** is a graphical user interface to run [QEMU](https://github.com/qemu/qemu) (a virtual machine emulator). QEMU can run many on operating systems on a lot of CPUs by software emulation - e.g. Linux on Windows, Windows on Unix, Suse under Ubuntu, Debian on macOS, all on Linux, and others.
+**QemuJuicy** is a graphical user interface to run [QEMU](https://github.com/qemu/qemu) (a virtual machine emulator). QEMU can run on many operating systems and on a lot of CPUs by software emulation - e.g. Linux on Windows, Windows on Unix, Suse under Ubuntu, Debian on macOS, all on Linux, ARM CPUs, and others.
 
 **QemuJuicy** is Open Source Software (FOSS, see licenses) and a Java(tm) application running on many OS/machines, QEMU is also Open Source (GPL2).
 
@@ -26,7 +26,9 @@ Run **QemuJuicy** on command line (or create a menu/desktop entry or shell scrip
 **java -jar qemujuicy_vN.N.N.jar**  
 
 Create/run your first VM (virtual machine) with **QemuJuicy**.    
-Read the documentation before or simply try it out, if tl;dr.
+Read the [documentation](https://github.com/openworld42/QemuJuicy/DOCUMENTATION.md) before or simply try it out, if tl;dr.
+
+Think about [contribution](https://github.com/openworld42/QemuJuicy/CONTRIBUTION.md).
 
 Author: Heinz Silberbauer and contributors
 
