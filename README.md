@@ -6,6 +6,8 @@
 
 ## !!! QemuJuicy is still early alpha, features may be missing !!!
 
+(come back here to watch the progress in 2-3 weeks)
+
 .
 
 .
