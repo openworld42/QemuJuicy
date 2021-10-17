@@ -1,11 +1,15 @@
 
 The The Oxygen Icon Theme images and all derivatives located at "src/images/oxygen/" 
-are licensed under the terms of GNU LGPL v3 license. See LICENSE_Oxygen.txt.
+are licensed under the terms of GNU LGPL v3 license. See LICENSE_Oxygen.
 
-Attributions: The Oxygen Team, KDE; LGPL <https://www.gnu.org/copyleft/lgpl.html>, via Wikimedia Commons
+Attributions: The Oxygen Team, KDE; LGPL <https://www.gnu.org/copyleft/lgpl.html>, via Wikimedia Commons.
 
 You should have received a copy of the GNU Lesser General Public
 License along with this library. If not, see <http://www.gnu.org/licenses/>.
+
+
+The aqemu icon images are licensed under the terms of the 
+GNU GENERAL PUBLIC LICENSE, Version 2. See LICENSE_aqemu.
 
 
 Every other file is licensed under the terms of the Apache License.
