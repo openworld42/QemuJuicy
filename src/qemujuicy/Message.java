@@ -77,6 +77,7 @@ public enum Message {
 	CONF_GENERAL_SETTINGS_TT_MSG("General settings"),
 	CONF_FILES_TT_MSG("Files and folders"),
 	DISK_IMAGE_VM_TT_MSG("Create or manage a virtual machine disk"),
+	SETUP_WIZARD_TT_MSG("Setup Wizard"),
 	QEMU_CALL_TT_MSG("Create a virtual machine just by QEMU call"),
 	REMOVE_VM_TT_MSG("Delete a virtual machine"),
 	START_TT_MSG("Start a virtual machine"),
