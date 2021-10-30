@@ -52,6 +52,7 @@ public class AppProperties extends Properties {
 	public static final String QEMU_IMG = "qemu.image";
 	public static final String VERBOSE = "verbose"; 
 	public static final String VM_DISK_PATH = "vm.disk.path"; 
+	public static final String VM_FILENAME = "vm.filename.";  			// a number for the VM will be appended
 	
 	private String pathname;
 

@@ -108,18 +108,16 @@ public class Main {
 		OSType.logInfo();
 		Logger.info(APP_NAME + " application directory: '" + Files.getAppDirPath() + "'");
 		Logger.info("reading configuration file: " + CONFIG_FILE);
-		// finish some setup
+		// finish the setup
 		if (isFirstStart) {
 			String vmDisksPath = Files.getAppDirPath() + VM_DISKS_DIR;
 			properties.setProperty(AppProperties.VM_DISK_PATH, vmDisksPath);		// may not exist, ensure it later
-			Files.setVmDisksDirPath(vmDisksPath);
+			Files.setVmDiskDirPath(vmDisksPath);
+			vmManager = new VMManager();
+		} else {
+			// read the existing VMs into VMManager
+			vmManager = new VMManager(properties);
 		}
-		// read the existing VMs into VMManager
-		vmManager = new VMManager();
-		
-		// TODO xxx    Main  read the existing VMs into VMManager
-
-		
 		// start GUI
 		System.setProperty("awt.useSystemAAFontSettings","on");	// render fonts in a better way
 		Gbc.setDefaultInset(7);				// generic inset to next grid cell

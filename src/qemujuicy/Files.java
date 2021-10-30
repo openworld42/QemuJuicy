@@ -36,7 +36,7 @@ public class Files  {
 	private String homeDirectory;
 	private String homeDirPath;
 	private String appDirPath;
-	private String vmDisksDirPath;
+	private String vmDiskDirPath;
 
 	/**
 	 * Deny external construction, singleton.
@@ -76,14 +76,14 @@ public class Files  {
 	 */
 	public static File ensureVmDisksDir() throws IOException {
 		
-		File appDir = new File(instance.vmDisksDirPath);
-		if (!appDir.exists()) {
-			appDir.mkdirs();
+		File vmDiskDir = new File(instance.vmDiskDirPath);
+		if (!vmDiskDir.exists()) {
+			vmDiskDir.mkdirs();
 		}
-		if (!appDir.isDirectory()) {
+		if (!vmDiskDir.isDirectory()) {
 			throw new IOException(Msg.get(CANNOT_CREATE_OR_WRITE_TO_MSG, instance.appDirPath));
 		}
-		return appDir;
+		return vmDiskDir;
 	}
 
 	/**
@@ -115,7 +115,7 @@ public class Files  {
 	 */
 	public static String getVmDisksDirPath() {
 		
-		return instance.vmDisksDirPath;
+		return instance.vmDiskDirPath;
 	}
 
 	/**
@@ -131,8 +131,8 @@ public class Files  {
 	 * 
 	 * @param vmDisksDirPath 	the path to set
 	 */
-	public static void setVmDisksDirPath(String vmDisksDirPath) {
+	public static void setVmDiskDirPath(String vmDisksDirPath) {
 		
-		instance.vmDisksDirPath = vmDisksDirPath;
+		instance.vmDiskDirPath = vmDisksDirPath;
 	}
 }
