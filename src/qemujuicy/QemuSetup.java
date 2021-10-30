@@ -24,6 +24,7 @@ package qemujuicy;
 
 import static qemujuicy.Message.*;
 
+import java.io.*;
 import java.util.*;
 
 import javax.swing.*;
@@ -39,17 +40,16 @@ public class QemuSetup {
 	
 	private static final String QEMU_IMG = "qemu-img";			// qemu image command
 	
-	private String qemuCmd;
 	private String cmdOutput;
 	private String qemuImg;
 	private String qemuImgVersion;
 	private ArrayList<String> qemuCmdList;
 	private ArrayList<String> versionList;
+	private MainView mainView;
+	private boolean isRunnigApp;
 
 	/**
 	 * Deny external construction, use run().
-	 * Execute the setup, test for a valid QEMU installation, use the setup wizard if 
-	 * it is the first start.
 	 * 
 	 * @param mainView 
 	 * @param isRunnigApp		true, if called from a running application, 
@@ -57,49 +57,8 @@ public class QemuSetup {
 	 */
 	private QemuSetup(MainView mainView, boolean isRunnigApp) {
 
-		if (Main.isFirstStart()) {
-			// first start, run the qemu setup wizard
-			firstSetup(mainView);
-			Main.setFirstStart(false);
-		} else {
-			// not the first start
-			AppProperties properties = Main.getProperties();
-			int qemuCount = 10;
-			// check QEMU installation
-			boolean isInstalled = true;
-			qemuCmdList = new ArrayList<>();
-			versionList = new ArrayList<>();
-			qemuImg = properties.getProperty(AppProperties.QEMU_IMG);
-			if (checkQemuInstallationFor(qemuImg)) {
-				qemuImgVersion = scanVersion(cmdOutput);
-			} else {
-				qemuImg = null;
-				isInstalled = false;
-			}
-			for (int i = 0; i < qemuCount; i++) {
-				String cmd = properties.getProperty(AppProperties.QEMU_CMD + i);
-				if (cmd == null || cmd.trim().equals("")) {
-					break;
-				}
-				if (!checkQemuInstallationFor(cmd)) {
-					isInstalled = false;
-				}
-				qemuCmdList.add(cmd);
-				versionList.add(scanVersion(cmdOutput));
-			}
-			if (!isInstalled) {
-				// something went wrong with the installation, clean & do first setup
-				properties.setProperty(AppProperties.QEMU_IMG, "");
-				properties.remove(AppProperties.QEMU_IMG);
-				for (int i = 0; i < qemuCount; i++) {
-					properties.setProperty(AppProperties.QEMU_CMD + i,"");
-					properties.remove(AppProperties.QEMU_CMD + i);
-				}
-				firstSetup(mainView);
-				return;
-			}
-			// installation is ok, do nothing (just the main view)
-		}
+		this.mainView = mainView;
+		this.isRunnigApp = isRunnigApp;
 	}
 
 	/**
@@ -109,28 +68,70 @@ public class QemuSetup {
 	 * @param cmd		the command/path for a QEMU program
 	 * @return true, if running the command works, false otherwise 
 	 */
-	private boolean checkQemuInstallationFor(String cmd) {
+	private boolean checkQemuCommandFor(String cmd) {
 		
 		cmdOutput = null;
 		ProcessExecutor procExec = null;
 		try {
-			Logger.info("looking for QEMU, trying command " + qemuCmd);
-			procExec = new ProcessExecutor(qemuCmd, "--version");
+			System.out.println("looking for QEMU, trying command '" + cmd + "'");
+			Logger.info("looking for QEMU, trying command '" + cmd + "'");
+			procExec = new ProcessExecutor(cmd, "--version");
 			cmdOutput = procExec.getOutput();
 			Logger.info("command output:\n" + procExec.getOutput());
 			System.out.println("QEMU -> output:\n" + cmdOutput);
 			if (cmdOutput.toLowerCase().indexOf("qemu") >= 0 
 					&& cmdOutput.toLowerCase().indexOf("version") >= 0) {
 				// QEMU available
-				Logger.info("qemu found: " + qemuCmd);
+				Logger.info("qemu found: " + cmd);
 			}
 			return true;
+		} catch (IOException e) {
+			// QEMU program with this command does not exist
+			System.out.println("QEMU not found: " + e.getMessage());
+			Logger.error("QEMU '" + cmd + "' not found: " + e.getMessage());
+			return false;
 		} catch (Exception e) {
-			// QEMU with this command does not exist
+			// QEMU program  with this command raises another Exception
 			System.out.println("QEMU not found: " + e.getMessage());
 			Logger.error("QemuSetup", e);
-			Logger.error("QEMU '" + qemuCmd + "' not found");
+			Logger.error("QEMU '" + cmd + "' not found");
 			return false;
+		}
+	}
+
+	/**
+	 * Check for QEMU installation in a directory.
+	 * The results of this check will be set in variables.
+	 * 
+	 * @param directory		the QEMU installation directory, it may be empty ("")
+	 */
+	public void checkQemuInstallation(String directory) {
+		
+		AppProperties properties = Main.getProperties();
+		// search for a QEMU installation
+		
+		// TODO xxx    QemuSetup je nach OS? Windows + andere testen Suche (+ flavor wie Arch, Ubuntu, Suse, Windows) Suche starten 
+
+		// need qemu-img to create VM disks
+		qemuImgVersion = null;
+		if (checkQemuCommandFor(directory + QEMU_IMG)) {
+			qemuImg = directory + QEMU_IMG;
+			qemuImgVersion = scanVersion(cmdOutput);
+			properties.setProperty(AppProperties.QEMU_IMG, qemuImg);
+		}
+		// look for emulators
+		qemuCmdList = new ArrayList<>();
+		versionList = new ArrayList<>();
+		if (checkQemuCommandFor(directory + "qemu-system-x86_64")) {
+			qemuCmdList.add(directory + "qemu-system-x86_64");
+			versionList.add(scanVersion(cmdOutput));
+		}
+		if (checkQemuCommandFor(directory + "qemu-system-i386")) {
+			qemuCmdList.add(directory + "qemu-system-i386");
+			versionList.add(scanVersion(cmdOutput));
+		}
+		for (int i = 0; i < qemuCmdList.size(); i++) {
+			properties.setProperty(AppProperties.QEMU_CMD + i, qemuCmdList.get(i));
 		}
 	}
 
@@ -143,32 +144,7 @@ public class QemuSetup {
 	private void firstSetup(MainView mainView) {
 		
 		Logger.info("first setup ...");
-		AppProperties properties = Main.getProperties();
-		// search for a QEMU installation
-		
-		// TODO xxx    QemuSetup je nach OS? Windows + andere testen Suche (+ flavor wie Arch, Ubuntu, Suse, Windows) Suche starten 
-
-		// need qemu-img to create VM disks
-		qemuImgVersion = null;
-		if (checkQemuInstallationFor(QEMU_IMG)) {
-			qemuImg = QEMU_IMG;
-			qemuImgVersion = scanVersion(cmdOutput);
-			properties.setProperty(AppProperties.QEMU_IMG, qemuImg);
-		}
-		// look for emulators
-		qemuCmdList = new ArrayList<>();
-		versionList = new ArrayList<>();
-		if (checkQemuInstallationFor("qemu-system-x86_64")) {
-			qemuCmdList.add("qemu-system-x86_64");
-			versionList.add(scanVersion(cmdOutput));
-		}
-		if (checkQemuInstallationFor("qemu-system-i386")) {
-			qemuCmdList.add("qemu-system-i386");
-			versionList.add(scanVersion(cmdOutput));
-		}
-		for (int i = 0; i < qemuCmdList.size(); i++) {
-			properties.setProperty(AppProperties.QEMU_CMD + i, qemuCmdList.get(i));
-		}
+		checkQemuInstallation("");
 		new SettingsDlg(true, mainView, qemuImg, qemuImgVersion, qemuCmdList, versionList);
 		MainView.setHint(Msg.get(CONFIG_DIR_SETTINGS_HINT_MSG));
 		MainView.setHint(Msg.get(FIRST_VM_HINT_MSG));
@@ -180,6 +156,14 @@ public class QemuSetup {
 	public ArrayList<String> getQemuCmdList() {
 		
 		return qemuCmdList;
+	}
+
+	/**
+	 * @return the qemuCmdOutput
+	 */
+	public String getQemuCmdOutput() {
+		
+		return cmdOutput;
 	}
 	
 	/**
@@ -207,32 +191,6 @@ public class QemuSetup {
 	}
 	
 	/**
-	 * Return the version from the output of a version query.
-	 * 
-	 * @param output
-	 * @return the output
-	 */
-	private String scanVersion(String output) {
-		
-		String version = "";
-		int i =	cmdOutput.toLowerCase().indexOf("version");
-		try {
-			Scanner scanner = new Scanner(cmdOutput.substring(i));
-			version += scanner.next();
-			version += scanner.next();
-		} catch (Exception e) {	}		// intentionally do nothing
-		return version;
-	}
-
-	/**
-	 * @return the qemuCmdOutput
-	 */
-	public String getQemuCmdOutput() {
-		
-		return cmdOutput;
-	}
-	
-	/**
 	 * Execute the setup, test for a valid QEMU installation, use the setup wizard if first start.
 	 * 
 	 * @param mainView 
@@ -245,10 +203,80 @@ public class QemuSetup {
 			try {
 				QemuSetup setup = new QemuSetup(mainView, isRunnigApp);
 				Main.setQemuSetup(setup);
+				setup.start();
 			} catch (Exception e) {
 				Logger.error("Unexpected exception, exit", e);
 			}
 		});
+	}
+	
+	/**
+	 * Return the version from the output of a version query.
+	 * 
+	 * @param output
+	 * @return the output
+	 */
+	private String scanVersion(String output) {
+		
+		String version = "";
+		int i =	cmdOutput.toLowerCase().indexOf("version");
+		try {
+			Scanner scanner = new Scanner(cmdOutput.substring(i));
+			version += scanner.next() + " ";
+			version += scanner.next();
+		} catch (Exception e) {	}		// intentionally do nothing
+		return version;
+	}
+
+	/**
+	 * Execute the setup, test for a valid QEMU installation, use the setup wizard if 
+	 * it is the first start.
+	 */
+	private void start() {
+
+		if (Main.isFirstStart()) {
+			// first setup, usually a fresh installation,run the qemu setup wizard
+			firstSetup(mainView);
+			Main.setFirstStart(false);
+		} else {
+			// not the first start
+			AppProperties properties = Main.getProperties();
+			int qemuCount = 10;
+			// check QEMU installation
+			boolean isInstalled = true;
+			qemuCmdList = new ArrayList<>();
+			versionList = new ArrayList<>();
+			qemuImg = properties.getProperty(AppProperties.QEMU_IMG);
+			if (checkQemuCommandFor(qemuImg)) {
+				qemuImgVersion = scanVersion(cmdOutput);
+			} else {
+				qemuImg = null;
+				isInstalled = false;
+			}
+			for (int i = 0; i < qemuCount; i++) {
+				String cmd = properties.getProperty(AppProperties.QEMU_CMD + i);
+				if (cmd == null || cmd.trim().equals("")) {
+					break;
+				}
+				if (!checkQemuCommandFor(cmd)) {
+					isInstalled = false;
+				}
+				qemuCmdList.add(cmd);
+				versionList.add(scanVersion(cmdOutput));
+			}
+			if (!isInstalled) {
+				// something went wrong with the installation, clean & do first setup
+				properties.setProperty(AppProperties.QEMU_IMG, "");
+				properties.remove(AppProperties.QEMU_IMG);
+				for (int i = 0; i < qemuCount; i++) {
+					properties.setProperty(AppProperties.QEMU_CMD + i,"");
+					properties.remove(AppProperties.QEMU_CMD + i);
+				}
+				firstSetup(mainView);
+				return;
+			}
+			// installation is ok, do nothing (just the main view)
+		}
 	}
 }
 

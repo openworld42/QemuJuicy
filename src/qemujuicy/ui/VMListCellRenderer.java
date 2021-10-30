@@ -20,28 +20,39 @@
     
     See <http://www.gnu.org/licenses/>.
  */
-package qemujuicy.vm;
+package qemujuicy.ui;
 
-import java.io.*;
+import java.awt.*;
+
+import javax.swing.*;
 
 import qemujuicy.*;
+import qemujuicy.vm.*;
+
 
 /**
- * Actions related to the QEMU programs like "qemu-img", "qemu-system-x86_64" and others.
+ * A renderer for the VMs in the main view VM list.
  */
-public class Qemu {
+public class VMListCellRenderer extends DefaultListCellRenderer {
+	
+	private static final long serialVersionUID = 1L;
 
-	/**
-	 * Creates a VM diskimage.
-	 * 
-	 * @param vm	the VM
-	 * @return true, if the commend worked, false otherwise (Exception caught)
-	 */
-	public boolean createDiskImage(VM vm) {
-
-		String qemuImg = "qemu-img";
-		String diskPath = Main.getProperty(AppProperties.VM_DISK_PATH)+ File.separator + vm.getDiskName();
-		String output = Util.runProcess(qemuImg, "create", "-f", "qcow2", diskPath, vm.getDiskSizeGB() + "G");
-		return output != null ? true : false;		
+	public VMListCellRenderer() {
+		
+	}
+	
+	@Override
+	public Component getListCellRendererComponent(JList<?> list, Object value, 
+			int index, boolean isSelected, boolean cellHasFocus) {
+		
+		JLabel label = (JLabel) super.getListCellRendererComponent(list,
+				value, index, isSelected, cellHasFocus);
+		// render the selected VM
+	 	VM vm = Main.getVmManager().getVmList().get(index);
+		
+		
+		label.setText(" " + vm.getName());
+		label.setIcon(vm.getImageIcon());
+		return label;
 	}
 }
