@@ -22,6 +22,10 @@
  */
 package qemujuicy.vm;
 
+import javax.swing.*;
+
+import qemujuicy.ui.*;
+
 /**
  * A virtual machine object.
  */
@@ -53,15 +57,29 @@ public class VM {
 	public static final String[] OS_NAMES = OSType.toArray();
 
 	private VMProperties vmProperties;
+	private ImageIcon imageIcon;
 
 	/**
-	 * Construction.
+	 * Construction from properties (usually a new VM).
 	 * 
 	 * @param vmProperties 		the properties of the VM
 	 */
 	public VM(VMProperties vmProperties) {
 		
 		this.vmProperties = vmProperties;
+		imageIcon = new ImageIcon(vmProperties.getProperty(VMProperties.ICON_PATH));
+		imageIcon = Images.scale(imageIcon, 32);
+	}
+
+	/**
+	 * Construction from a properties file (usually an existing VM at startup).
+	 * 
+	 * @param vmPath 			the file path of the properties of the VM
+	 * @throws Exception 
+	 */
+	public VM(String vmPropertiesPath) throws Exception {
+		
+		this(new VMProperties(vmPropertiesPath, true));
 	}
 
 	/**
@@ -81,10 +99,18 @@ public class VM {
 	}
 	
 	/**
+	 * @return the icon of the VM
+	 */
+	public ImageIcon getImageIcon() {
+		
+		return imageIcon;
+	}
+	
+	/**
 	 * @return the name of the VM
 	 */
 	public String getName() {
 		
-		return vmProperties.getProperty(VMProperties.NAME);
+		return vmProperties.getProperty(VMProperties.VM_NAME);
 	}
 }

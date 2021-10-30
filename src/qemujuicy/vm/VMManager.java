@@ -22,7 +22,15 @@
  */
 package qemujuicy.vm;
 
+import java.io.File;
 import java.util.*;
+
+import javax.swing.*;
+
+import qemujuicy.*;
+import qemujuicy.ui.Gui;
+
+import static qemujuicy.Message.*;
 
 /**
  * A virtual machine manager, containing all known VMs.
@@ -30,14 +38,59 @@ import java.util.*;
  */
 public class VMManager {
 
-	private ArrayList<VM> vmList;			// contains all VM objects
-	
+	private ArrayList<VM> vmList;				// contains all VM objects
+	private JList<VM> vmJList;					// JList of VMs (mainView)
+	private DefaultListModel<VM> listModel;		// data model for the JList of VMs
+
 	/**
-	 * Construction
+	 * Construction with no VMs.
 	 */
 	public VMManager() {
 		
 		vmList = new ArrayList<>(); 
+	}
+
+	/**
+	 * Construction from the AppProperties VMs (if any).
+	 * 
+	 * @param properties
+	 */
+	public VMManager(AppProperties properties) {
+		
+		this();
+		String vmDiskPath = properties.getProperty(AppProperties.VM_DISK_PATH);
+		int vmNr = 0;
+		for (;; vmNr++) {
+			String vmFile = properties.getProperty(AppProperties.VM_FILENAME + vmNr);
+			if (vmFile == null) {
+				break;
+			}
+			String vmPath = vmDiskPath + File.separator + vmFile;
+			try {
+				VM vm = new VM(vmPath);
+				vmList.add(vm);
+				Logger.info("VMManager: creating VM #" + vmNr + ", file: '" + vmPath + "'");
+			} catch (Exception e) {
+				Logger.error("VMManager: error loading VM from '" + vmPath + "'", e);
+				Gui.errorDlg(null, Msg.get(ERROR_LOADING_VM_DLG_MSG, vmPath), Msg.get(ERROR_TITLE_DLG_MSG));
+			}
+		}
+	}
+
+	/**
+	 * Creates a Jlist data model, adding all VMs.
+	 * 
+	 * @param vmList 		the JList of VMs
+	 * @return the model
+	 */
+	public ListModel<VM> createVmListModel(JList<VM> vmJList) {
+		
+		this.vmJList = vmJList;
+		listModel = new DefaultListModel<VM>();
+		for (VM vm : vmList) {
+			listModel.addElement(vm);
+		}
+		return listModel;
 	}
 
 	/**
@@ -50,7 +103,24 @@ public class VMManager {
 		VM vm = new VM(vmProperties);
 		Qemu qemuImg = new Qemu();
 		qemuImg.createDiskImage(vm);
+		AppProperties properties = Main.getProperties();
+		int vmNr = 0;
+		for (;; vmNr++) {
+			String vmFile = properties.getProperty(AppProperties.VM_FILENAME + vmNr);
+			if (vmFile == null) {
+				break;
+			}
+		}
+		// vmNr: next free VM
+		String filename = vmProperties.getProperty(VMProperties.VM_FILENAME);
+		Logger.info("creating VM #" + vmNr + ", file: '" + filename + "'");
+		properties.setProperty(AppProperties.VM_FILENAME + vmNr, filename);
+		vmProperties.storeToXML();
+		properties.storeToXML();
 		vmList.add(vm);
+		listModel.addElement(vm);
+		vmJList.setSelectedIndex(vmList.size() - 1);
+		vmJList.ensureIndexIsVisible(vmList.size() - 1);
 	}
 
 	/**
@@ -67,5 +137,13 @@ public class VMManager {
 			}
 		}
 		return false;
+	}
+	
+	/**
+	 * @return the vmList
+	 */
+	public ArrayList<VM> getVmList() {
+		
+		return vmList;
 	}
 }

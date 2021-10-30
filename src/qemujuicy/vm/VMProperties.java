@@ -34,19 +34,20 @@ import qemujuicy.*;
  */
 public class VMProperties extends Properties {
 
-	private static final long serialVersionUID = 1L;		// for the compiler
+	private static final long serialVersionUID = 1L;				// for the compiler
 	
 	// property keys: do NOT forget to add a new property to checkDefaults() !!!
 	
 	public static final String CPUS = "cpus"; 
 	public static final String CREATION_TYPICAL = "creation.typical"; 
 	public static final String DISK_NAME = "disk.name";
-	public static final String DISK_SIZE_GB = "disk.size.GB";			// in GB
+	public static final String DISK_SIZE_GB = "disk.size.GB";		// in GB
 	public static final String ICON_PATH = "icon.path";
-	public static final String NAME = "vm.name"; 
 	public static final String NETWORK = "network"; 
 	public static final String OS = "os"; 
-	public static final String VM_MEMORY_MB = "vm.memory.MB"; 			// in MB
+	public static final String VM_FILENAME = "vm.filename"; 		// the xml file containing this properties
+	public static final String VM_MEMORY_MB = "vm.memory.MB"; 		// in MB
+	public static final String VM_NAME = "vm.name"; 				// the visible name of tzhe VM
 	
 	private String pathname;
 
@@ -88,10 +89,11 @@ public class VMProperties extends Properties {
 		checkProperty(DISK_NAME, "");
 		checkProperty(DISK_SIZE_GB, "");
 		checkProperty(ICON_PATH, "");
-		checkProperty(NAME, "");
 		checkProperty(NETWORK, "");
 		checkProperty(OS, "");
+		checkProperty(VM_FILENAME, "");
 		checkProperty(VM_MEMORY_MB, "");
+		checkProperty(VM_NAME, "");
 	}
 
 	/**
