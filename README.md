@@ -21,7 +21,7 @@ You need:
 * **Java** installed (from your package manager or from [here](https://openjdk.java.net/) (Linux, Windows, macOS, others).
 * **QEMU** installed (package manager or from [here](https://www.qemu.org) - Linux, Windows, macOS, source)
 * **QemuJuicy** JAR file: qemujuicy_vN.N.N.jar (N.N.N is the version) from [github.com](https://github.com/openworld42/QemuJuicy) or package manager
-* (an operating system, e.g. as a *.iso file or CD/DVD/Live-CD, that yout want to run or install)
+* (an operating system, e.g. as a *.iso file or CD/DVD/Live-CD, that you want to run or install as a virtual machine on your computer)
 
 Run **QemuJuicy** on command line (or create a menu/desktop entry or shell script) using:
 
