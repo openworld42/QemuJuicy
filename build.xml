@@ -67,7 +67,12 @@
 		description="generate the distribution">
 		<!-- Create the distribution directory -->
 		<mkdir dir="${dist}"/>
-
+		<!-- Ccopy the images into ${build} -->
+		<copy todir="${build}/qemujuicy/images">
+			<fileset dir="${src}/qemujuicy/images">
+				<include name="**/*.*"/>
+			</fileset>
+		</copy>
 		<!-- Put everything in ${build} into the Project-${DSTAMP}.jar file -->
  		<jar jarfile="${dist}/${jarprefix}_${version}.jar" basedir="${build}">
 			<fileset file="${base}/README*"/>
@@ -84,14 +89,6 @@
 				<attribute name="Implementation-Version"  value="${version}"/>   
       			<attribute name="Built-Date" value="${DSTAMP}"/>        
 				<attribute name="Implementation-URL" value="${repo}"/>
-
-				<!--
-				<section name="${appname}">
-					<attribute name="Version" value="${version}"/>
-					<attribute name="Build date" value="${DSTAMP}"/>
-					<attribute name="Repository" value="${repo}"/>
-				</section>
-				 -->
 			</manifest>
 		</jar>
 
