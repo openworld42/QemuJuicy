@@ -119,7 +119,7 @@ public class Files  {
 	}
 
 	/**
-	 * Initializes Qemix directory, instantiate this singleton.
+	 * Initializes directories, instantiate this singleton.
 	 */
 	public static void init() {
 		
