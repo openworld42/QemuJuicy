@@ -35,17 +35,30 @@ public class ProcessExecutor  {
 	private int exitValue;
 
 	/**
-	 * Construction and execute a process.
+	 * Construction and execute a process with a default timeout.
 	 * 
 	 * @param command			command and parameters
 	 * @throws Exception
 	 */
 	public ProcessExecutor(String... command) throws Exception {
 
+		this(10000, command);
+	}
+
+	/**
+	 * Construction and execute a process with a defined timeout.
+	 * The caller is responsible for catching the IllegalThreadStateException, if any.
+	 * If a timeout occurs, no output and no exit value will be generated.
+	 * 
+	 * @param millis			the milliseconds to wait for a timeout (IllegalThreadStateException)
+	 * @param command			command and parameters
+	 * @throws Exception
+	 */
+	public ProcessExecutor(long millis, String... command) throws Exception {
+
 		ProcessBuilder builder = new ProcessBuilder(command);
-		
 		Process process = builder.start();
-		process.waitFor(10L, TimeUnit.SECONDS);
+		process.waitFor(millis, TimeUnit.MILLISECONDS);
 		exitValue = process.exitValue();
 		try (BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()))) {
 			String line = null;
@@ -53,7 +66,7 @@ public class ProcessExecutor  {
 				out.append(line);
 				out.append("\n");
 			}
-			System.out.println(out);
+//			System.out.println(out);
 		}
 	}
 
