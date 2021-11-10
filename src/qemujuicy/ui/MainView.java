@@ -234,6 +234,7 @@ public class MainView extends JFrame implements ActionListener {
 
 				e -> System.out.println(architectureCbx.getSelectedIndex() + ": "
 						+ architectureCbx.getSelectedItem()));
+		
 		vmPnl.add(CompFactory.createTabLabel(Msg.get(ACCELERATOR_MSG)), new Gbc(4, row, 1, 1, 0, 0, "W H", insets));
 		acceleratorCbx = new JComboBox<String>(Accelerator.getNameArray());
 		vmPnl.add(acceleratorCbx, new Gbc(5, row, 1, 1, 0, 0, "W H", insets));
@@ -241,25 +242,24 @@ public class MainView extends JFrame implements ActionListener {
 		acceleratorCbx.setMaximumRowCount(15);
 		acceleratorCbx.addActionListener(
 				
-				// TODO xxx    MainView  architecture
+				// TODO xxx    MainView  acceleratorCbx
 
 				e -> System.out.println(acceleratorCbx.getSelectedIndex() + ": "
 						+ acceleratorCbx.getSelectedItem()));
 		row++;
 		// CPUs row
-		vmPnl.add(CompFactory.createTabLabel("CPUs"), new Gbc(1, row, 1, 1, 0, 0, "W H", insets));
-		
-		cpusCbx = new JComboBox<String>(new String[] {"todo"});
-		
-		vmPnl.add(cpusCbx, new Gbc(2, row, 1, 1, 0, 0, "W", insets));
-		cpusCbx.setPreferredSize(new Dimension(80, Gui.DEFAULT_BTN_HEIGHT));
-		cpusCbx.setMaximumRowCount(15);
+		vmPnl.add(CompFactory.createTabLabel("CPUs"), new Gbc(4, row, 1, 1, 0, 0, "W H", insets));
+		cpusCbx = new JComboBox<String>(Cpu.getCpuArray()); 
+		vmPnl.add(cpusCbx, new Gbc(5, row, 1, 1, 0, 0, "W", insets));
+		cpusCbx.setPreferredSize(new Dimension(140, Gui.DEFAULT_BTN_HEIGHT));
+		cpusCbx.setMaximumRowCount(18);
+		((JLabel) cpusCbx.getRenderer()).setHorizontalAlignment(JLabel.RIGHT);
 		cpusCbx.addActionListener(
 				
-				// TODO xxx    MainView  architecture
+				// TODO xxx    MainView  cpusCbx
 
-				e -> System.out.println(acceleratorCbx.getSelectedIndex() + ": "
-						+ acceleratorCbx.getSelectedItem()));
+				e -> System.out.println(cpusCbx.getSelectedIndex() + ": "
+						+ cpusCbx.getSelectedItem()));
 		row++;
 		// memory
 		label = CompFactory.createChapterLabel( Msg.get(MEMORY_MSG));
