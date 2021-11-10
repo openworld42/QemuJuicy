@@ -15,6 +15,8 @@ Details to start with: [README.md](https://github.com/openworld42/QemuJuicy/blob
 
 ### Features/Enhancements
 
+* Added first VM properties (GUI only): architecture, accelerator, CPUs/NUMA
+
 * Added move-up and move-down buttons for moving VMs in the display list
 
 * implementation of the "remove" button for a VM - both just entry and its created disk
