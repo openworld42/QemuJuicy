@@ -47,6 +47,12 @@ public enum OSType {
         if (osType == null) {
          	osName = System.getProperty("os.name", "generic");
             String os = osName.toLowerCase(Locale.ENGLISH);
+            
+            // add it to Acceleerator best guess too!
+            
+            // TODO xxx    OSType to be added: the BSDs (e.g. freeBSD), 
+            // Minix? (see qemujuicy.vm.VM.OSType), Android (on ARM?)
+
             if ((os.contains("mac")) || (os.contains("darwin"))) {
             	osType = OSType.MAC;
             } else if (os.contains("win")) {
