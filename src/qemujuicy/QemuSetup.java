@@ -144,7 +144,14 @@ public class QemuSetup {
 	private void firstSetup(MainView mainView) {
 		
 		Logger.info("first setup ...");
-		checkQemuInstallation("");
+		String qemuDir = "";
+		if (OSType.isWindows()) {
+			// Linux/Unix will find QEMU using the path variable, but Windows users may not have set them
+			// QEMU will install itself on Windows usually here:
+			qemuDir = System.getenv("ProgramFiles")
+					+ File.separator + "qemu" + File.separator;
+		}
+		checkQemuInstallation(qemuDir);
 		new SettingsDlg(true, mainView, qemuImg, qemuImgVersion, qemuCmdList, versionList);
 		MainView.setHint(Msg.get(CONFIG_DIR_SETTINGS_HINT_MSG));
 		MainView.setHint(Msg.get(FIRST_VM_HINT_MSG));
@@ -235,7 +242,7 @@ public class QemuSetup {
 	private void start() {
 
 		if (Main.isFirstStart()) {
-			// first setup, usually a fresh installation,run the qemu setup wizard
+			// first setup, usually a fresh installation, run the qemu setup wizard
 			firstSetup(mainView);
 			Main.setFirstStart(false);
 		} else {
@@ -277,6 +284,7 @@ public class QemuSetup {
 			}
 			// installation is ok, do nothing (just the main view)
 		}
+		Logger.flushIfDirty();
 	}
 }
 
