@@ -32,6 +32,7 @@ import javax.swing.border.*;
 
 import qemujuicy.*;
 
+import static qemujuicy.Images.*;
 import static qemujuicy.Message.*;
 import static qemujuicy.AppProperties.*;
 
@@ -115,7 +116,7 @@ public class SettingsDlg extends JDialog implements ActionListener {
 		this.qemuCmdList = qemuCmdList;
 		this.versionList = versionList;
 		setTitle(Msg.get(SETTINGS_BTN_MSG));
-		setIconImage(Images.APP_ICON.getImage());
+		setIconImage(Images.get(APP_ICON).getImage());
 		setModal(true);
 		setResizable(false);
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
@@ -289,21 +290,21 @@ public class SettingsDlg extends JDialog implements ActionListener {
 	 */
 	private JPanel createFinishedPnl() {
 		
-		JPanel panel = CompFactory.createTemplatePanel(Msg.get(VM_CREATION_FINISH_WIZ_MSG), Images.APPLY_BUTTON);
+		JPanel panel = CompFactory.createTemplatePanel(
+				Msg.get(QEMUJUICY_SETUP_FINISH_WIZ_MSG), Images.get(APPLY_BUTTON));
 		int row = 1;		// due to createTemplatePanel() start with 1
 		// indentation: header on Gbc x = 0, span 2; others start at 1
 		panel.add(CompFactory.createIndentation(), new Gbc(0, row, 1, 1, 0, 0, "W H"));
 		row++;
 		// *** header: hard disk
-		JLabel label = new JLabel(Msg.get(VM_FINISH_ALL_OK_HEADER_WIZ_MSG));
+		JLabel label = CompFactory.createChapterLabel(Msg.get(VM_FINISH_ALL_OK_HEADER_WIZ_MSG));
 		panel.add(label, new Gbc(0, row, 6, 1, 0, 0, "W H"));
-		label.setForeground(Gui.PANEL_CHAPTER);
 		row++;
 		// notes / hints
-		label = new JLabel(Msg.get(VM_FINISH_PRESS_WIZ_MSG));
+		label = new JLabel(Msg.get(SETUP_WIZ_FINISH_PRESS_WIZ_MSG));
 		panel.add(label, new Gbc(1, row, 6, 1, 0, 0, "W H"));
 		row++;
-		label = new JLabel(Msg.get(VM_FINISH_NOTE_WIZ_MSG));
+		label = new JLabel(Msg.get(SETUP_WIZ_NOTE_WIZ_MSG));
 		panel.add(label, new Gbc(1, row, 6, 1, 0, 0, "W H"));
 		row++;
 		return panel;
@@ -316,7 +317,8 @@ public class SettingsDlg extends JDialog implements ActionListener {
 	 */
 	private JPanel createFoldersPnl() {
 
-		JPanel panel = CompFactory.createTemplatePanel(Msg.get(CONF_FILES_TT_MSG), Images.FOLDER);
+		JPanel panel = CompFactory.createTemplatePanel(
+				Msg.get(CONF_FILES_TT_MSG), Images.get(FOLDER));
 		int row = 1;		// due to createTemplateSettingsPnl() start with 1
 		int pathTextFieldLength = 280;
 		// app dir
@@ -377,11 +379,11 @@ public class SettingsDlg extends JDialog implements ActionListener {
 	 */
 	private JPanel createSettingsPnl() {
 		
-		JPanel panel = CompFactory.createTemplatePanel(Msg.get(CONF_GENERAL_SETTINGS_TT_MSG), Images.CONFIG);
+		JPanel panel = CompFactory.createTemplatePanel(
+				Msg.get(CONF_GENERAL_SETTINGS_TT_MSG), Images.get(CONFIG));
 		int row = 1;		// due to createTemplateSettingsPnl() start with 1
-		JLabel label = new JLabel("QemuJuicy");
+		JLabel label = CompFactory.createChapterLabel("QemuJuicy");
 		panel.add(label, new Gbc(0, row, 1, 1, 0, 0, "W H"));
-		label.setForeground(Gui.PANEL_CHAPTER);
 		row++;
 		// language
 		label = new JLabel("Language:", SwingConstants.RIGHT);
@@ -407,9 +409,8 @@ public class SettingsDlg extends JDialog implements ActionListener {
 		hintsChk.addActionListener(e -> changedItems.put(GIVE_HINTS, "" + hintsChk.isSelected()));
 		row++;
 		// VM
-		label = new JLabel("Virtual machine");
+		label = CompFactory.createChapterLabel("Virtual machine");
 		panel.add(label, new Gbc(0, row, 1, 1, 0, 0, "W H"));
-		label.setForeground(Gui.PANEL_CHAPTER);
 		row++;
 		// CPUs
 		label = new JLabel("Default CPUs:", SwingConstants.RIGHT);
@@ -425,9 +426,9 @@ public class SettingsDlg extends JDialog implements ActionListener {
 		row++;
 		// memory
 		int memory = Main.getPropertyInt(DEFAULT_MEM);
-		JLabel memoryLbl = new JLabel("Default memory (" + memory + " MB):", SwingConstants.RIGHT);
+		JLabel memoryLbl = new JLabel(Msg.get(MEMORY_DEFAULT_MSG, memory), SwingConstants.RIGHT);
 		panel.add(memoryLbl, new Gbc(0, row, 1, 1, 0, 0, "W H"));
-		JLabel dummy = new JLabel("Default memory (100000 MB):", SwingConstants.RIGHT);
+		JLabel dummy = new JLabel(Msg.get(MEMORY_DEFAULT_MSG, 900000), SwingConstants.RIGHT);
 		memoryLbl.setPreferredSize(dummy.getPreferredSize());	// save some space, the label extends with the amount of memory
 		JSlider memorySld = new JSlider();
 		panel.add(memorySld, new Gbc(1, row, 3, 1, 0, 0, "W"));
@@ -445,7 +446,7 @@ public class SettingsDlg extends JDialog implements ActionListener {
 		memorySld.addChangeListener(e -> {
 			int mem = memorySld.getValue();
 			changedItems.put(DEFAULT_MEM, "" + mem);
-			memoryLbl.setText("Default memory (" + mem + " MB):");
+			memoryLbl.setText(Msg.get(MEMORY_DEFAULT_MSG, mem));
 			});
 		row++;
 		return panel;
@@ -511,11 +512,11 @@ public class SettingsDlg extends JDialog implements ActionListener {
 	 */
 	private JPanel createQemuInstallationPanel() {
 
-		JPanel panel = CompFactory.createTemplatePanel(Msg.get(QEMU_INSTALL_SETTINGS_MSG), Images.QEMU32x32);
+		JPanel panel = CompFactory.createTemplatePanel(
+				Msg.get(QEMU_INSTALL_SETTINGS_MSG), Images.get(QEMU32x32));
 		int row = 1;		// due to createTemplateSettingsPnl() QEMU_INSTALL_OK_WIZ_MSG with 1
-		qemuFoundLbl = new JLabel("");
+		qemuFoundLbl = CompFactory.createChapterLabel("");
 		panel.add(qemuFoundLbl, new Gbc(0, row, 6, 1, 0, 0, "W H"));
-		qemuFoundLbl.setForeground(Gui.PANEL_CHAPTER);
 		// indentation: header on Gbc x = 0, span 2; others start at 1
 		panel.add(CompFactory.createIndentation(), new Gbc(0, row, 1, 1, 0, 0, "W H"));
 		row++;
@@ -545,9 +546,8 @@ public class SettingsDlg extends JDialog implements ActionListener {
 		panel.add(label, new Gbc(0, row, 1, 1, 0, 0, "W H"));
 		row++;
 		// qemu installation dir
-		label = new JLabel(Msg.get(SELECT_QEMU_INSTALL_DIR_LBL_MSG));
+		label = CompFactory.createChapterLabel(Msg.get(SELECT_QEMU_INSTALL_DIR_LBL_MSG));
 		panel.add(label, new Gbc(0, row, 6, 1, 0, 0, "W H"));
-		label.setForeground(Gui.PANEL_CHAPTER);
 		JButton fileSelBtn = new JButton(Images.scale(Images.FOLDER, Gui.BUTTON_FILE_CHOOSER_SIZE));
 		panel.add(fileSelBtn, new Gbc(2, row, 1, 1, 0, 0, "C"));
 		Gui.setComponentWidth(fileSelBtn, Gui.DEFAULT_BTN_WIDTH);
@@ -634,15 +634,15 @@ public class SettingsDlg extends JDialog implements ActionListener {
 	 */
 	private JPanel createWizardExplanationPanel() {
 
-		JPanel panel = CompFactory.createTemplatePanel(Msg.get(SETUP_WIZ_MSG), Images.SETUP_WIZARD);
+		JPanel panel = CompFactory.createTemplatePanel(
+				Msg.get(SETUP_WIZ_MSG), Images.get(Images.SETUP_WIZARD));
 		int row = 1;		// due to createTemplateSettingsPnl() start with 1
-		JLabel label = new JLabel(Msg.get(QEMU_INSTALL_WIZ_MSG));
+		JLabel label = CompFactory.createChapterLabel(Msg.get(QEMU_INSTALL_WIZ_MSG));
 		if (qemuImgVersion == null || qemuCmdList.size() == 0 ) {
 			// installation not found or incomplete
 			label = new JLabel(Msg.get(QEMU_INSTALL_FAIL_WIZ_MSG));
 		}
 		panel.add(label, new Gbc(0, row, 6, 1, 0, 0, "W H"));
-		label.setForeground(Gui.PANEL_CHAPTER);
 		row++;
 		// indentation: header on Gbc x = 0, span 2; others start at 1
 		panel.add(CompFactory.createIndentation(), new Gbc(0, row, 1, 1, 0, 0, "W H"));
@@ -666,9 +666,8 @@ public class SettingsDlg extends JDialog implements ActionListener {
 		label = new JLabel("");
 		panel.add(label, new Gbc(0, row, 6, 1, 0, 0, "W H"));
 		row++;
-		label = new JLabel(Msg.get(QEMU_INSTALL_HINT_WIZ_MSG));
+		label = CompFactory.createChapterLabel(Msg.get(QEMU_INSTALL_HINT_WIZ_MSG));
 		panel.add(label, new Gbc(0, row, 6, 1, 0, 0, "W H"));
-		label.setForeground(Gui.PANEL_CHAPTER);
 		row++;
 		return panel;
 	}

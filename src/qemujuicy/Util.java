@@ -303,7 +303,7 @@ public class Util {
 			return cmdOutput;
 		} catch (Exception e) {
 			System.out.println("Exception executing " + cmdString);
-			Logger.error("Exception executing: " + cmdString);
+			Logger.error("Exception executing: " + cmdString, e);
 			return null;
 		}
 	}

@@ -29,6 +29,7 @@ import javax.swing.*;
 
 import qemujuicy.*;
 import qemujuicy.ui.Gui;
+import qemujuicy.ui.MainView;
 
 import static qemujuicy.Message.*;
 
@@ -138,6 +139,17 @@ public class VMManager {
 		}
 		return false;
 	}
+
+	/**
+	 * Returns the VM at an index.
+	 * 
+	 * @param index
+	 * @return the VM
+	 */
+	public VM getVm(int index) {
+
+		return vmList.get(index);
+	}
 	
 	/**
 	 * @return the vmList
@@ -145,5 +157,118 @@ public class VMManager {
 	public ArrayList<VM> getVmList() {
 		
 		return vmList;
+	}
+
+	/**
+	 * Moves the selected VM in the list one position down, if possible.
+	 * 
+	 * @param vmJList 		the list of VMs
+	 */
+	public void moveDownVm(JList<VM> vmJList) {
+
+		int index = vmJList.getSelectedIndex();
+		if (index < 0 || index == vmList.size() - 1) {
+			// do nothing
+			return;
+		}
+		VM temp = vmList.remove(index);
+		listModel.remove(index);
+		index++;
+		vmList.add(index, temp);
+		listModel.add(index, temp);
+		vmJList.setSelectedIndex(index);
+		reorgAndStoreVmListToConfigFile();
+	}
+
+	/**
+	 * Moves the selected VM in the list one position down, if possible.
+	 * 
+	 * @param vmJList 		the list of VMs
+	 */
+	public void moveUpVm(JList<VM> vmJList) {
+		
+		int index = vmJList.getSelectedIndex();
+		if (index < 1) {
+			// do nothing
+			return;
+		}
+		VM temp = vmList.remove(index);
+		listModel.remove(index);
+		index--;
+		vmList.add(index, temp);
+		listModel.add(index, temp);
+		vmJList.setSelectedIndex(index);
+		reorgAndStoreVmListToConfigFile();
+	}
+
+	/**
+	 * Removes a VM from the list and ask for wiping all files.
+	 * 
+	 * @param mainView 
+	 * @param selectedIndex		the index in the VM list
+	 */
+	public void removeVm(MainView mainView, int selectedIndex) {
+		
+		VM vm = vmList.get(selectedIndex);
+		Object[] options = {Msg.get(CANCEL_BTN_MSG),
+				Msg.get(NO_BTN_MSG),
+				Msg.get(YES_BTN_MSG)};
+		int answer = JOptionPane.showOptionDialog(mainView,
+				Msg.get(REMOVE_VM_QUESTION_MSG, vm.getName()),
+				Msg.get(REMOVE_VM_TT_MSG),
+				JOptionPane.YES_NO_CANCEL_OPTION,
+				JOptionPane.QUESTION_MESSAGE,
+				null,
+				options,
+				options[0]);
+		if (answer == 0) {
+			return;
+		}
+		Logger.info("removing VM '" + vm.getName() + "'");
+		vmList.remove(selectedIndex);
+		listModel.remove(selectedIndex);
+		String xmlFile = vm.getPathname();
+		new File(xmlFile).delete();
+		if (answer == 2) {
+			// remove the disk(s) too
+			String diskPath = Main.getProperty(AppProperties.VM_DISK_PATH)+ File.separator + vm.getDiskName();
+			Logger.info("VM '" + vm.getName() + "': removing file " + diskPath);
+			new File(diskPath).delete();
+		}
+		// reorganize the VM list on the disk (application properties)
+		reorgAndStoreVmListToConfigFile();
+	}
+
+	/**
+	 * Reorganize the application properties list of VMs. This
+	 * will synchronize the list of Vms to the configuration file on disk.
+	 */
+	private void reorgAndStoreVmListToConfigFile() {
+
+		AppProperties properties = Main.getProperties();
+		int vmNr = 0;
+		for (;vmNr < vmList.size(); vmNr++) {
+			properties.setProperty(AppProperties.VM_FILENAME + vmNr, 
+					vmList.get(vmNr).getVmFilename());
+		}
+		properties.remove(AppProperties.VM_FILENAME + vmNr);	// if there is one after the last one (e.g. a remove)
+		properties.storeToXML();
+	}
+
+	/**
+	 * Runs a VM, using its properties.
+	 * 
+	 * @param mainView
+	 * @param vmJList
+	 */
+	public void runVm(MainView mainView, JList<VM> vmJList) {
+
+		int index = vmJList.getSelectedIndex();
+		VM vm = vmList.get(index);
+		vm.setIsRunning(true);
+		new Qemu().runVm(vm);
+		
+//		TODO runVm		 enable/disable the run button, reset flag, output, error handling
+
 	}
 }

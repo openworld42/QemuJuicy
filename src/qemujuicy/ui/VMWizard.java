@@ -85,7 +85,7 @@ public class VMWizard extends JDialog implements ActionListener {
 	public VMWizard() {
 
 		setTitle(Msg.get(CREATE_VM_WIZ_MSG));
-		setIconImage(Images.VM_WIZARD.getImage());
+		setIconImage(Images.get(Images.VM_WIZARD_WAND).getImage());
 		setModal(true);
 		setResizable(false);
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
@@ -220,13 +220,13 @@ public class VMWizard extends JDialog implements ActionListener {
 		AppProperties appProps = Main.getProperties();
 		String vmName = nameTxt.getText();
 		String vmDir = appProps.getProperty(AppProperties.VM_DISK_PATH);
-		String vmReplaced = vmName.replace(" ", "_");
-		String vmFilename = vmReplaced + ".xml";
+		String vmNameSafe = vmName.replace(" ", "_");
+		String vmFilename = vmNameSafe + ".xml";
 		String vmFilePath = vmDir + File.separator + vmFilename;
 		if (!testNewFile(vmFilePath)) {
 			return false;
 		}
-		String vmDiskName = vmReplaced + ".qcow2";
+		String vmDiskName = vmNameSafe + ".qcow2";
 		String vmDiskPath = vmDir + File.separator + vmDiskName;
 		if (!testNewFile(vmDiskPath)) {
 			return false;
@@ -240,6 +240,7 @@ public class VMWizard extends JDialog implements ActionListener {
 		}
 		// wizard properties
 		vmProperties.setProperty(VM_NAME, vmName);
+		vmProperties.setProperty(VM_NAME_SAFE, vmNameSafe);
 		vmProperties.setProperty(VMProperties.VM_FILENAME, vmFilename);
 		vmProperties.setProperty(DISK_NAME, vmDiskName);
 		Check.ifTrue(typicalCreationRBt.isSelected());		// customized creation not implemented now
@@ -293,15 +294,15 @@ public class VMWizard extends JDialog implements ActionListener {
 	private JPanel createCreateVMPnl() {
 		
 		
-		JPanel panel = CompFactory.createTemplatePanel(Msg.get(CREATE_VM_WIZ_MSG), Images.VM_WIZARD);
+		JPanel panel = CompFactory.createTemplatePanel(
+				Msg.get(CREATE_VM_WIZ_MSG), Images.get(Images.VM_WIZARD_WAND));
 		int row = 1;		// due to createTemplatePanel() start with 1
 		// indentation: header on Gbc x = 0, span 2; others start at 1
 		panel.add(CompFactory.createIndentation(), new Gbc(0, row, 1, 1, 0, 0, "W H"));
 		row++;
 		// *** header: VM creation mode header
-		JLabel label = new JLabel(Msg.get(VM_CREATION_MODE_WIZ_MSG));
+		JLabel label = CompFactory.createChapterLabel(Msg.get(VM_CREATION_MODE_WIZ_MSG));
 		panel.add(label, new Gbc(0, row, 3, 1, 0, 0, "W H"));
-		label.setForeground(Gui.PANEL_CHAPTER);
 		row++;
 		typicalCreationRBt= new JRadioButton(Msg.get(VM_MODE_TYPICAL_WIZ_MSG));
 		panel.add(typicalCreationRBt, new Gbc(1, row, 3, 1, 0, 0, "W H"));
@@ -318,9 +319,8 @@ public class VMWizard extends JDialog implements ActionListener {
 		typicalCreationRBt.setSelected(true);
 		row++;
 		// *** header:  VM type
-		label = new JLabel(Msg.get(VM_WIZ_MSG));
+		label = CompFactory.createChapterLabel(Msg.get(VM_WIZ_MSG));
 		panel.add(label, new Gbc(0, row, 3, 1, 0, 0, "W H"));
-		label.setForeground(Gui.PANEL_CHAPTER);
 		row++;
 		// OS
 		label = new JLabel(Msg.get(OS_WIZ_MSG));
@@ -328,7 +328,7 @@ public class VMWizard extends JDialog implements ActionListener {
 		osCbx = new JComboBox<String>(VM.OS_NAMES);
 		panel.add(osCbx, new Gbc(2, row, 1, 1, 0, 0, "W"));
 		osCbx.setPreferredSize(new Dimension(150, Gui.DEFAULT_BTN_HEIGHT));
-		osCbx.setMaximumRowCount(10);
+		osCbx.setMaximumRowCount(15);
 		osCbx.addActionListener(
 				
 				// TODO xxx    SettingsDlg  languageCbx.addActionListener  language changed
@@ -346,15 +346,15 @@ public class VMWizard extends JDialog implements ActionListener {
 	 */
 	private JPanel createVMCreationFinishedPnl() {
 		
-		JPanel panel = CompFactory.createTemplatePanel(Msg.get(VM_CREATION_FINISH_WIZ_MSG), Images.APPLY_BUTTON);
+		JPanel panel = CompFactory.createTemplatePanel(
+				Msg.get(VM_CREATION_FINISH_WIZ_MSG), Images.get(Images.APPLY_BUTTON));
 		int row = 1;		// due to createTemplatePanel() start with 1
 		// indentation: header on Gbc x = 0, span 2; others start at 1
 		panel.add(CompFactory.createIndentation(), new Gbc(0, row, 1, 1, 0, 0, "W H"));
 		row++;
 		// *** header: hard disk
-		JLabel label = new JLabel(Msg.get(VM_FINISH_ALL_OK_HEADER_WIZ_MSG));
+		JLabel label = CompFactory.createChapterLabel(Msg.get(VM_FINISH_ALL_OK_HEADER_WIZ_MSG));
 		panel.add(label, new Gbc(0, row, 6, 1, 0, 0, "W H"));
-		label.setForeground(Gui.PANEL_CHAPTER);
 		row++;
 		// notes / hints
 		label = new JLabel(Msg.get(VM_FINISH_PRESS_WIZ_MSG));
@@ -374,15 +374,15 @@ public class VMWizard extends JDialog implements ActionListener {
 	 */
 	private JPanel createVMDiskPnl() {
 		
-		JPanel panel = CompFactory.createTemplatePanel(Msg.get(VM_HARDDISK_WIZ_MSG), Images.HARDDISK);
+		JPanel panel = CompFactory.createTemplatePanel(
+				Msg.get(VM_HARDDISK_WIZ_MSG), Images.get(Images.HARDDISK));
 		int row = 1;		// due to createTemplatePanel() start with 1
 		// indentation: header on Gbc x = 0, span 2; others start at 1
 		panel.add(CompFactory.createIndentation(), new Gbc(0, row, 1, 1, 0, 0, "W H"));
 		row++;
 		// *** header: hard disk
-		JLabel label = new JLabel(Msg.get(VM_HARDDISK_HEADER_WIZ_MSG));
+		JLabel label = CompFactory.createChapterLabel(Msg.get(VM_HARDDISK_HEADER_WIZ_MSG));
 		panel.add(label, new Gbc(0, row, 6, 1, 0, 0, "W H"));
-		label.setForeground(Gui.PANEL_CHAPTER);
 		row++;
 		// notes / hints
 		label = new JLabel(Msg.get(VM_HARDDISK_NOTE_1_WIZ_MSG));
@@ -431,15 +431,16 @@ public class VMWizard extends JDialog implements ActionListener {
 	 */
 	private JPanel createVMIdentificationPnl() {
 		
-		JPanel panel = CompFactory.createTemplatePanel(Msg.get(VM_IDENTIFICATION_WIZ_MSG), Images.VM_WIZARD_IDENT);
+		JPanel panel = CompFactory.createTemplatePanel(
+				Msg.get(VM_IDENTIFICATION_WIZ_MSG), Images.get(Images.VM_WIZARD_IDENT));
 		int row = 1;		// due to createTemplatePanel() start with 1
 		// indentation: header on Gbc x = 0, span 2; others start at 1
 		panel.add(CompFactory.createIndentation(), new Gbc(0, row, 1, 1, 0, 0, "W H"));
 		row++;
 		// *** header: name
-		JLabel label = new JLabel(Msg.get(VM_NAME_HEADER_WIZ_MSG));
+		JLabel label = CompFactory.createChapterLabel(Msg.get(VM_NAME_HEADER_WIZ_MSG));
+		label = CompFactory.createChapterLabel(Msg.get(VM_NAME_HEADER_WIZ_MSG));
 		panel.add(label, new Gbc(0, row, 6, 1, 0, 0, "W H"));
-		label.setForeground(Gui.PANEL_CHAPTER);
 		row++;
 		// name
 		nameTxt = new JTextField();
@@ -449,9 +450,8 @@ public class VMWizard extends JDialog implements ActionListener {
 		nameTxt.selectAll();
 		row++;
 		// *** header
-		label = new JLabel(Msg.get(VM_ICON_WIZ_MSG));
+		label = CompFactory.createChapterLabel(Msg.get(VM_ICON_WIZ_MSG));
 		panel.add(label, new Gbc(0, row, 6, 1, 0, 0, "W H"));
-		label.setForeground(Gui.PANEL_CHAPTER);
 		row++;
 		// OS icon
 		osIconLbl = new JLabel();			// set on panel activation, see updateVMIdentificationPnl()
@@ -469,12 +469,12 @@ public class VMWizard extends JDialog implements ActionListener {
 					Msg.get(OK_BTN_MSG), 
 					JFileChooser.FILES_ONLY, 
 					null);
-			chooser.setCurrentDirectory(new File("src/images/aqemu/os_icons"));
+			chooser.setCurrentDirectory(new File("src/qemujuicy/images/aqemu/os_icons"));
 	        if (chooser.showOpenDialog(VMWizard.this) == JFileChooser.APPROVE_OPTION) {
 	        	vmIconPath = chooser.getSelectedFile().getPath();
 	            System.out.println("VM icon path selected: " + vmIconPath);
 	            Logger.info("VM icon path selected: " + vmIconPath);
-	            osIcon = Images.scale(new ImageIcon(vmIconPath), PIXELS_OS_ICON);
+	            osIcon = Images.scale(Images.find(vmIconPath), PIXELS_OS_ICON);
 				osIconLbl.setIcon(osIcon);
 	        }
 		});
@@ -489,15 +489,15 @@ public class VMWizard extends JDialog implements ActionListener {
 	 */
 	private JPanel createVMNetworkPnl() {
 		
-		JPanel panel = CompFactory.createTemplatePanel(Msg.get(VM_NETWORK_WIZ_MSG), Images.NETWORK);
+		JPanel panel = CompFactory.createTemplatePanel(
+				Msg.get(VM_NETWORK_WIZ_MSG), Images.get(Images.NETWORK));
 		int row = 1;		// due to createTemplatePanel() start with 1
 		// indentation: header on Gbc x = 0, span 2; others start at 1
 		panel.add(CompFactory.createIndentation(), new Gbc(0, row, 1, 1, 0, 0, "W H"));
 		row++;
 		// *** header: network
-		JLabel label = new JLabel(Msg.get(VM_NETWORK_CONNECTION_WIZ_MSG));
+		JLabel label = CompFactory.createChapterLabel(Msg.get(VM_NETWORK_CONNECTION_WIZ_MSG));
 		panel.add(label, new Gbc(0, row, 3, 1, 0, 0, "W H"));
-		label.setForeground(Gui.PANEL_CHAPTER);
 		row++;
 		netConnectedRBt = new JRadioButton(Msg.get(VM_NETWORK_CONNECTED_WIZ_MSG));
 		panel.add(netConnectedRBt, new Gbc(1, row, 3, 1, 0, 0, "W H"));
@@ -531,16 +531,60 @@ public class VMWizard extends JDialog implements ActionListener {
 		String iconPath = null;
 		switch (osType) {
 		case LINUX:
-			icon = Images.scale(Images.OS_ICON_LINUX, PIXELS_OS_ICON);
+			icon = Images.scale(Images.get(Images.OS_ICON_LINUX_PATH), PIXELS_OS_ICON);
 			iconPath = Images.OS_ICON_LINUX_PATH;
 			break;
+		case WINDOWS:
+			icon = Images.scale(Images.get(Images.OS_ICON_WINDOWS_PATH), PIXELS_OS_ICON);
+			iconPath = Images.OS_ICON_WINDOWS_PATH;
+			break;
+		case MAC:
+			icon = Images.scale(Images.get(Images.OS_ICON_MAC_PATH), PIXELS_OS_ICON);
+			iconPath = Images.OS_ICON_MAC_PATH;
+			break;
 		case OTHER:
-			icon = Images.scale(Images.OS_ICON_OTHER, PIXELS_OS_ICON);
+			icon = Images.scale(Images.get(Images.OS_ICON_OTHER_PATH), PIXELS_OS_ICON);
 			iconPath = Images.OS_ICON_OTHER_PATH;
 			break;
-		case WINDOWS:
-			icon = Images.scale(Images.OS_ICON_WINDOWS, PIXELS_OS_ICON);
-			iconPath = Images.OS_ICON_WINDOWS_PATH;
+		case BSD:
+			icon = Images.scale(Images.get(Images.OS_ICON_BSD_GENERIC_PATH), PIXELS_OS_ICON);
+			iconPath = Images.OS_ICON_BSD_GENERIC_PATH;
+			break;
+		case DEBIAN:
+			icon = Images.scale(Images.get(Images.OS_ICON_DEBIAN_PATH), PIXELS_OS_ICON);
+			iconPath = Images.OS_ICON_DEBIAN_PATH;
+			break;
+		case UBUNTU:
+			icon = Images.scale(Images.get(Images.OS_ICON_UBUNTU_PATH), PIXELS_OS_ICON);
+			iconPath = Images.OS_ICON_UBUNTU_PATH;
+			break;
+		case OPENSUSE:
+			icon = Images.scale(Images.get(Images.OS_ICON_OPEN_SUSE_PATH), PIXELS_OS_ICON);
+			iconPath = Images.OS_ICON_OPEN_SUSE_PATH;
+			break;
+		case RHEL:
+			icon = Images.scale(Images.get(Images.OS_ICON_RHEL_PATH), PIXELS_OS_ICON);
+			iconPath = Images.OS_ICON_RHEL_PATH;
+			break;
+		case ARCH:
+			icon = Images.scale(Images.get(Images.OS_ICON_ARCH_PATH), PIXELS_OS_ICON);
+			iconPath = Images.OS_ICON_ARCH_PATH;
+			break;
+		case MINIX:
+			icon = Images.scale(Images.get(Images.OS_ICON_MINIX_PATH), PIXELS_OS_ICON);
+			iconPath = Images.OS_ICON_MINIX_PATH;
+			break;
+		case SOLARIS:
+			icon = Images.scale(Images.get(Images.OS_ICON_SOLARIS_PATH), PIXELS_OS_ICON);
+			iconPath = Images.OS_ICON_SOLARIS_PATH;
+			break;
+		case MINT:
+			icon = Images.scale(Images.get(Images.OS_ICON_MINT_PATH), PIXELS_OS_ICON);
+			iconPath = Images.OS_ICON_MINT_PATH;
+			break;
+		case FEDORA:
+			icon = Images.scale(Images.get(Images.OS_ICON_FEDORA_PATH), PIXELS_OS_ICON);
+			iconPath = Images.OS_ICON_FEDORA_PATH;
 			break;
 		default:
 			throw new RuntimeException("Operating system " + osType + " not known, no icon");

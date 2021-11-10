@@ -29,7 +29,6 @@ import javax.swing.*;
 import qemujuicy.*;
 import qemujuicy.vm.*;
 
-
 /**
  * A renderer for the VMs in the main view VM list.
  */
@@ -48,9 +47,7 @@ public class VMListCellRenderer extends DefaultListCellRenderer {
 		JLabel label = (JLabel) super.getListCellRendererComponent(list,
 				value, index, isSelected, cellHasFocus);
 		// render the selected VM
-	 	VM vm = Main.getVmManager().getVmList().get(index);
-		
-		
+	 	VM vm = Main.getVmManager().getVm(index);
 		label.setText(" " + vm.getName());
 		label.setIcon(vm.getImageIcon());
 		return label;
