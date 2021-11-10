@@ -27,8 +27,8 @@ import static qemujuicy.Message.*;
 import java.io.*;
 import java.util.*;
 
-import javax.swing.UIManager; 
-import javax.swing.UIManager.LookAndFeelInfo;
+import javax.swing.*;
+import javax.swing.UIManager.*;
 
 import qemujuicy.ui.*;
 import qemujuicy.vm.*;
@@ -74,20 +74,11 @@ public class Main {
 		isVerbose = args.isVerbose();
 		System.getProperties().list(System.out);
 		Util.verbose(Msg.get(STARTING_MSG, APP_NAME));
-		Files.init();
 		OSType.getOS();					// init OS detection
+		Images.init();
+		Files.init();
 		if (OSType.isWindows()) {
-			String appDirWindows =  System.getenv("APPDATA");
-			if (appDirWindows == null) {
-				appDirWindows = System.getenv("LOCALAPPDATA");
-			}
-			if (appDirWindows == null) {
-				appDirWindows = APP_DIR_MS_WIN;
-			} else {
-				appDirWindows = appDirWindows + File.separator + APP_DIR_MS_WIN;
-			}
-			Util.verbose("Windows application directory '" + appDirWindows + "'");
-			Files.ensureAppDir(APP_DIR_MS_WIN);
+			Files.ensureAppDir(Files.getHomeDirPath() + APP_DIR_MS_WIN);
 		} else {
 			Files.ensureAppDir(Files.getHomeDirPath() + APP_DIR_LINUX_UNIX);
 		}
@@ -320,7 +311,7 @@ public class Main {
 	}
 
 	/**
-	 * 
+	 * Performs actions before exit and exits afterwards.
 	 */
 	public static void onExit() {
 		
