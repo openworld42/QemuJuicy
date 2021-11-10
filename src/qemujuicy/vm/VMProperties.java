@@ -47,7 +47,9 @@ public class VMProperties extends Properties {
 	public static final String OS = "os"; 
 	public static final String VM_FILENAME = "vm.filename"; 		// the xml file containing this properties
 	public static final String VM_MEMORY_MB = "vm.memory.MB"; 		// in MB
-	public static final String VM_NAME = "vm.name"; 				// the visible name of tzhe VM
+	public static final String VM_NAME = "vm.name"; 				// the visible name of the VM
+	public static final String VM_NAME_SAFE = "vm.name.safe"; 		// the visible name of the VM, but spaces 
+																	// within the name are replaced by underscroes
 	
 	private String pathname;
 
@@ -94,6 +96,7 @@ public class VMProperties extends Properties {
 		checkProperty(VM_FILENAME, "");
 		checkProperty(VM_MEMORY_MB, "");
 		checkProperty(VM_NAME, "");
+		checkProperty(VM_NAME_SAFE, "");
 	}
 
 	/**

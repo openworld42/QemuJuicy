@@ -24,7 +24,7 @@ package qemujuicy.vm;
 
 import javax.swing.*;
 
-import qemujuicy.ui.*;
+import qemujuicy.*;
 
 /**
  * A virtual machine object.
@@ -33,12 +33,23 @@ public class VM {
 
 	public enum OSType {
 		
-		LINUX("Linux"),
+		LINUX("Linux (generic)"),
 		WINDOWS("Windows"),
+		MAC("Mac"),
 		OTHER("Other OS"),
+		BSD("BSD (generic)"),
+		DEBIAN("Debian"),
+		UBUNTU("Ubuntu"),
+		OPENSUSE("openSUSE"),
+		RHEL("RHEL"),
+		ARCH("Arch Linux"),
+		MINIX("Minix"),
+		SOLARIS("Solaris"),
+		MINT("Linux Mint"),
+		FEDORA("Fedora"),
 		;
-		
-	   private final String osName;
+
+		private final String osName;
 	   
 	   private OSType(String osName)  {
 		   this.osName = osName;
@@ -58,6 +69,7 @@ public class VM {
 
 	private VMProperties vmProperties;
 	private ImageIcon imageIcon;
+	private boolean isRunning;					// indicates if the VM has been started
 
 	/**
 	 * Construction from properties (usually a new VM).
@@ -67,7 +79,7 @@ public class VM {
 	public VM(VMProperties vmProperties) {
 		
 		this.vmProperties = vmProperties;
-		imageIcon = new ImageIcon(vmProperties.getProperty(VMProperties.ICON_PATH));
+		imageIcon = Images.find(vmProperties.getProperty(VMProperties.ICON_PATH));
 		imageIcon = Images.scale(imageIcon, 32);
 	}
 
@@ -80,6 +92,14 @@ public class VM {
 	public VM(String vmPropertiesPath) throws Exception {
 		
 		this(new VMProperties(vmPropertiesPath, true));
+	}
+
+	/**
+	 * @return the (maximum) number of CPUs used by the VM (QEMU supports much more feature options)
+	 */
+	public int getCpus() {
+
+		return Integer.parseInt(vmProperties.getProperty(VMProperties.CPUS));
 	}
 
 	/**
@@ -105,6 +125,14 @@ public class VM {
 		
 		return imageIcon;
 	}
+
+	/**
+	 * @return the (maximum size) of the VM memory in MB
+	 */
+	public int getMemorySizeMB() {
+
+		return Integer.parseInt(vmProperties.getProperty(VMProperties.VM_MEMORY_MB));
+	}
 	
 	/**
 	 * @return the name of the VM
@@ -112,5 +140,55 @@ public class VM {
 	public String getName() {
 		
 		return vmProperties.getProperty(VMProperties.VM_NAME);
+	}
+	
+	/**
+	 * @return the safe name of the VM (spaces are replaced by underscores)
+	 */
+	public String getNameSafe() {
+		
+		return vmProperties.getProperty(VMProperties.VM_NAME_SAFE);
+	}
+
+	/**
+	 * @return the path name where the properties of this VM are stored
+	 */
+	public String getPathname() {
+		
+		return vmProperties.getPathname();
+	}
+
+	/**
+	 * @return the properties of this VM
+	 */
+	public VMProperties getVmProperties() {
+		
+		return vmProperties;
+	}
+
+	/**
+	 * @return true, if the VM is running, false otherwise
+	 */
+	public boolean isRunning() {
+
+		return isRunning;
+	}
+
+	/**
+	 * @return the xml file name where the properties of this VM are stored
+	 */
+	public String getVmFilename() {
+
+		return  vmProperties.getProperty(VMProperties.VM_FILENAME);
+	}
+
+	/**
+	 * Sets the flag if the VM is currently executing or not.
+	 * 
+	 * @param flag		true, if the VM is currently executing, false otherwise
+	 */
+	public void setIsRunning(boolean flag) {
+
+		isRunning = flag;
 	}
 }
