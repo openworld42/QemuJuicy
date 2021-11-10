@@ -31,6 +31,7 @@ import javax.swing.*;
 import javax.swing.border.*;
 
 import qemujuicy.*;
+import qemujuicy.vm.*;
 
 import static qemujuicy.Images.*;
 import static qemujuicy.Message.*;
@@ -416,13 +417,15 @@ public class SettingsDlg extends JDialog implements ActionListener {
 		label = new JLabel("Default CPUs:", SwingConstants.RIGHT);
 		panel.add(label, new Gbc(0, row, 1, 1, 0, 0, "W H"));
 		Integer[] cpus = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
-		JComboBox<Integer> cpusCbx = new JComboBox<Integer>(cpus);
+		
+//		JComboBox<Integer> cpusCbx = new JComboBox<Integer>(cpus);
+		JComboBox<String> cpusCbx = new JComboBox<String>(Cpu.getCpuArraySmall());
 		panel.add(cpusCbx, new Gbc(1, row, 1, 1, 0, 0, "W"));
 		cpusCbx.setPreferredSize(new Dimension(60, Gui.DEFAULT_BTN_HEIGHT));
 		((JLabel) cpusCbx.getRenderer()).setHorizontalAlignment(JLabel.RIGHT);
-		cpusCbx.setMaximumRowCount(5);
+		cpusCbx.setMaximumRowCount(14);
 		cpusCbx.setSelectedItem(Main.getPropertyInt(DEFAULT_CPUS));
-		cpusCbx.addActionListener(e -> changedItems.put(DEFAULT_CPUS, "" + cpusCbx.getSelectedItem()));
+		cpusCbx.addActionListener(e -> changedItems.put(DEFAULT_CPUS, (String) cpusCbx.getSelectedItem()));
 		row++;
 		// memory
 		int memory = Main.getPropertyInt(DEFAULT_MEM);
