@@ -56,6 +56,23 @@ public enum Accelerator {
 		this.optionString = optionString;
 		this.sysInfo = sysInfo;
 	}
+
+	/**
+	 * Finds the JComboBox selection index for the accelerator of a VM.
+	 * 
+	 * @param vm
+	 * @return the JComboBox selection index
+	 */
+	public static int findCbxIndexFor(VM vm) {
+		
+		String accel = vm.getAccelerator();
+		for (int i = 0; i < ARRAY.length; i++) {
+			if (ARRAY[i].name.equals(accel)) {
+				return i;
+			}
+		}
+		return -1;
+	}
 	
 	/**
 	 * @param index
