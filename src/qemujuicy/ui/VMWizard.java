@@ -252,6 +252,12 @@ public class VMWizard extends JDialog implements ActionListener {
 		// add general setting properties
 		vmProperties.setProperty(CPUS, appProps.getProperty(DEFAULT_CPUS));
 		vmProperties.setProperty(VM_MEMORY_MB, appProps.getProperty(DEFAULT_MEM));
+	    
+		// TODO xxx    VMProperties/QemuCmd 		Sparc, (MacOS?), ARM? (Android on ARM?), RISK-V? MIPS? ...
+		vmProperties.setProperty(VM_QEMU, Architecture.PC_X86_64.getQemuCmd());
+		
+		// defaults
+		vmProperties.setProperty(ACCELERATOR, Accelerator.BEST_GUESS.getName());
 
 		// TODO xxx    VMWizard additional properties 
 		

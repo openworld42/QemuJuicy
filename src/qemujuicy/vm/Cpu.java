@@ -56,13 +56,34 @@ public enum Cpu {
 	Cpu(String count) {
 		
 		this.count = count;
-		cpus = -1;			// NONE
+		cpus = 0;			// Cpu.NONE value
 		try {
 			cpus = Integer.parseInt(count);
 		} catch (Exception e) {
 			// intentionally do nothing
 		}
-		this.cpus = cpus;
+	}
+
+	/**
+	 * Finds the JComboBox selection index for the number of CPUS of a VM.
+	 * 
+	 * @param vm
+	 * @return the JComboBox selection index
+	 */
+	public static int findCbxIndexFor(VM vm) {
+		
+		int cpus = vm.getCpus();
+		if (cpus == 0) {
+			// Cpu.NONE value
+			return ARRAY.length - 1;
+		}
+		String cpu = "" + cpus;
+		for (int i = 0; i < ARRAY.length; i++) {
+			if (ARRAY[i].count.equals(cpu)) {
+				return i;
+			}
+		}
+		return -1;
 	}
 	
 	/**

@@ -238,7 +238,7 @@ public class MainView extends JFrame implements ActionListener {
 		vmPnl.add(CompFactory.createTabLabel(Msg.get(ACCELERATOR_MSG)), new Gbc(4, row, 1, 1, 0, 0, "W H", insets));
 		acceleratorCbx = new JComboBox<String>(Accelerator.getNameArray());
 		vmPnl.add(acceleratorCbx, new Gbc(5, row, 1, 1, 0, 0, "W H", insets));
-		acceleratorCbx.setPreferredSize(new Dimension(140, Gui.DEFAULT_BTN_HEIGHT));
+		acceleratorCbx.setPreferredSize(new Dimension(160, Gui.DEFAULT_BTN_HEIGHT));
 		acceleratorCbx.setMaximumRowCount(15);
 		acceleratorCbx.addActionListener(
 				
@@ -251,7 +251,7 @@ public class MainView extends JFrame implements ActionListener {
 		vmPnl.add(CompFactory.createTabLabel("CPUs"), new Gbc(4, row, 1, 1, 0, 0, "W H", insets));
 		cpusCbx = new JComboBox<String>(Cpu.getCpuArray()); 
 		vmPnl.add(cpusCbx, new Gbc(5, row, 1, 1, 0, 0, "W", insets));
-		cpusCbx.setPreferredSize(new Dimension(140, Gui.DEFAULT_BTN_HEIGHT));
+		cpusCbx.setPreferredSize(new Dimension(160, Gui.DEFAULT_BTN_HEIGHT));
 		cpusCbx.setMaximumRowCount(18);
 		((JLabel) cpusCbx.getRenderer()).setHorizontalAlignment(JLabel.RIGHT);
 		cpusCbx.addActionListener(
@@ -558,18 +558,14 @@ public class MainView extends JFrame implements ActionListener {
 			}
         });
 		// VM properties tabbed pane
-		
 		vmPnl = new JPanel(new BorderLayout());
 		centerPanel.add(vmPnl, new Gbc(1, 0, 2, 1, 2.0, 1.0, "B"));
 		vmPnl.setBorder(new EmptyBorder(new Insets(2, 0, 0, 0)));
 		vmPnl.setPreferredSize(new Dimension(700, 500));
 		vmTabbedPane = new JTabbedPane(JTabbedPane.TOP);
 		vmPnl.add(vmTabbedPane, BorderLayout.CENTER);
-		// tab VM
+		// tab VM (VM properties)
 		addVmTab(vmTabbedPane);
-		
-		
-		
 		
 		// exit button
         centerPanel.add(Gbc.filler(), new Gbc(1, 1, 1, 1, 1.0, 0, "C H"));
@@ -627,12 +623,10 @@ public class MainView extends JFrame implements ActionListener {
 		VM vm = Main.getVmManager().getVm(selectedIndex);
 		// tab VM
 		nameTxt.setText(vm.getName());
-		
-//		architectureCbx.setSelectedIndex(selectedIndex);  
-		
-//		acceleratorCbx.setSelectedIndex(selectedIndex);
-//		cpusCbx.setSelectedIndex(selectedIndex);
-//		memorySld.setValue(selectedIndex);
+		architectureCbx.setSelectedIndex(Architecture.findCbxIndexFor(vm));  
+		acceleratorCbx.setSelectedIndex(Accelerator.findCbxIndexFor(vm));
+		cpusCbx.setSelectedIndex(Cpu.findCbxIndexFor(vm));
+		memorySld.setValue(vm.getMemorySizeMB());
 	}
 
 	/**

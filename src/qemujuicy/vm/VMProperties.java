@@ -38,6 +38,7 @@ public class VMProperties extends Properties {
 	
 	// property keys: do NOT forget to add a new property to checkDefaults() !!!
 	
+	public static final String ACCELERATOR = "accelerator"; 
 	public static final String CPUS = "cpus"; 
 	public static final String CREATION_TYPICAL = "creation.typical"; 
 	public static final String DISK_NAME = "disk.name";
@@ -49,7 +50,9 @@ public class VMProperties extends Properties {
 	public static final String VM_MEMORY_MB = "vm.memory.MB"; 		// in MB
 	public static final String VM_NAME = "vm.name"; 				// the visible name of the VM
 	public static final String VM_NAME_SAFE = "vm.name.safe"; 		// the visible name of the VM, but spaces 
-																	// within the name are replaced by underscroes
+																	// within the name are replaced by underscores
+	public static final String VM_QEMU = "vm.qemu"; 				// the emulator of the VM 
+																	
 	
 	private String pathname;
 
@@ -85,7 +88,8 @@ public class VMProperties extends Properties {
 	 */
 	private void checkDefaults() {
 		
-		// set not here
+		// not here set
+		checkProperty(ACCELERATOR, "");
 		checkProperty(CPUS, "");
 		checkProperty(CREATION_TYPICAL, "");
 		checkProperty(DISK_NAME, "");
@@ -97,6 +101,7 @@ public class VMProperties extends Properties {
 		checkProperty(VM_MEMORY_MB, "");
 		checkProperty(VM_NAME, "");
 		checkProperty(VM_NAME_SAFE, "");
+		checkProperty(VM_QEMU, "");
 	}
 
 	/**

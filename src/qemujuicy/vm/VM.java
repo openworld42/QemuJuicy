@@ -64,7 +64,7 @@ public class VM {
 	   }
 	};
 	
-	// all available OS types (by name
+	// all available OS types (by name)
 	public static final String[] OS_NAMES = OSType.toArray();
 
 	private VMProperties vmProperties;
@@ -92,6 +92,22 @@ public class VM {
 	public VM(String vmPropertiesPath) throws Exception {
 		
 		this(new VMProperties(vmPropertiesPath, true));
+	}
+
+	/**
+	 * @return the accelerator
+	 */
+	public String getAccelerator() {
+
+		return  vmProperties.getProperty(VMProperties.ACCELERATOR);
+	}
+
+	/**
+	 * @return the architecture (the QEMU emulator command)
+	 */
+	public String getArchitecture() {
+		
+		return  vmProperties.getProperty(VMProperties.VM_QEMU);
 	}
 
 	/**
