@@ -32,7 +32,7 @@ public enum Architecture {
     PC_X86_64("PC x86 (64 bit)", "qemu-system-x86_64"),
     PC_I386("PC i386", "qemu-system-i386"),
     
-	// TODO xxx    Architecture 		(MacOS?), ARM? (Android on ARM?), RISK-V? MIPS? ...
+	// TODO xxx    Architecture 		Sparc, (MacOS?), ARM? (Android on ARM?), RISK-V? MIPS? ...
 	
 
     
@@ -48,6 +48,23 @@ public enum Architecture {
 		
 		this.name = name;
 		this.qemuCmd = qemuCmd;
+	}
+
+	/**
+	 * Finds the JComboBox selection index for the architecture of a VM.
+	 * 
+	 * @param vm
+	 * @return the JComboBox selection index
+	 */
+	public static int findCbxIndexFor(VM vm) {
+		
+		String arch = vm.getArchitecture();
+		for (int i = 0; i < ARRAY.length; i++) {
+			if (ARRAY[i].qemuCmd.equals(arch)) {
+				return i;
+			}
+		}
+		return -1;
 	}
 	
 	/**
