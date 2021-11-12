@@ -33,7 +33,6 @@ import javax.swing.plaf.*;
 import qemujuicy.*;
 import qemujuicy.vm.*;
 
-import static qemujuicy.AppProperties.DEFAULT_MEM;
 import static qemujuicy.Images.*;
 import static qemujuicy.Message.*;
 
@@ -142,6 +141,8 @@ public class MainView extends JFrame implements ActionListener {
 			Main.getVmManager().moveUpVm(vmList);
 		} else if (actionCmd.equals(REMOVE_VM)) {
 			Main.getVmManager().removeVm(this, vmList.getSelectedIndex());
+			vmTabbedPane.setSelectedIndex(0);
+			nameTxt.setText("");
 		} else if (actionCmd.equals(QEMU_SETUP)) {
             QemuSetup.run(this, true);
 		} else if (actionCmd.equals(SETTINGS)) {
@@ -228,24 +229,23 @@ public class MainView extends JFrame implements ActionListener {
 		vmPnl.add(architectureCbx, new Gbc(2, row, 1, 1, 0, 0, "W H", insets));
 		architectureCbx.setPreferredSize(new Dimension(120, Gui.DEFAULT_BTN_HEIGHT));
 		architectureCbx.setMaximumRowCount(15);
-		architectureCbx.addActionListener(
-				
-				// TODO xxx    MainView  architecture
-
-				e -> System.out.println(architectureCbx.getSelectedIndex() + ": "
-						+ architectureCbx.getSelectedItem()));
-		
+		architectureCbx.addActionListener(e -> {
+			if (architectureCbx.getSelectedIndex() >= 0) {
+				storeVmProperty(VMProperties.VM_QEMU, 
+					Architecture.ARRAY[architectureCbx.getSelectedIndex()].getQemuCmd());
+			}
+		});
 		vmPnl.add(CompFactory.createTabLabel(Msg.get(ACCELERATOR_MSG)), new Gbc(4, row, 1, 1, 0, 0, "W H", insets));
 		acceleratorCbx = new JComboBox<String>(Accelerator.getNameArray());
 		vmPnl.add(acceleratorCbx, new Gbc(5, row, 1, 1, 0, 0, "W H", insets));
 		acceleratorCbx.setPreferredSize(new Dimension(160, Gui.DEFAULT_BTN_HEIGHT));
 		acceleratorCbx.setMaximumRowCount(15);
-		acceleratorCbx.addActionListener(
-				
-				// TODO xxx    MainView  acceleratorCbx
-
-				e -> System.out.println(acceleratorCbx.getSelectedIndex() + ": "
-						+ acceleratorCbx.getSelectedItem()));
+		acceleratorCbx.addActionListener(e -> {
+			if (acceleratorCbx.getSelectedIndex() >= 0) {
+				storeVmProperty(VMProperties.ACCELERATOR, 
+						Accelerator.ARRAY[acceleratorCbx.getSelectedIndex()].getName());
+			}
+		});
 		row++;
 		// CPUs row
 		vmPnl.add(CompFactory.createTabLabel("CPUs"), new Gbc(4, row, 1, 1, 0, 0, "W H", insets));
@@ -254,12 +254,12 @@ public class MainView extends JFrame implements ActionListener {
 		cpusCbx.setPreferredSize(new Dimension(160, Gui.DEFAULT_BTN_HEIGHT));
 		cpusCbx.setMaximumRowCount(18);
 		((JLabel) cpusCbx.getRenderer()).setHorizontalAlignment(JLabel.RIGHT);
-		cpusCbx.addActionListener(
-				
-				// TODO xxx    MainView  cpusCbx
-
-				e -> System.out.println(cpusCbx.getSelectedIndex() + ": "
-						+ cpusCbx.getSelectedItem()));
+		cpusCbx.addActionListener(e -> {
+			if (cpusCbx.getSelectedIndex() >= 0) {
+				storeVmProperty(VMProperties.CPUS, 
+						Cpu.ARRAY[cpusCbx.getSelectedIndex()].getCount());
+			}
+		});
 		row++;
 		// memory
 		label = CompFactory.createChapterLabel( Msg.get(MEMORY_MSG));
@@ -279,25 +279,16 @@ public class MainView extends JFrame implements ActionListener {
 		memorySld.createStandardLabels(1);
 		memorySld.setPaintTicks(true);
 		memorySld.setPaintLabels(true);
-		
-//		memorySld.setValue(memory);			// TODO xxx    MainView  memorySld.setValue(memory);	
-
-		
+		int selectedIndex = vmList.getSelectedIndex();
+		if (selectedIndex >= 0) {
+			memorySld.setValue(Main.getVmManager().getVm(selectedIndex).getMemorySizeMB());
+		}
 		memorySld.addChangeListener(e -> {
 			int mem = memorySld.getValue();
-			
-//			changedItems.put(DEFAULT_MEM, "" + mem);
 			memoryLbl.setText(mem + "MB");
-			
+			storeVmProperty(VMProperties.VM_MEMORY_MB, "" + mem);
 			});
 		row++;
-
-		
-		
-		// TODO xxx    MainView  addVmTab() disable if no VM
-
-
-		
 		// push the above
 		row++;
 		vmPnl.add(Gbc.filler(), new Gbc(0, row, 1, 1, 0, 10, "V"));
@@ -611,6 +602,26 @@ public class MainView extends JFrame implements ActionListener {
 	}
 
 	/**
+	 * Store a property of the selected VM and write the properties file to save it.
+	 * Usually called from a component vale change.
+	 */
+	private void storeVmProperty(String propertyKey, String value) {
+		
+		int selectedIndex = vmList.getSelectedIndex();
+		if (selectedIndex < 0) {
+			return;
+		}
+		VM vm = Main.getVmManager().getVm(selectedIndex);
+		String oldProperty = vm.getVmProperties().getProperty(propertyKey);
+		if (oldProperty.equals(value)) {
+			return;
+		}
+		vm.setProperty(propertyKey, value);
+		vm.getVmProperties().storeToXML();
+		Logger.info("VM '" + vm.getName() + "': changed " + propertyKey + " -> " + value);
+	}
+
+	/**
 	 * Update all components with the properties of the selected VM.
 	 * Usually called on selection of a VM.
 	 */
@@ -637,14 +648,16 @@ public class MainView extends JFrame implements ActionListener {
 		int selectedIndex = vmList.getSelectedIndex();
 		if (selectedIndex < 0) {
 			// nothing selected
+			Logger.info("no VM selected");
 			btnStart.setEnabled(false);
 			btnStop.setEnabled(false);
 			btnRemoveVM.setEnabled(false);
 			Gui.enableComponents(vmTabbedPane, false);
 			return;
 		}
-		// a VM is selected
+		// a VM has been selected
 		VM vm = Main.getVmManager().getVm(selectedIndex);
+		Logger.info("VM '" + vm.getName() + "' selected");
 		if (vm.isRunning()) {
 			btnStart.setEnabled(false);
 			btnStop.setEnabled(true);

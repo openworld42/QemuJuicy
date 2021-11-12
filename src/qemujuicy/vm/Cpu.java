@@ -85,6 +85,14 @@ public enum Cpu {
 		}
 		return -1;
 	}
+
+	/**
+	 * @return the count (as a string)
+	 */
+	public String getCount() {
+		
+		return count;
+	}
 	
 	/**
 	 * @return the number of cpus or -1 for NONE

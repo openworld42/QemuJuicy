@@ -111,11 +111,16 @@ public class VM {
 	}
 
 	/**
-	 * @return the (maximum) number of CPUs used by the VM (QEMU supports much more feature options)
+	 * @return the (maximum) number of CPUs used by the VM (QEMU supports much more feature options) or 0
 	 */
 	public int getCpus() {
 
-		return Integer.parseInt(vmProperties.getProperty(VMProperties.CPUS));
+		try {
+			return Integer.parseInt(vmProperties.getProperty(VMProperties.CPUS));
+		} catch (NumberFormatException e) {
+			// was NONE
+			return 0;
+		}
 	}
 
 	/**
@@ -207,4 +212,16 @@ public class VM {
 
 		isRunning = flag;
 	}
+
+	/**
+	 * Sets a property of this VM.
+	 * 
+	 * @param propertyKey
+	 * @param value
+	 */
+	public void setProperty(String propertyKey, String value) {
+
+		vmProperties.setProperty(propertyKey, value);
+	}
 }
+
