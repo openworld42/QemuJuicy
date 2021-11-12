@@ -73,9 +73,9 @@ public class MainView extends JFrame implements ActionListener {
 	// VM properties tabbed pane
 	private JPanel vmPnl;					// VM properties tabbed pane
 	private JTextField nameTxt; 	
-	private JComboBox architectureCbx;
-	private JComboBox acceleratorCbx;
-	private JComboBox cpusCbx;
+	private JComboBox<String> architectureCbx;
+	private JComboBox<String> acceleratorCbx;
+	private JComboBox<String> cpusCbx;
 	private JSlider memorySld;
 	// toolbar buttons
 	private JButton btnStart;
@@ -297,7 +297,8 @@ public class MainView extends JFrame implements ActionListener {
 	/**
 	 * @return the architectureCbx
 	 */
-	public JComboBox getArchitectureCbx() {
+	public JComboBox<String> getArchitectureCbx() {
+		
 		return architectureCbx;
 	}
 
