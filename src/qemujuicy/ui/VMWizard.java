@@ -258,7 +258,6 @@ public class VMWizard extends JDialog implements ActionListener {
 		
 		// defaults
 		vmProperties.setProperty(ACCELERATOR, Accelerator.BEST_GUESS.getName());
-		
 
 		// TODO xxx    VMWizard additional properties 
 		
