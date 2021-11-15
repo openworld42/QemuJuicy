@@ -91,10 +91,11 @@ public enum Message {
 	SETUP_WIZARD_TT_MSG("Setup Wizard"),
 	QEMU_CALL_TT_MSG("Create a virtual machine just by QEMU call"),
 	QEMU_INSTALLATION_TT_MSG("QEMU installation settings"),
-	REMOVE_VM_TT_MSG("Delete a virtual machine"),
-	START_TT_MSG("Start a virtual machine"),
-	STOP_TT_MSG("Stop a virtual machine"),
+	REMOVE_VM_TT_MSG("Delete virtual machine"),
+	START_TT_MSG("Start virtual machine"),
+	STOP_TT_MSG("Stop virtual machine"),
 	VM_TAB_VM_PROPERTIES_TT_MSG("Virtual machine general properties"),
+	VM_RUN_INSTALL_TT_MSG("Install virtual machine once from DVD/image file"),
 	VM_WIZARD_TT_MSG("Create a virtual machine using the VM wizard"),
 	
 	// GUI buttons & menu items text: ends with _BTN_MSG

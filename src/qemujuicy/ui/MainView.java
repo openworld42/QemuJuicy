@@ -57,6 +57,7 @@ public class MainView extends JFrame implements ActionListener {
 	public final static String SETTINGS = "Settings";
 	public final static String START_VM = "StartVM";
 	public final static String STOP_VM = "StopVM";
+	public final static String VM_RUN_INSTALL = "VMRunInstall";
 	public final static String VM_WIZARD = "VMWizard";
 
 	private static MainView instance;
@@ -83,9 +84,15 @@ public class MainView extends JFrame implements ActionListener {
 	private JButton btnRemoveVM;
 	private JButton btnArguments;
 	private JButton btnDiskImage;
+	private JButton btnRunVmInstall;
 	private JButton btnVmWizard;
 	private JButton btnUp;
 	private JButton btnDown; 
+	// menu items
+	private JMenuItem menuItemStart;
+	private JMenuItem menuItemStop;
+	private JMenuItem menuItemRemoveVM;
+	private JMenuItem menuItemRunVmInstall;
 
 	// components
 	JList<VM> vmList;
@@ -326,11 +333,16 @@ public class MainView extends JFrame implements ActionListener {
 		// VM entries
 		menuItem = createMenuItem(Msg.get(VM_WIZARD_MSG), true, VM_WIZARD, null);
 		menu.add(menuItem);
-		menuItem = createMenuItem(Msg.get(START_TT_MSG), true, START_VM, null);
-		menu.add(menuItem);
+		menuItemRunVmInstall = createMenuItem(Msg.get(VM_RUN_INSTALL_TT_MSG), true, VM_RUN_INSTALL, null);
+		menu.add(menuItemRunVmInstall);
 		menu.addSeparator();
-		menuItem = createMenuItem(Msg.get(REMOVE_VM_TT_MSG), true, REMOVE_VM, null);
-		menu.add(menuItem);
+		menuItemStart = createMenuItem(Msg.get(START_TT_MSG), true, START_VM, null);
+		menu.add(menuItemStart);
+		menuItemStop = createMenuItem(Msg.get(STOP_TT_MSG), true, STOP_VM, null);
+		menu.add(menuItemStop);
+		menu.addSeparator();
+		menuItemRemoveVM = createMenuItem(Msg.get(REMOVE_VM_TT_MSG), true, REMOVE_VM, null);
+		menu.add(menuItemRemoveVM);
 		
 		// TODO xxx    MainView JMenu VM entries 
 
@@ -443,6 +455,9 @@ public class MainView extends JFrame implements ActionListener {
 		btnVmWizard = createToolBarButton(null, Images.scale(Images.VM_WIZARD, pixels), 
 				0, Msg.get(VM_WIZARD_TT_MSG), VM_WIZARD);
 		tb.add(btnVmWizard);
+		btnRunVmInstall = createToolBarButton(null, Images.scale(Images.VM_RUN_INSTALL, pixels), 
+				0, Msg.get(VM_RUN_INSTALL_TT_MSG), VM_RUN_INSTALL);
+		tb.add(btnRunVmInstall);
 		btnRemoveVM = createToolBarButton(null, Images.scale(Images.LIST_REMOVE, pixels), 
 				0, Msg.get(REMOVE_VM_TT_MSG), REMOVE_VM);
 		tb.add(btnRemoveVM);
@@ -651,8 +666,13 @@ public class MainView extends JFrame implements ActionListener {
 			// nothing selected
 			Logger.info("no VM selected");
 			btnStart.setEnabled(false);
+			menuItemStart.setEnabled(false);
+			btnRunVmInstall.setEnabled(false);
+			menuItemRunVmInstall.setEnabled(false);
 			btnStop.setEnabled(false);
+			menuItemStop.setEnabled(false);
 			btnRemoveVM.setEnabled(false);
+			menuItemRemoveVM.setEnabled(false);
 			Gui.enableComponents(vmTabbedPane, false);
 			return;
 		}
@@ -661,14 +681,24 @@ public class MainView extends JFrame implements ActionListener {
 		Logger.info("VM '" + vm.getName() + "' selected");
 		if (vm.isRunning()) {
 			btnStart.setEnabled(false);
+			menuItemStart.setEnabled(false);
+			btnRunVmInstall.setEnabled(false);
+			menuItemRunVmInstall.setEnabled(false);
 			btnStop.setEnabled(true);
+			menuItemStop.setEnabled(true);
 			btnRemoveVM.setEnabled(false);
+			menuItemRemoveVM.setEnabled(false);
 			btnDiskImage.setEnabled(false);
 			Gui.enableComponents(vmTabbedPane, false);
 		} else {
 			btnStart.setEnabled(true);
+			menuItemStart.setEnabled(true);
+			btnRunVmInstall.setEnabled(true);
+			menuItemRunVmInstall.setEnabled(true);
 			btnStop.setEnabled(false);
+			menuItemStop.setEnabled(false);
 			btnRemoveVM.setEnabled(true);
+			menuItemRemoveVM.setEnabled(true);
 			btnDiskImage.setEnabled(true);
 			Gui.enableComponents(vmTabbedPane, true);
 		}

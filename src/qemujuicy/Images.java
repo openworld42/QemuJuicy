@@ -63,6 +63,7 @@ public class Images {
 	public static final String SETUP_WIZARD = OXY128 + "Oxygen480-actions-games-solve.svg.png";
 	public static final String UP_BUTTON = OXY32 + "Oxygen15.04.1-go-up.svg.png";
 	public static final String VM = OXY32 + "Oxygen480-categories-applications-system2_20x20.svg.png";
+	public static final String VM_RUN_INSTALL = OXY32 + "Oxygen480-categories-applications-other.svg.png";
 	public static final String VM_WIZARD = OXY32 + "Oxygen480-actions-list-add.svg.png";
 	public static final String VM_WIZARD_WAND = OXY32 + "Oxygen480-actions-wizard-games-solve3.png";
 	public static final String VM_WIZARD_IDENT = OXY32 + "Oxygen480-actions-im-user.svg.png";
@@ -114,6 +115,7 @@ public class Images {
 		add(SETUP_WIZARD);
 		add(UP_BUTTON);
 		add(VM);
+		add(VM_RUN_INSTALL);
 		add(VM_WIZARD);
 		add(VM_WIZARD_WAND);
 		add(VM_WIZARD_IDENT);
