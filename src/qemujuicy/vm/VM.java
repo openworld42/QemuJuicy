@@ -69,6 +69,7 @@ public class VM {
 
 	private VMProperties vmProperties;
 	private Process process;					// the process running this VM, if running
+
 	private ImageIcon imageIcon;
 	private boolean isRunning;					// indicates if the VM has been started
 
@@ -178,6 +179,14 @@ public class VM {
 	public String getPathname() {
 		
 		return vmProperties.getPathname();
+	}
+	
+	/**
+	 * @return the process if the VM is executing, null otherwise
+	 */
+	public Process getProcess() {
+		
+		return process;
 	}
 
 	/**

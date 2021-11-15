@@ -29,9 +29,6 @@ import java.util.concurrent.*;
 import javax.swing.*;
 
 import qemujuicy.*;
-import qemujuicy.ui.*;
-
-import static qemujuicy.Message.*;
 
 /**
  * Actions related to the QEMU programs like "qemu-img", "qemu-system-x86_64" and others.
@@ -55,10 +52,12 @@ public class Qemu {
 	/**
 	 * Runs a VM.
 	 * 
-	 * @param vm	the VM to run
+	 * @param vm				the VM to run
+	 * @param vmInstallPath		an one-time installation image path or null for an 
+	 * 							existing and installed VM
 	 * @return true, if the command worked, false otherwise (Exception caught)
 	 */
-	public boolean runVm(VM vm) {
+	public boolean runVm(VM vm, String vmInstallPath) {
 
 		String qemuCmd = Architecture.ARRAY[Architecture.findCbxIndexFor(vm)].getQemuCmd();
 		String diskPath = Main.getProperty(AppProperties.VM_DISK_PATH)+ File.separator + vm.getDiskName();
@@ -81,7 +80,7 @@ public class Qemu {
 			cmdList.add("" + vm.getCpus());
 		}
 		cmdList.add("-m");
-		cmdList.add(vm.getVmProperties().getProperty(VMProperties.VM_MEMORY_MB) + "M");
+		cmdList.add(maxMemMB + "M");
 //		"-m", maxMemMB/4 + "M,slots=3,maxmem=" + maxMemMB + "M",   		// min 512M
 		
 		cmdList.add("-drive");
@@ -89,11 +88,13 @@ public class Qemu {
 		
 		// TODO xxx    Qemu runVm()      change hard coded CDROM  
 		
-		cmdList.add("-drive");
-		cmdList.add("file=" + "/home/misc/linux/Debian/debian-11.1.0-amd64-netinst.iso" + ",index=3,media=cdrom");
-		
+		if (vmInstallPath != null) {
+			// VM should do a one-time installation boot run from image file or DVD/CD
+			cmdList.add("-drive");
+			cmdList.add("file=" + vmInstallPath + ",index=3,media=cdrom");
+		}
 		cmdList.add("-boot");
-		String bootParams = "order=cd";
+		String bootParams = vmInstallPath != null ? "order=cd,once=d" : "order=c";
 		bootParams += ",menu=on";				// TODO xxx    Qemu  "menu=on" as property
 		cmdList.add(bootParams);			
 		
@@ -111,7 +112,6 @@ public class Qemu {
 		}
 		Logger.info("executing: " + " " + cmdString);
 		System.out.println("executing: " + " " + cmdString);
-		ProcessExecutor executor = null;
 		try {
 			ProcessBuilder builder = new ProcessBuilder(cmdArr);
 			Process process = builder.start();
@@ -130,10 +130,13 @@ public class Qemu {
 	
 	/************************* inner classes *************************/
 	
+	/**
+	 * A Runnable for a thread to watch if the VM is running.
+	 */
 	private class VmRunnable implements Runnable {
 
-		private VM vm;
-		private Process process;
+		private VM vm;					// the VM to watch
+		private Process process;		// the process of the VM
 
 		public VmRunnable(VM vm, Process process) {
 			
@@ -155,7 +158,7 @@ public class Qemu {
 					});
 					break;
 				}
-				Util.sleep(200);
+				Util.sleep(200);		// meanwhile be polite to the others
 			}
 		}
 	}

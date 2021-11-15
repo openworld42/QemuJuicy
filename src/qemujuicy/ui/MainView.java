@@ -146,35 +146,20 @@ public class MainView extends JFrame implements ActionListener {
 			Main.getVmManager().moveDownVm(vmList);
 		} else if (actionCmd.equals(MOVE_UP)) {
 			Main.getVmManager().moveUpVm(vmList);
+		} else if (actionCmd.equals(QEMU_SETUP)) {
+            QemuSetup.run(this, true);
 		} else if (actionCmd.equals(REMOVE_VM)) {
 			Main.getVmManager().removeVm(this, vmList.getSelectedIndex());
 			vmTabbedPane.setSelectedIndex(0);
 			nameTxt.setText("");
-		} else if (actionCmd.equals(QEMU_SETUP)) {
-            QemuSetup.run(this, true);
+		} else if (actionCmd.equals(VM_RUN_INSTALL)) {
+			Main.getVmManager().runInstallVm(this, vmList);
 		} else if (actionCmd.equals(SETTINGS)) {
 			SettingsDlg.create(this);
 		} else if (actionCmd.equals(START_VM)) {
-			Main.getVmManager().runVm(this, vmList);
+			Main.getVmManager().runVm(this, vmList, null);
 		} else if (actionCmd.equals(VM_WIZARD)) {
 	           new VMWizard();
-    		
-    		// TODO xxx    MainView  JOptionPane.showOptionDialog example, delete later
-
-//    		int selected = JOptionPane.showOptionDialog(mainView, 
-//    				Msg.get(FIRST_SETUP_DLG_MSG), 
-//    				Msg.get(FIRST_SETUP_DLG_TITLE_MSG), 
-//    				JOptionPane.YES_NO_OPTION,
-//    				JOptionPane.QUESTION_MESSAGE,
-//    				null,
-//    				null,
-//    				JOptionPane.YES_OPTION);
-//    		if (selected == JOptionPane.NO_OPTION) {
-//    			
-//    		}
-    			
-
-            
         } else {
         	String missing = "ActionListener: unknown component, it's me -> "
             		+ event.getSource().getClass().getSimpleName() 
@@ -272,7 +257,7 @@ public class MainView extends JFrame implements ActionListener {
 		label = CompFactory.createChapterLabel( Msg.get(MEMORY_MSG));
 		vmPnl.add(label, new Gbc(0, row, 13, 1, 0, 0, "W H"));
 		row++;
-		JLabel memoryLbl = new JLabel(""); 
+		memoryLbl = new JLabel(""); 
 		vmPnl.add(memoryLbl, new Gbc(1, row, 1, 1, 0, 0, "W H", insets));
 		memorySld = new JSlider();
 		vmPnl.add(memorySld, new Gbc(2, row, 10, 1, 0, 0, "W H"));

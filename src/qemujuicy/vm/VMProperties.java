@@ -44,6 +44,7 @@ public class VMProperties extends Properties {
 	public static final String DISK_NAME = "disk.name";
 	public static final String DISK_SIZE_GB = "disk.size.GB";		// in GB
 	public static final String ICON_PATH = "icon.path";
+	public static final String INSTALLED_FROM_PATH = "installed.from.path";
 	public static final String NETWORK = "network"; 
 	public static final String OS = "os"; 
 	public static final String VM_FILENAME = "vm.filename"; 		// the xml file containing this properties
@@ -95,6 +96,7 @@ public class VMProperties extends Properties {
 		checkProperty(DISK_NAME, "");
 		checkProperty(DISK_SIZE_GB, "");
 		checkProperty(ICON_PATH, "");
+		checkProperty(INSTALLED_FROM_PATH, "");
 		checkProperty(NETWORK, "");
 		checkProperty(OS, "");
 		checkProperty(VM_FILENAME, "");

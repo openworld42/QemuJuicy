@@ -28,8 +28,7 @@ import java.util.*;
 import javax.swing.*;
 
 import qemujuicy.*;
-import qemujuicy.ui.Gui;
-import qemujuicy.ui.MainView;
+import qemujuicy.ui.*;
 
 import static qemujuicy.Message.*;
 
@@ -256,17 +255,59 @@ public class VMManager {
 	}
 
 	/**
+	 * Runs a VM once from an image file or DVD/CD to install it, using its properties.
+	 * 
+	 * @param mainView
+	 * @param vmList
+	 */
+	public void runInstallVm(MainView mainView, JList<VM> vmJList) {
+		
+		// ask for the image file or DVD to install the VM (once)
+		AppProperties properties = Main.getProperties();
+		FileChooserDlg chooser = new FileChooserDlg(
+				Msg.get(SELECT_OS_ICON_MSG), 
+				Msg.get(OK_BTN_MSG), 
+				Msg.get(OK_BTN_MSG), 
+				JFileChooser.FILES_ONLY, 
+				null);
+		
+		String installDir = properties.getProperty(AppProperties.INSTALL_DIR);	// might not exist or could be empty
+		File dir = new File(installDir);
+		if (!installDir.trim().equals("") && dir.isDirectory()) {
+			// previous install from that directory, use it
+			chooser.setCurrentDirectory(dir);
+		}
+        if (chooser.showOpenDialog(mainView) != JFileChooser.APPROVE_OPTION) {
+        	return;
+        }
+        String vmInstallPath = chooser.getSelectedFile().getPath();
+        System.out.println("VM install path selected: " + vmInstallPath);
+        Logger.info("VM install path selected: " + vmInstallPath);
+        // remember the install directory
+        properties.setProperty(AppProperties.INSTALL_DIR, chooser.getCurrentDirectory().getAbsolutePath());
+        properties.storeToXML();
+        runVm(mainView, vmJList, vmInstallPath);
+	}
+
+	/**
 	 * Runs a VM, using its properties.
 	 * 
 	 * @param mainView
 	 * @param vmJList
+	 * @param vmInstallPath		an one-time installation image path or null for an 
+	 * 							existing and installed VM
 	 */
-	public void runVm(MainView mainView, JList<VM> vmJList) {
+	public void runVm(MainView mainView, JList<VM> vmJList, String vmInstallPath) {
 
 		int index = vmJList.getSelectedIndex();
 		VM vm = vmList.get(index);
+		if (vmInstallPath != null) {
+			// this is a one-time installation run of the VM, from image file or DVD/CD
+			vm.getVmProperties().setPropertyAndStoreXml(
+					VMProperties.INSTALLED_FROM_PATH, vmInstallPath);
+		}
 		vm.setIsRunning(true);
 		mainView.vmListSelectionEnabler();
-		new Qemu().runVm(vm);
+		new Qemu().runVm(vm, vmInstallPath);
 	}
 }

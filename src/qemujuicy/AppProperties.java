@@ -47,6 +47,7 @@ public class AppProperties extends Properties {
 	public static final String DEFAULT_DISK_SIZE = "disk.size.GB"; 		// in GB
 	public static final String DEFAULT_MEM = "memoryMB"; 				// in MB
 	public static final String GIVE_HINTS = "give.hints"; 
+	public static final String INSTALL_DIR = "install.dir"; 				// image directory from the last install of a VM
 	public static final String LOOK_AND_FEEL = "lookandfeel"; 
 	public static final String QEMU_CMD = "qemu.command."; 				// a number will be appended
 	public static final String QEMU_IMG = "qemu.image";
@@ -93,11 +94,14 @@ public class AppProperties extends Properties {
 		checkProperty(DEFAULT_DISK_SIZE, "30");		// GB
 		checkProperty(DEFAULT_MEM, "1000");
 		checkProperty(GIVE_HINTS, "true");
+		checkProperty(INSTALL_DIR, "");
 		checkProperty(LOOK_AND_FEEL, "Nimbus");
 //		checkProperty(QEMU_CMD, "");					// not set here
 //		checkProperty(QEMU_IMG, "");					// not set here
 		checkProperty(VERBOSE, "true");
 		checkProperty(VM_DISK_PATH, "");				// path not set here
+//		checkProperty(VM_FILENAME, "");					// not set here
+		
 	}
 
 	/**
