@@ -6,6 +6,25 @@ Details to start with: [README.md](https://github.com/openworld42/QemuJuicy/blob
 
 ## upcoming version
 
+### Fixes
+
+### Features/Enhancements
+
+## v0.4.1
+
+### "first light" - a preliminary working version
+
+### Fixes
+
+* some (but there is no release jar file published until now, no need to note them)
+
+### Features/Enhancements
+
+VM one-time installation run (+ start button + menu completion)
+
+VM process watcher thread (enable/disable GUI components)
+
+VM properties completed: architecture, accelerator, CPUs/NUMA, memory
 
 ## v0.4.0
 
