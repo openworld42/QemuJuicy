@@ -31,6 +31,8 @@ import java.util.concurrent.*;
  */
 public class ProcessExecutor  {
 
+	private Process process;
+
 	private StringBuilder out = new StringBuilder();
 	private int exitValue;
 
@@ -57,7 +59,7 @@ public class ProcessExecutor  {
 	public ProcessExecutor(long millis, String... command) throws Exception {
 
 		ProcessBuilder builder = new ProcessBuilder(command);
-		Process process = builder.start();
+		process = builder.start();
 		process.waitFor(millis, TimeUnit.MILLISECONDS);
 		exitValue = process.exitValue();
 		try (BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()))) {
@@ -85,4 +87,13 @@ public class ProcessExecutor  {
 		
 		return out.toString();
 	}
+	
+	/**
+	 * @return the process
+	 */
+	public Process getProcess() {
+		
+		return process;
+	}
+
 }

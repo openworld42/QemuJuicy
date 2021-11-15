@@ -266,9 +266,7 @@ public class VMManager {
 		int index = vmJList.getSelectedIndex();
 		VM vm = vmList.get(index);
 		vm.setIsRunning(true);
+		mainView.vmListSelectionEnabler();
 		new Qemu().runVm(vm);
-		
-//		TODO runVm		 enable/disable the run button, reset flag, output, error handling
-
 	}
 }

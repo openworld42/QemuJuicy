@@ -23,6 +23,10 @@
 package qemujuicy.vm;
 
 import java.io.*;
+import java.util.*;
+import java.util.concurrent.*;
+
+import javax.swing.*;
 
 import qemujuicy.*;
 import qemujuicy.ui.*;
@@ -56,45 +60,101 @@ public class Qemu {
 	 */
 	public boolean runVm(VM vm) {
 
-		String qemuCmd = "qemu-system-x86_64";
+		String qemuCmd = Architecture.ARRAY[Architecture.findCbxIndexFor(vm)].getQemuCmd();
 		String diskPath = Main.getProperty(AppProperties.VM_DISK_PATH)+ File.separator + vm.getDiskName();
 		int maxMemMB = vm.getMemorySizeMB();
 		// create the parameters
-		String[] cmdArr = {
-				qemuCmd,
-				"-hda", diskPath,
-				"-cdrom", "/home/misc/linux/Debian/debian-testing-amd64-netinst20210919.iso",
-				
-				"-m", maxMemMB + "M",		// min 512M
-//				"-m", maxMemMB/4 + "M,slots=3,maxmem=" + maxMemMB + "M",
-				"-boot", "menu=on",
-				"-smp", "" + vm.getCpus(),
-				"-nic", "user,ipv6=off,model=e1000,mac=52:54:98:76:54:32",
-				"-name", vm.getNameSafe(),
-		};
+		ArrayList<String> cmdList = new ArrayList<>();
+		cmdList.add(qemuCmd);
+		
+//		cmdList.add("-monitor");
+//		cmdList.add("stdio");
+		
+		String accel = Accelerator.ARRAY[Accelerator.findCbxIndexFor(vm)].getAccelOptionString();
+		if (accel != null) {			// else -> advanced tab/default tcg
+			cmdList.add("-machine");
+			cmdList.add("accel=" + accel);
+		}
+		int cpus = Cpu.findCbxIndexFor(vm);
+		if (cpus > 0) {					// if == 0 -> advanced tab/default
+			cmdList.add("-smp");
+			cmdList.add("" + vm.getCpus());
+		}
+		cmdList.add("-m");
+		cmdList.add(vm.getVmProperties().getProperty(VMProperties.VM_MEMORY_MB) + "M");
+//		"-m", maxMemMB/4 + "M,slots=3,maxmem=" + maxMemMB + "M",   		// min 512M
+		
+		cmdList.add("-drive");
+		cmdList.add("file=" + diskPath + ",index=0,media=disk");
+		
+		// TODO xxx    Qemu runVm()      change hard coded CDROM  
+		
+		cmdList.add("-drive");
+		cmdList.add("file=" + "/home/misc/linux/Debian/debian-11.1.0-amd64-netinst.iso" + ",index=3,media=cdrom");
+		
+		cmdList.add("-boot");
+		cmdList.add("menu=on");			// TODO xxx    Qemu  "menu=on" as property
+		
+		// TODO xxx    Qemu runVm()      change hard coded nic / networking  
+		cmdList.add("-nic");
+		cmdList.add("user,ipv6=off,model=e1000,mac=52:54:98:76:54:32");	
+
+		cmdList.add("-name");
+		cmdList.add(vm.getNameSafe());	
+		// process the generated command
+		String[] cmdArr = cmdList.toArray(new String[0]);
 		String cmdString = "";
 		for (String s : cmdArr) {
 			cmdString += s + " ";
 		}
 		Logger.info("executing: " + " " + cmdString);
 		System.out.println("executing: " + " " + cmdString);
+		ProcessExecutor executor = null;
 		try {
-			ProcessExecutor executor = new ProcessExecutor(500L, cmdArr);		// small timeout to catch an exit code on error
-			// this should never happen, the process should catch the timeout exception
-			int exitCode = executor.getExitValue();
-			Logger.error("error in execution, QEMU process has finished, exit code: "
-					+ exitCode + ", output:\n" + executor.getOutput());
-			Gui.errorDlg(null, Msg.get(VM_EXITS_WITH_CODE, exitCode), Msg.get(ERROR_TITLE_DLG_MSG));
-			return false;
-		} catch (IllegalThreadStateException itse) {
-			// timeout is over, this is ok (= normal QEMU execution, the VM is running)
-			Logger.info("VM '" + vm.getName() + "' is running");
+			ProcessBuilder builder = new ProcessBuilder(cmdArr);
+			Process process = builder.start();
+			VmRunnable runnable = new VmRunnable(vm, process);
+			Thread vmWatcherThread = Executors.defaultThreadFactory().newThread(runnable);
+			vmWatcherThread.setName("vmWatcherThread_" + vm.getNameSafe());
+			vmWatcherThread.start();
 			return true;
 		} catch (Exception e) {
 			// something went completely wrong
 			e.printStackTrace();
 			Logger.error("Error running the VM '" + vm.getName() + "'", e); 
 			return false;
+		}
+	}
+	
+	/************************* inner classes *************************/
+	
+	private class VmRunnable implements Runnable {
+
+		private VM vm;
+		private Process process;
+
+		public VmRunnable(VM vm, Process process) {
+			
+			this.vm = vm;
+			this.process = process;
+		}
+		
+		public void run() {
+			
+			vm.setProcess(process);
+			for (;;) {
+				if (!process.isAlive()) {
+					vm.setIsRunning(false);
+					vm.setProcess(null);
+					SwingUtilities.invokeLater(() -> {
+						System.out.println("VM " + vm.getNameSafe() + " has exited");
+						Logger.info("VM " + vm.getNameSafe() + " has exited");
+						Main.getMainView().vmListSelectionEnabler();
+					});
+					break;
+				}
+				Util.sleep(200);
+			}
 		}
 	}
 }
