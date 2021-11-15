@@ -88,7 +88,7 @@ public class VM {
 	/**
 	 * Construction from a properties file (usually an existing VM at startup).
 	 * 
-	 * @param vmPath 			the file path of the properties of the VM
+	 * @param vmPropertiesPath 			the file path of the properties of the VM
 	 * @throws Exception 
 	 */
 	public VM(String vmPropertiesPath) throws Exception {
