@@ -93,7 +93,9 @@ public class Qemu {
 		cmdList.add("file=" + "/home/misc/linux/Debian/debian-11.1.0-amd64-netinst.iso" + ",index=3,media=cdrom");
 		
 		cmdList.add("-boot");
-		cmdList.add("menu=on");			// TODO xxx    Qemu  "menu=on" as property
+		String bootParams = "order=cd";
+		bootParams += ",menu=on";				// TODO xxx    Qemu  "menu=on" as property
+		cmdList.add(bootParams);			
 		
 		// TODO xxx    Qemu runVm()      change hard coded nic / networking  
 		cmdList.add("-nic");
@@ -147,8 +149,8 @@ public class Qemu {
 					vm.setIsRunning(false);
 					vm.setProcess(null);
 					SwingUtilities.invokeLater(() -> {
-						System.out.println("VM " + vm.getNameSafe() + " has exited");
-						Logger.info("VM " + vm.getNameSafe() + " has exited");
+						System.out.println("VM '" + vm.getName() + "' has exited");
+						Logger.info("VM '" + vm.getName() + "' has exited");
 						Main.getMainView().vmListSelectionEnabler();
 					});
 					break;
