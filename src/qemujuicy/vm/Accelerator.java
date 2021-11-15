@@ -47,13 +47,13 @@ public enum Accelerator {
 	public static final Accelerator[] ARRAY = ALL.toArray(new Accelerator[0]);
 	
 	private String name;
-	private String optionString;
+	private String accelOption;
 	private String[] sysInfo;
 	
-	Accelerator(String name, String optionString, String... sysInfo) {
+	Accelerator(String name, String accelOption, String... sysInfo) {
 		
 		this.name = name;
-		this.optionString = optionString;
+		this.accelOption = accelOption;
 		this.sysInfo = sysInfo;
 	}
 
@@ -84,44 +84,15 @@ public enum Accelerator {
 	}
 	
 	/**
-	 * @return the name
+	 * @return the accelerator option or null
 	 */
-	public String getName() {
-		
-		return name;
-	}
-	
-	/**
-	 * @param index
-	 * @return the name of the accelerator at the given index
-	 */
-	public static String getName(int index) {
-		
-		return ARRAY[index].name;
-	}
-	
-	/**
-	 * @return an array of architecture names
-	 */
-	public static String[] getNameArray() {
-		
-		String[] array = new String[ARRAY.length];
-		for (int i = 0; i < array.length; i++) {
-			array[i] = ARRAY[i].name;
-		}
-		return array;
-	}
-	
-	/**
-	 * @return the optionString or null
-	 */
-	public String getOptionString() {
+	public String getAccelOptionString() {
 		
 		if (this.equals(NONE)) {
 			return null;
 		}
 		if (!this.equals(BEST_GUESS)) {
-			return optionString;
+			return accelOption;
 		}
 		int archSelIndex = Main.getMainView().getArchitectureCbxSelectedIndex();
 		Architecture architecture = null;
@@ -154,9 +125,38 @@ public enum Accelerator {
 		
 		// TODO xxx    Accelerator 		others?
 		// ARM-Windows on ARM Macs
-		// Note that HAXM can only be used on Windows Enterprise/Pro/Education
+		// Note that HAXM can only be used on Windows Enterprise/Pro/Education - not with HOME (2021)
 		
 		return "kvm:tcg";
+	}
+	
+	/**
+	 * @return the name
+	 */
+	public String getName() {
+		
+		return name;
+	}
+	
+	/**
+	 * @param index
+	 * @return the name of the accelerator at the given index
+	 */
+	public static String getName(int index) {
+		
+		return ARRAY[index].name;
+	}
+	
+	/**
+	 * @return an array of architecture names
+	 */
+	public static String[] getNameArray() {
+		
+		String[] array = new String[ARRAY.length];
+		for (int i = 0; i < array.length; i++) {
+			array[i] = ARRAY[i].name;
+		}
+		return array;
 	}
 
 	/**

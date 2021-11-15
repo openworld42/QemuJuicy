@@ -68,6 +68,7 @@ public class VM {
 	public static final String[] OS_NAMES = OSType.toArray();
 
 	private VMProperties vmProperties;
+	private Process process;					// the process running this VM, if running
 	private ImageIcon imageIcon;
 	private boolean isRunning;					// indicates if the VM has been started
 
@@ -211,6 +212,16 @@ public class VM {
 	public void setIsRunning(boolean flag) {
 
 		isRunning = flag;
+	}
+
+	/**
+	 * Sets the process running this VM, or null (on exit).
+	 * 
+	 * @param process		the process running this VM, or null
+	 */
+	public void setProcess(Process process) {
+
+		this.process = process;
 	}
 
 	/**
