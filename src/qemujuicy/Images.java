@@ -163,6 +163,9 @@ public class Images {
 		
 		// preloaded icon?
 		ImageIcon icon = get(path);
+		if (icon != null && icon.getIconWidth() > 0) {
+			return icon;
+		}
 		if (icon == null) {
 			// resource path icon?
 			URL imageURL = Images.class.getResource(path);
