@@ -31,11 +31,13 @@ public enum Architecture {
 	
     PC_X86_64("PC x86 (64 bit)", "qemu-system-x86_64"),
     PC_I386("PC i386", "qemu-system-i386"),
-    
-	// TODO xxx    Architecture 		Sparc, (MacOS?), ARM? (Android on ARM?), RISK-V? MIPS? ...
-	
-
-    
+    ARM64("ARM64 (AArch64)", "qemu-system-aarch64"),
+    ARM("ARM", "qemu-system-arm"),
+    AVR("AVR (Arduino)", "qemu-system-avr"),
+    MIPS64("MIPS64", "qemu-system-mips64"),
+    PPC64("PowerPC", "qemu-system-ppc64"),
+    RISC_V("Risc-V", "qemu-system-riscv64"),
+    SPARC64("SPARC64", "qemu-system-sparc64"),
     ;
 	
 	public static final EnumSet<Architecture> ALL = EnumSet.allOf(Architecture.class);
