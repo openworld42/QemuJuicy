@@ -6,9 +6,12 @@ Details to start with: [README.md](https://github.com/openworld42/QemuJuicy/blob
 
 ## upcoming version
 
+
 ### Fixes
 
+
 ### Features/Enhancements
+
 
 ## v0.4.1
 

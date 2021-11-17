@@ -4,13 +4,12 @@
 
 .
 
-## QemuJuicy is still alpha, features may be missing
+#### QemuJuicy is still alpha and under development, features may be missing
 
-(come back here to watch the progress in 2-3 weeks)
-
-.
+(if you miss something, come back here to watch the progress in 2-3 weeks or create an issue on Github)
 
 .
+
 
 **QemuJuicy** is a graphical user interface to run [QEMU](https://github.com/qemu/qemu) (a virtual machine emulator). QEMU can run on many operating systems and on a lot of CPUs by software emulation - e.g. Linux on Windows, Windows on Unix, Suse under Ubuntu, Debian on macOS, all on Linux, ARM CPUs, and others.
 
