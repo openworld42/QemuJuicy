@@ -12,6 +12,15 @@ Details to start with: [README.md](https://github.com/openworld42/QemuJuicy/blob
 
 ### Features/Enhancements
 
+Added most used architectures:
+* qemu-system-x86_64, qemu-system-i386 (have been implemented already)
+* qemu-system-aarch64
+* qemu-system-arm
+* qemu-system-avr
+* qemu-system-mips64
+* qemu-system-ppc64
+* qemu-system-riscv64
+* qemu-system-sparc64
 
 ## v0.4.1
 

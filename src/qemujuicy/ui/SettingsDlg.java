@@ -530,6 +530,7 @@ public class SettingsDlg extends JDialog implements ActionListener {
 		qemuCmdCbx = new JComboBox<String>();
 		panel.add(qemuCmdCbx, new Gbc(1, row, 1, 1, 0, 0, "W H"));
 		qemuCmdCbx.setPreferredSize(new Dimension(150, Gui.DEFAULT_BTN_HEIGHT));
+		qemuCmdCbx.setMaximumRowCount(12);
 		qemuCmdCbx.addItemListener((e) -> {
 			if (qemuCmdCbx.getSelectedIndex() >= 0) {
 				qemuVersionLbl.setText(" -> " + versionList.get(qemuCmdCbx.getSelectedIndex()));

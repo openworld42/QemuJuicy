@@ -30,6 +30,7 @@ import java.util.*;
 import javax.swing.*;
 
 import qemujuicy.ui.*;
+import qemujuicy.vm.*;
 
 /**
  * QEMU setup of the application, looking for a valid QEMU installation.
@@ -122,13 +123,11 @@ public class QemuSetup {
 		// look for emulators
 		qemuCmdList = new ArrayList<>();
 		versionList = new ArrayList<>();
-		if (checkQemuCommandFor(directory + "qemu-system-x86_64")) {
-			qemuCmdList.add(directory + "qemu-system-x86_64");
-			versionList.add(scanVersion(cmdOutput));
-		}
-		if (checkQemuCommandFor(directory + "qemu-system-i386")) {
-			qemuCmdList.add(directory + "qemu-system-i386");
-			versionList.add(scanVersion(cmdOutput));
+		for (Architecture arch : Architecture.ARRAY) {
+			if (checkQemuCommandFor(directory + arch.getQemuCmd())) {
+				qemuCmdList.add(directory + arch.getQemuCmd());
+				versionList.add(scanVersion(cmdOutput));
+			}
 		}
 		for (int i = 0; i < qemuCmdList.size(); i++) {
 			properties.setProperty(AppProperties.QEMU_CMD + i, qemuCmdList.get(i));
