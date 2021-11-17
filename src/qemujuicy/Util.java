@@ -280,8 +280,7 @@ public class Util {
 	/**
 	 * Runs a process with parameters, returns its output.
 	 * 
-	 * @param cmd
-	 * @param parameters
+	 * @param cmdAndParameters		command and parameters
 	 * @return the output of the process or null on exception
 	 */
 	public static String runProcess(String... cmdAndParameters) {

@@ -80,7 +80,7 @@ public class VMManager {
 	/**
 	 * Creates a Jlist data model, adding all VMs.
 	 * 
-	 * @param vmList 		the JList of VMs
+	 * @param vmJList 		the JList of VMs
 	 * @return the model
 	 */
 	public ListModel<VM> createVmListModel(JList<VM> vmJList) {
@@ -258,7 +258,7 @@ public class VMManager {
 	 * Runs a VM once from an image file or DVD/CD to install it, using its properties.
 	 * 
 	 * @param mainView
-	 * @param vmList
+	 * @param vmJList
 	 */
 	public void runInstallVm(MainView mainView, JList<VM> vmJList) {
 		
