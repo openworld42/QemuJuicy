@@ -95,7 +95,9 @@ public class Qemu {
 		}
 		cmdList.add("-boot");
 		String bootParams = vmInstallPath != null ? "order=cd,once=d" : "order=c";
-		bootParams += ",menu=on";				// TODO xxx    Qemu  "menu=on" as property
+		if (vm.getPropertyBool(VMProperties.QEMU_BOOT_MENU)) {
+			bootParams += ",menu=on";
+		}
 		cmdList.add(bootParams);			
 		
 		// TODO xxx    Qemu runVm()      change hard coded nic / networking  

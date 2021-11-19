@@ -47,6 +47,7 @@ public class VMProperties extends Properties {
 	public static final String INSTALLED_FROM_PATH = "installed.from.path";
 	public static final String NETWORK = "network"; 
 	public static final String OS = "os"; 
+	public static final String QEMU_BOOT_MENU = "qemu.boot.menu"; 	
 	public static final String VERBOSE = "verbose";					// verbose output on stdout
 	public static final String VM_FILENAME = "vm.filename"; 		// the xml file containing this properties
 	public static final String VM_MEMORY_MB = "vm.memory.MB"; 		// in MB
@@ -101,6 +102,7 @@ public class VMProperties extends Properties {
 		checkProperty(INSTALLED_FROM_PATH, "");
 		checkProperty(NETWORK, "");
 		checkProperty(OS, "");
+		checkProperty(QEMU_BOOT_MENU, "");
 		checkProperty(VERBOSE, VMProperties.VERBOSE);
 		checkProperty(VM_FILENAME, "");
 		checkProperty(VM_MEMORY_MB, "");

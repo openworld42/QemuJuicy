@@ -64,6 +64,7 @@ public enum Message {
 	MEMORY_MSG("Memory"),
 	MEMORY_DEFAULT_MSG("Default memory ($(1) MB)"),
 	MEMORY_MAX_MSG("Maximum ($(1) MB)"),
+	BOOT_MENU_MSG("QEMU boot menu"),
 	QEMU_INSTALL_SETTINGS_MSG("QEMU Installation Settings"),
 	QEMU_OUTPUT_LBL_MSG("QEMU output: "),
 	REMOVE_VM_QUESTION_MSG("Delete the virtual machine '$(1)': delete all its files/disks too?"),

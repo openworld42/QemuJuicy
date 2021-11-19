@@ -258,7 +258,8 @@ public class VMWizard extends JDialog implements ActionListener {
 		
 		// defaults
 		vmProperties.setProperty(ACCELERATOR, Accelerator.BEST_GUESS.getName());
-
+		vmProperties.setProperty(QEMU_BOOT_MENU, "" + false);
+		
 		// TODO xxx    VMWizard additional properties 
 		
 		Util.logProperties(this.getClass().getSimpleName() + ": creating new VM with properties:", vmProperties);
