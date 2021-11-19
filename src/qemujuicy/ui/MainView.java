@@ -79,6 +79,7 @@ public class MainView extends JFrame implements ActionListener {
 	private JComboBox<String> cpusCbx;
 	private JSlider memorySld;
 	private JCheckBox verboseChk;
+	private JCheckBox bootMenuChk;
 	// toolbar buttons
 	private JButton btnStart;
 	private JButton btnStop;
@@ -294,6 +295,14 @@ public class MainView extends JFrame implements ActionListener {
 			verboseChk.setSelected(props.getPropertyBool(VMProperties.VERBOSE));
 		}
 		verboseChk.addActionListener(e -> storeVmProperty(VMProperties.VERBOSE, "" + verboseChk.isSelected()));
+		// qemu boot menu flag
+		bootMenuChk = new JCheckBox(Msg.get(BOOT_MENU_MSG));
+		vmPnl.add(bootMenuChk, new Gbc(5, row, 1, 1, 0, 0, "W H", insets));
+		if (selectedIndex >= 0) {
+			VMProperties props = Main.getVmProperties(selectedIndex);
+			bootMenuChk.setSelected(props.getPropertyBool(VMProperties.QEMU_BOOT_MENU));
+		}
+		bootMenuChk.addActionListener(e -> storeVmProperty(VMProperties.QEMU_BOOT_MENU, "" + bootMenuChk.isSelected()));
 		// push the above
 		row++;
 		vmPnl.add(Gbc.filler(), new Gbc(0, row, 1, 1, 0, 10, "V"));
@@ -653,6 +662,7 @@ public class MainView extends JFrame implements ActionListener {
 		cpusCbx.setSelectedIndex(Cpu.findCbxIndexFor(vm));
 		memorySld.setValue(vm.getMemorySizeMB());
 		verboseChk.setSelected(Main.getVmProperties(selectedIndex).getPropertyBool(VMProperties.VERBOSE));
+		bootMenuChk.setSelected(Main.getVmProperties(selectedIndex).getPropertyBool(VMProperties.QEMU_BOOT_MENU));
 	}
 
 	/**

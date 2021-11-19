@@ -188,7 +188,26 @@ public class VM {
 		
 		return process;
 	}
+	
+	/**
+	 * @param key		the name/key of the property
+	 * @return the value of the property with the key
+	 */
+	public String getProperty(String key) {
+		
+		return vmProperties.getProperty(key);
+	}
+	
+	/**
+	 * @param key		the name/key of the property
+	 * @return the value of the property with the key
+	 */
+	public boolean getPropertyBool(String key) {
+		
+		return vmProperties.getPropertyBool(key);
+	}
 
+	
 	/**
 	 * @return the properties of this VM
 	 */
