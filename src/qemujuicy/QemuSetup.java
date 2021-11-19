@@ -74,12 +74,12 @@ public class QemuSetup {
 		cmdOutput = null;
 		ProcessExecutor procExec = null;
 		try {
-			System.out.println("looking for QEMU, trying command '" + cmd + "'");
+			Util.verbose("looking for QEMU, trying command '" + cmd + "'");
 			Logger.info("looking for QEMU, trying command '" + cmd + "'");
 			procExec = new ProcessExecutor(cmd, "--version");
 			cmdOutput = procExec.getOutput();
 			Logger.info("command output:\n" + procExec.getOutput());
-			System.out.println("QEMU -> output:\n" + cmdOutput);
+			Util.verbose("QEMU -> output:\n" + cmdOutput);
 			if (cmdOutput.toLowerCase().indexOf("qemu") >= 0 
 					&& cmdOutput.toLowerCase().indexOf("version") >= 0) {
 				// QEMU available
@@ -88,12 +88,12 @@ public class QemuSetup {
 			return true;
 		} catch (IOException e) {
 			// QEMU program with this command does not exist
-			System.out.println("QEMU not found: " + e.getMessage());
+			Util.verbose("QEMU not found: " + e.getMessage());
 			Logger.error("QEMU '" + cmd + "' not found: " + e.getMessage());
 			return false;
 		} catch (Exception e) {
 			// QEMU program  with this command raises another Exception
-			System.out.println("QEMU not found: " + e.getMessage());
+			Util.verbose("QEMU not found: " + e.getMessage());
 			Logger.error("QemuSetup", e);
 			Logger.error("QEMU '" + cmd + "' not found");
 			return false;

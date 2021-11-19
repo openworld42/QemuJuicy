@@ -281,8 +281,6 @@ public class VMManager {
         	return;
         }
         String vmInstallPath = chooser.getSelectedFile().getPath();
-        System.out.println("VM install path selected: " + vmInstallPath);
-        Logger.info("VM install path selected: " + vmInstallPath);
         // remember the install directory
         properties.setProperty(AppProperties.INSTALL_DIR, chooser.getCurrentDirectory().getAbsolutePath());
         properties.storeToXML();
@@ -305,6 +303,8 @@ public class VMManager {
 			// this is a one-time installation run of the VM, from image file or DVD/CD
 			vm.getVmProperties().setPropertyAndStoreXml(
 					VMProperties.INSTALLED_FROM_PATH, vmInstallPath);
+	        vm.verbose("VM install path selected: " + vmInstallPath);
+	        Logger.info("VM install path selected: " + vmInstallPath);
 		}
 		vm.setIsRunning(true);
 		mainView.vmListSelectionEnabler();

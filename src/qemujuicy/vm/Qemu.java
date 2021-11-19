@@ -111,7 +111,7 @@ public class Qemu {
 			cmdString += s + " ";
 		}
 		Logger.info("executing: " + " " + cmdString);
-		System.out.println("executing: " + " " + cmdString);
+		vm.verbose("executing: " + " " + cmdString);
 		try {
 			ProcessBuilder builder = new ProcessBuilder(cmdArr);
 			Process process = builder.start();
@@ -152,7 +152,7 @@ public class Qemu {
 					vm.setIsRunning(false);
 					vm.setProcess(null);
 					SwingUtilities.invokeLater(() -> {
-						System.out.println("VM '" + vm.getName() + "' has exited");
+						vm.verbose("VM '" + vm.getName() + "' has exited");
 						Logger.info("VM '" + vm.getName() + "' has exited");
 						Main.getMainView().vmListSelectionEnabler();
 					});

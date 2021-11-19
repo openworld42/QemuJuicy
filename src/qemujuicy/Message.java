@@ -73,9 +73,10 @@ public enum Message {
 	SELECT_QEMU_DLG_EXPLANATION_MSG("To run a virtual machine (VM),\n"
 			+ "a QEMU installation is necessary"),
 	SELECT_QEMU_INSTALL_DIR_LBL_MSG("Select QEMU install directory"),
+	STARTING_MSG("\nStarting '$(1) ..."),
+	VERBOSE_MSG("Verbose output"),
 	VM_DIR_MSG("Directory of VMs (disks)"),
 	VM_MSG("Virtual machine"),
-	STARTING_MSG("\nStarting '$(1) ..."),
 	
 	// hints in status bar: ends with _HINT_MSG
 	CONFIG_DIR_SETTINGS_HINT_MSG("Hint: configure settings and directories, File->Settings"),
@@ -113,6 +114,7 @@ public enum Message {
 	LICENSE_BTN_MSG("License"),
 	LICENSE_OXYGEN_BTN_MSG("License_Oxygen"),
 	LICENSE_AQEMU_BTN_MSG("License_aqemu"),
+	MISC_MSG("Miscellaneous"),
 	NEXT_BTN_MSG("Next"),
 	NO_BTN_MSG("No"),
 	OK_BTN_MSG("Ok"),

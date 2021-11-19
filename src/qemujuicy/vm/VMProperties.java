@@ -47,6 +47,7 @@ public class VMProperties extends Properties {
 	public static final String INSTALLED_FROM_PATH = "installed.from.path";
 	public static final String NETWORK = "network"; 
 	public static final String OS = "os"; 
+	public static final String VERBOSE = "verbose";					// verbose output on stdout
 	public static final String VM_FILENAME = "vm.filename"; 		// the xml file containing this properties
 	public static final String VM_MEMORY_MB = "vm.memory.MB"; 		// in MB
 	public static final String VM_NAME = "vm.name"; 				// the visible name of the VM
@@ -66,6 +67,7 @@ public class VMProperties extends Properties {
 	 * 							properties, otherwise construct the properties with (almost empty) defaults
 	 * @throws Exception
 	 */
+	@SuppressWarnings("resource")
 	public VMProperties(String pathname, boolean loadFromXmlFile) throws Exception {
 
 		super(); 
@@ -99,6 +101,7 @@ public class VMProperties extends Properties {
 		checkProperty(INSTALLED_FROM_PATH, "");
 		checkProperty(NETWORK, "");
 		checkProperty(OS, "");
+		checkProperty(VERBOSE, VMProperties.VERBOSE);
 		checkProperty(VM_FILENAME, "");
 		checkProperty(VM_MEMORY_MB, "");
 		checkProperty(VM_NAME, "");

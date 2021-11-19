@@ -78,6 +78,7 @@ public class MainView extends JFrame implements ActionListener {
 	private JComboBox<String> acceleratorCbx;
 	private JComboBox<String> cpusCbx;
 	private JSlider memorySld;
+	private JCheckBox verboseChk;
 	// toolbar buttons
 	private JButton btnStart;
 	private JButton btnStop;
@@ -254,7 +255,7 @@ public class MainView extends JFrame implements ActionListener {
 		});
 		row++;
 		// memory
-		label = CompFactory.createChapterLabel( Msg.get(MEMORY_MSG));
+		label = CompFactory.createChapterLabel(Msg.get(MEMORY_MSG));
 		vmPnl.add(label, new Gbc(0, row, 13, 1, 0, 0, "W H"));
 		row++;
 		memoryLbl = new JLabel(""); 
@@ -273,7 +274,7 @@ public class MainView extends JFrame implements ActionListener {
 		memorySld.setPaintLabels(true);
 		int selectedIndex = vmList.getSelectedIndex();
 		if (selectedIndex >= 0) {
-			memorySld.setValue(Main.getVmManager().getVm(selectedIndex).getMemorySizeMB());
+			memorySld.setValue(Main.getVm(selectedIndex).getMemorySizeMB());
 		}
 		memorySld.addChangeListener(e -> {
 			int mem = memorySld.getValue();
@@ -281,6 +282,18 @@ public class MainView extends JFrame implements ActionListener {
 			storeVmProperty(VMProperties.VM_MEMORY_MB, "" + mem);
 			});
 		row++;
+		 // miscellaneous
+		label = CompFactory.createChapterLabel(Msg.get(MISC_MSG));
+		vmPnl.add(label, new Gbc(0, row, 13, 1, 0, 0, "W H"));
+		row++;
+		// verbose flag
+		verboseChk = new JCheckBox(Msg.get(VERBOSE_MSG));
+		vmPnl.add(verboseChk, new Gbc(2, row, 1, 1, 0, 0, "W H", insets));
+		if (selectedIndex >= 0) {
+			VMProperties props = Main.getVmProperties(selectedIndex);
+			verboseChk.setSelected(props.getPropertyBool(VMProperties.VERBOSE));
+		}
+		verboseChk.addActionListener(e -> storeVmProperty(VMProperties.VERBOSE, "" + verboseChk.isSelected()));
 		// push the above
 		row++;
 		vmPnl.add(Gbc.filler(), new Gbc(0, row, 1, 1, 0, 10, "V"));
@@ -639,6 +652,7 @@ public class MainView extends JFrame implements ActionListener {
 		acceleratorCbx.setSelectedIndex(Accelerator.findCbxIndexFor(vm));
 		cpusCbx.setSelectedIndex(Cpu.findCbxIndexFor(vm));
 		memorySld.setValue(vm.getMemorySizeMB());
+		verboseChk.setSelected(Main.getVmProperties(selectedIndex).getPropertyBool(VMProperties.VERBOSE));
 	}
 
 	/**

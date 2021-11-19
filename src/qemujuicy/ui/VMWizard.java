@@ -339,7 +339,7 @@ public class VMWizard extends JDialog implements ActionListener {
 				
 				// TODO xxx    SettingsDlg  languageCbx.addActionListener  language changed
 
-				e -> System.out.println(osCbx.getSelectedIndex() + ": "
+				e -> Util.verbose(osCbx.getSelectedIndex() + ": "
 						+ osCbx.getSelectedItem()));
 		row++;
 		return panel;
@@ -424,7 +424,7 @@ public class VMWizard extends JDialog implements ActionListener {
 			}
 			hardDiskSize = size;
 			diskSizeLbl.setText("Disk size (" + hardDiskSize + " GB):");
-			System.out.println("Disk size (" + hardDiskSize + " GB):");
+			Util.verbose("Disk size (" + hardDiskSize + " GB):");
 			});
 		row++;
 		return panel;
@@ -478,7 +478,7 @@ public class VMWizard extends JDialog implements ActionListener {
 			chooser.setCurrentDirectory(new File("src/qemujuicy/images/aqemu/os_icons"));
 	        if (chooser.showOpenDialog(VMWizard.this) == JFileChooser.APPROVE_OPTION) {
 	        	vmIconPath = chooser.getSelectedFile().getPath();
-	            System.out.println("VM icon path selected: " + vmIconPath);
+	        	Util.verbose("VM icon path selected: " + vmIconPath);
 	            Logger.info("VM icon path selected: " + vmIconPath);
 	            osIcon = Images.scale(Images.find(vmIconPath), PIXELS_OS_ICON);
 				osIconLbl.setIcon(osIcon);
