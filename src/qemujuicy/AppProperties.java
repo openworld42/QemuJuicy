@@ -30,9 +30,8 @@ import java.util.*;
  * 
  * Note: Do not forget to handle additional properties if a new release is going to be rolled out.
  */
+@SuppressWarnings("serial")
 public class AppProperties extends Properties {
-
-	private static final long serialVersionUID = 1L;		// for the compiler
 	
 	// property keys
 	

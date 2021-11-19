@@ -108,9 +108,8 @@ import javax.swing.*;
  *
  * @author Heinz Silberbauer
  */
+@SuppressWarnings("serial")
 public class Gbc extends GridBagConstraints {
-
-	private static final long serialVersionUID = 1L;
 
 	// constants
 
