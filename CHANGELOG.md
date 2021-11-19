@@ -6,11 +6,22 @@ Details to start with: [README.md](https://github.com/openworld42/QemuJuicy/blob
 
 ## upcoming version
 
+### Fixes
+
+### Features/Enhancements
+
+
+## v0.4.4
 
 ### Fixes
 
-
 ### Features/Enhancements
+
+added: rename VM (using name text field)
+
+QEMU boot menu flag (enable/disable boot menu starting a VM with QEMU)
+
+verbose flag (enable/disable verbose stdout messages) implemented in both application and VMs
 
 Added most used architectures:
 * qemu-system-x86_64, qemu-system-i386 (have been implemented already)
