@@ -104,6 +104,6 @@
 	    <!-- Delete the ${build} and ${dist} directory trees -->
 	<delete dir="${build}"/>
 	<delete dir="${dist}"/>
-	<delete dir="${javadoc}" />
 	</target>
+	
 </project>
