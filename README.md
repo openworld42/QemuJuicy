@@ -22,7 +22,7 @@ You need:
 * **QemuJuicy** JAR file: qemujuicy_vN.N.N.jar (N.N.N is the version) from [github.com](https://github.com/openworld42/QemuJuicy) or package manager
 * (an operating system, e.g. as a *.iso file or CD/DVD/Live-CD, that you want to run or install as a virtual machine on your computer)
 
-Run **QemuJuicy** on command line (or create a menu/desktop entry or shell script) using:
+Run **QemuJuicy** on command line (or create a menu/desktop entry/shell script) using:
 
 **java -jar qemujuicy_vN.N.N.jar**  
 
