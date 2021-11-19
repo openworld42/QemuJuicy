@@ -39,9 +39,8 @@ import static qemujuicy.vm.VMProperties.*;
 /**
  * A wizard to create a new VM.
  */
+@SuppressWarnings("serial")
 public class VMWizard extends JDialog implements ActionListener {
-
-	private static final long serialVersionUID = 1L;
 	
 	private static enum ActivePnl {						// used as a state machine
 		CREATE_PNL, IDENT_PNL, DISK_PNL, NETWORK_PNL, FINISHED_PNL

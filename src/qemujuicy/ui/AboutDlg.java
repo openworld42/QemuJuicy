@@ -36,9 +36,8 @@ import static qemujuicy.Message.*;
 /**
  * A JDialog to select the command for QEMU on this computer and OS.
  */
+@SuppressWarnings("serial")
 public class AboutDlg extends JDialog {
-
-	private static final long serialVersionUID = 1L;
 
 	private static Dimension TAB_PANEL_SIZE = new Dimension(650, 420); // size of the tabs (panels of the JTabbedPane)
 

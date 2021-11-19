@@ -43,10 +43,9 @@ import static qemujuicy.AppProperties.*;
  * this Dialog changes to wizard mode, with different button panel (back/next-finished/cancel)
  * and another behaviour (toolbar buttons disabled to stay in wizard mode).
  */
+@SuppressWarnings("serial")
 public class SettingsDlg extends JDialog implements ActionListener {
 
-	private static final long serialVersionUID = 1L;
-	
 	private static enum ActivePnl {						// used as a state machine
 		SETUP_PNL, QEMU_INSTALL_PNL, GENERAL_SETTINGS_PNL, FOLDERS_PNL, FINISHED_PNL
 	}

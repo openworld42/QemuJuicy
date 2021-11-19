@@ -77,6 +77,7 @@ public enum Message {
 	STARTING_MSG("\nStarting '$(1) ..."),
 	VERBOSE_MSG("Verbose output"),
 	VM_DIR_MSG("Directory of VMs (disks)"),
+	VM_EXIST_ALREADY_MSG("A Vm with that (or similar) name exists already"),
 	VM_MSG("Virtual machine"),
 	
 	// hints in status bar: ends with _HINT_MSG

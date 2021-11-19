@@ -39,9 +39,8 @@ import static qemujuicy.Message.*;
 /**
  * The main view of this application.
  */
+@SuppressWarnings("serial")
 public class MainView extends JFrame implements ActionListener {
-
-	private static final long serialVersionUID = 1L;
 
 	// constants
 
@@ -216,6 +215,19 @@ public class MainView extends JFrame implements ActionListener {
 				new Gbc(1, row, 1, 1, 0, 0, "W H", insets));
 		nameTxt = CompFactory.createTabJTextField("", 16);
 		vmPnl.add(nameTxt, new Gbc(2, row, 1, 1, 0, 0, "W H", insets));
+		nameTxt.addFocusListener(new FocusListener() {
+			@Override
+			public void focusLost(FocusEvent e) {
+				int selectedIndex = vmList.getSelectedIndex();
+				if (!Main.getVmManager().renameVm(selectedIndex, nameTxt.getText().trim())) {
+					nameTxt.setText(Main.getVmManager().getVm(selectedIndex).getName());
+					nameTxt.requestFocus();
+				}
+			}
+			@Override
+			public void focusGained(FocusEvent e) {
+			}
+		});
 		row++;
 		// architecture row
 		vmPnl.add(CompFactory.createTabLabel(Msg.get(ARCHITECTURE_MSG)), new Gbc(1, row, 1, 1, 0, 0, "W H", insets));

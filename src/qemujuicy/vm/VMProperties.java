@@ -32,9 +32,8 @@ import qemujuicy.*;
  * 
  * Note: Do not forget to handle additional properties if a new release is going to be rolled out.
  */
+@SuppressWarnings("serial")
 public class VMProperties extends Properties {
-
-	private static final long serialVersionUID = 1L;				// for the compiler
 	
 	// property keys: do NOT forget to add a new property to checkDefaults() !!!
 	

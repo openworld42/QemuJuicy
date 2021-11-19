@@ -32,10 +32,9 @@ import qemujuicy.vm.*;
 /**
  * A renderer for the VMs in the main view VM list.
  */
+@SuppressWarnings("serial")
 public class VMListCellRenderer extends DefaultListCellRenderer {
 	
-	private static final long serialVersionUID = 1L;
-
 	public VMListCellRenderer() {
 		
 	}

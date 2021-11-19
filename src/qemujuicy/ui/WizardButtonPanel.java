@@ -34,9 +34,8 @@ import static qemujuicy.Message.*;
 /**
  * A wizard to create a new VM.
  */
+@SuppressWarnings("serial")
 public class WizardButtonPanel extends JPanel {
-
-	private static final long serialVersionUID = 1L;
 
 	public final static String BACK_BTN = "Back";
 	public final static String CANCEL_BTN = "Cancel";

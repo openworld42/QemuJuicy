@@ -239,6 +239,65 @@ public class VMManager {
 	}
 
 	/**
+	 * Rename a VM and its files if the name is valid.
+	 * 
+	 * @param selectedIndex			the index of the VM in the list
+	 * @param newName				the suggested new name
+	 */
+	public boolean renameVm(int selectedIndex, String newName) {
+
+		VM vm = vmList.get(selectedIndex);
+		String newNameSafe = newName.replace(" ", "_");
+		// check on duplicates
+		boolean duplicate = false;
+		for (int i = 0; i < vmList.size(); i++) {
+			if (i == selectedIndex) {
+				continue;					// the vm to be renamed
+			}
+			if (newName.equals(vmList.get(i).getName())) {
+				duplicate = true;
+				break;
+			}
+			if (newNameSafe.equals(vmList.get(i).getNameSafe())) {
+				duplicate = true;
+				break;
+			}
+		}
+		if (duplicate) {
+			Gui.errorDlg(Main.getMainView(), Msg.get(VM_EXIST_ALREADY_MSG), Msg.get(ERROR_TITLE_DLG_MSG));
+			return false;
+		}
+		String vmDir = Main.getProperty(AppProperties.VM_DISK_PATH);
+		String vmDiskPath = vmDir + File.separator + vm.getDiskName();
+		String diskName = vm.getDiskName();
+		String newDiskName = "";
+		if (!diskName.trim().equals("")) {
+			newDiskName = newNameSafe + diskName.substring(diskName.lastIndexOf("."));
+			String newVmDiskPath = vmDir + File.separator + newDiskName;
+			File vmDisk = new File(vmDiskPath);
+			if (vmDisk.exists()) {
+				vmDisk.renameTo(new File(newVmDiskPath));
+			}
+		}
+		vm.setProperty(VMProperties.VM_NAME, newName);
+		vm.setProperty(VMProperties.VM_NAME_SAFE, newNameSafe);
+		vm.setProperty(VMProperties.DISK_NAME, newDiskName);
+		String filename = vm.getProperty(VMProperties.VM_FILENAME);
+		String newFilename = newNameSafe + filename.substring(filename.lastIndexOf("."));
+		vm.setProperty(VMProperties.VM_FILENAME, newFilename);
+		vm.getVmProperties().storeToXML();
+		File vmFile = new File(vmDir + File.separator + filename);
+		vmFile.renameTo(new File(vmDir + File.separator + newFilename));
+		reorgAndStoreVmListToConfigFile();
+		SwingUtilities.invokeLater(() -> {
+			vmJList.invalidate();
+			vmJList.repaint();
+			vmJList.updateUI();
+		});
+		return true;
+	}
+
+	/**
 	 * Reorganize the application properties list of VMs. This
 	 * will synchronize the list of Vms to the configuration file on disk.
 	 */

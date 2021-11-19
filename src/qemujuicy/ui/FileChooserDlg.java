@@ -35,9 +35,8 @@ import static qemujuicy.Message.*;
 /**
  * A generic JFileChooser dialog with language support.
  */
+@SuppressWarnings("serial")
 public class FileChooserDlg extends JFileChooser {
-
-	private static final long serialVersionUID = 1L;
 
 	private File selFile;
 	
