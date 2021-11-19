@@ -293,11 +293,11 @@ public class Util {
 				cmdString += s + " ";
 			}
 			Logger.info("executing: " + " " + cmdString);
-			System.out.println("executing: " + " " + cmdString);
+			Util.verbose("executing: " + " " + cmdString);
 			procExec = new ProcessExecutor(cmdAndParameters);
 			cmdOutput = procExec.getOutput();
 			int exitValue = procExec.getExitValue();
-			System.out.println("exitValue " + exitValue + " -> output:\n" + cmdOutput);
+			Util.verbose("exitValue " + exitValue + " -> output:\n" + cmdOutput);
 			Logger.info("exitValue " + exitValue + " -> output:\n" + cmdOutput);
 			return cmdOutput;
 		} catch (Exception e) {

@@ -195,7 +195,7 @@ public class SettingsDlg extends JDialog implements ActionListener {
 				// exit without storing anything, QEMU might not be installed
 		 		Logger.info(Main.APP_NAME + ": exit from setup wizard without finish");
 				Logger.close();
-		        System.out.println(Main.APP_NAME + ", bye.");
+				Util.verbose(Main.APP_NAME + ", bye.");
 		        System.exit(0);
 			} else if (actionCmd.equals(SETUP_WIZARD)) {
 				// this may be the action of first start doClick()
@@ -357,7 +357,7 @@ public class SettingsDlg extends JDialog implements ActionListener {
 					null);
 	        if (chooser.showOpenDialog(SettingsDlg.this) == JFileChooser.APPROVE_OPTION) {
 	        	String vmDiskPath = chooser.getSelectedFile().getAbsolutePath();
-	            System.out.println("VM disks path selected: " + vmDiskPath);
+	        	Util.verbose("VM disks path selected: " + vmDiskPath);
 	            Logger.info("VM disks path selected: " + vmDiskPath);
 	            vmDirTxt.setText(vmDiskPath);
 	            changedItems.put(VM_DISK_PATH, vmDiskPath);
@@ -400,7 +400,7 @@ public class SettingsDlg extends JDialog implements ActionListener {
 				
 				// TODO xxx    SettingsDlg  languageCbx.addActionListener  language changed
 
-				e -> System.out.println(languageCbx.getSelectedIndex() + ": "
+				e -> Util.verbose(languageCbx.getSelectedIndex() + ": "
                 + languageCbx.getSelectedItem()));
 		row++;
 		// hints
@@ -562,7 +562,7 @@ public class SettingsDlg extends JDialog implements ActionListener {
 					null);
 	        if (chooser.showOpenDialog(SettingsDlg.this) == JFileChooser.APPROVE_OPTION) {
 	        	String directory = chooser.getSelectedFile().getAbsolutePath();
-	            System.out.println("QEMU directory selected: " + directory);
+	        	Util.verbose("QEMU directory selected: " + directory);
 	            Logger.info("QEMU directory selected: " + directory);
 	            // test if this a valid QEMU installation directory
 	            QemuSetup setup = Main.getQemuSetup();
@@ -699,7 +699,7 @@ public class SettingsDlg extends JDialog implements ActionListener {
 		// store changed items
 		if (SettingsDlg.this.changedItems.size() > 0) {
 			for (Map.Entry<String, String> entry : SettingsDlg.this.changedItems.entrySet()) {
-			    System.out.println(entry.getKey() + " -> " + entry.getValue());
+				Util.verbose(entry.getKey() + " -> " + entry.getValue());
 			    properties.setProperty(entry.getKey(), entry.getValue());
 			}
 			changedItems.clear();

@@ -243,5 +243,18 @@ public class VM {
 
 		vmProperties.setProperty(propertyKey, value);
 	}
+
+	/**
+     * Do System.out.println of a text string to console, if the verbose flag property is on.
+     *
+     * @param text the text string to be displayed
+ 	 */
+	public void verbose(String text) {
+
+//		if (Main.isVerbose() || vmProperties.getPropertyBool(VMProperties.VERBOSE)) {
+		if (vmProperties.getPropertyBool(VMProperties.VERBOSE)) {
+			System.out.println(text);
+		}
+	}
 }
 

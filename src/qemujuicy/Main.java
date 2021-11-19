@@ -72,7 +72,9 @@ public class Main {
 			Usage.exit(1);
 		} 
 		isVerbose = args.isVerbose();
-		System.getProperties().list(System.out);
+		if (isVerbose) {
+			System.getProperties().list(System.out);
+		}
 		Util.verbose(Msg.get(STARTING_MSG, APP_NAME));
 		OSType.getOS();					// init OS detection
 		Images.init();
@@ -206,11 +208,35 @@ public class Main {
 	}
 
 	/**
+	 * @param selectedIndex
+	 * @return the selected VM or null if no VM is selected
+	 */
+	public static VM getVm(int selectedIndex) {
+		
+		if (selectedIndex >= 0) {
+			return instance.vmManager.getVm(selectedIndex);
+		}
+		return null;
+	}
+
+	/**
 	 * @return the vmManager
 	 */
 	public static VMManager getVmManager() {
 		
 		return instance.vmManager;
+	}
+
+	/**
+	 * @param selectedIndex
+	 * @return the selected VMProperties or null if no VM is selected
+	 */
+	public static VMProperties getVmProperties(int selectedIndex) {
+
+		if (selectedIndex >= 0) {
+			return instance.vmManager.getVm(selectedIndex).getVmProperties();
+		}
+		return null;
 	}
 
 	/**
@@ -318,7 +344,7 @@ public class Main {
  		instance.properties.storeToXML();
  		Logger.info(APP_NAME + ": exit under normal conditions");
 		Logger.close();
-        System.out.println(APP_NAME + ", bye.");
+		Util.verbose(APP_NAME + ", bye.");
         System.exit(0);
 	}
 
