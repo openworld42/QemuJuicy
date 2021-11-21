@@ -141,7 +141,7 @@ public class AboutDlg extends JDialog {
 		aboutPnl.add(new JLabel("Copyright 2021 Heinz Silberbauer and contributors"), 
 				new Gbc(0, row, 5, 1, 0, 0, "NW", insets));
 		row++;
-		aboutPnl.add(new JLabel("License: Apache License Version 2.0, January 2004, http://www.apache.org/licenses/"), 
+		aboutPnl.add(new JLabel("License: GNU GENERAL PUBLIC LICENSE, Version 2, June 1991, http://www.gnu.org/licenses"), 
 				new Gbc(0, row, 5, 1, 0, 0, "NW", insets));
 		row++;
 		aboutPnl.add(Box.createVerticalStrut(1), new Gbc(0, row));
