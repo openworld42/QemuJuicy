@@ -271,6 +271,7 @@ public class VMManager {
 		String vmDiskPath = vmDir + File.separator + vm.getDiskName();
 		String diskName = vm.getDiskName();
 		String newDiskName = "";
+		Logger.info("Renaming VM '" + vm.getName() + "' to '" + newName + "'");
 		if (!diskName.trim().equals("")) {
 			newDiskName = newNameSafe + diskName.substring(diskName.lastIndexOf("."));
 			String newVmDiskPath = vmDir + File.separator + newDiskName;
@@ -294,6 +295,7 @@ public class VMManager {
 			vmJList.repaint();
 			vmJList.updateUI();
 		});
+		Logger.info("Renamed VM '" + vm.getName() + "' to '" + newName + "'");
 		return true;
 	}
 

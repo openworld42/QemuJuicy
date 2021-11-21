@@ -8,6 +8,7 @@ Details to start with: [README.md](https://github.com/openworld42/QemuJuicy/blob
 
 ### Fixes
 
+added missing logging: rename VM
 License text fix in About (About tab)
 
 ### Features/Enhancements
