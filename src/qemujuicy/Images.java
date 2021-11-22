@@ -40,6 +40,7 @@ public class Images {
 	public static final String OXY128 = IMAGES + "oxygen128x128/";
 	public static final String AQEMU_OS = IMAGES + "aqemu/os_icons/";
 	
+	public static final String ADVANCED = OXY32 + "Oxygen-actions-im-aim.svg.png";
 	public static final String APPLY_BUTTON = OXY128 + "Oxygen480-actions-dialog-ok-apply.svg.png";
 	public static final String APP_ICON = OXY128 + "Oxygen480-actions-office-chart-ring2.png";
 	public static final String ARROW_RIGHT = OXY128 + "Oxygen480-actions-arrow-right.svg.png";
@@ -92,6 +93,7 @@ public class Images {
 	private Images() {
 		
 		iconMap = new HashMap<String, ImageIcon>();
+		add(ADVANCED);
 		add(APPLY_BUTTON);
 		add(APP_ICON);
 		add(ARROW_RIGHT);

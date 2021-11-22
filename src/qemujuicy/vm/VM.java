@@ -22,6 +22,8 @@
  */
 package qemujuicy.vm;
 
+import java.util.Scanner;
+
 import javax.swing.*;
 
 import qemujuicy.*;
@@ -140,7 +142,31 @@ public class VM {
 
 		return Integer.parseInt(vmProperties.getProperty(VMProperties.DISK_SIZE_GB));
 	}
-	
+
+	/**
+	 * @return the extra parameters formatted as a JTextArea string
+	 */
+	public String getExtraParamsTextAreaString() {
+		
+		String extraParams = vmProperties.getProperty(VMProperties.EXTRA_PARAMETERS);
+		Scanner scanner = new Scanner(extraParams);
+		StringBuilder sb = new StringBuilder("");
+		// divide in lines now
+		for (int i = 0; scanner.hasNext(); i++) {
+			if (i != 0) {
+				sb.append("\n");
+			}
+			sb.append(scanner.next());
+			if (scanner.hasNext()) {
+				String s = scanner.next();
+				sb.append(s.startsWith("-") ? "\n" : " ");
+				sb.append(s);
+			}
+		}
+		scanner.close();
+		return sb.toString();
+	}
+
 	/**
 	 * @return the icon of the VM
 	 */

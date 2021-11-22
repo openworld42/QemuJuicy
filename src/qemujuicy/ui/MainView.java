@@ -24,11 +24,13 @@ package qemujuicy.ui;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.util.*;
 
 import javax.swing.*;
 import javax.swing.border.*;
 import javax.swing.event.*;
 import javax.swing.plaf.*;
+import javax.swing.text.*;
 
 import qemujuicy.*;
 import qemujuicy.vm.*;
@@ -51,7 +53,6 @@ public class MainView extends JFrame implements ActionListener {
 	public final static String MOVE_DOWN = "MoveDown";
 	public final static String MOVE_UP = "MoveUp";
 	public final static String REMOVE_VM = "RemoveVM";
-	public final static String QEMU_CALL_VM = "QemuCallVM";
 	public final static String QEMU_SETUP = "QemuSetup";
 	public final static String SETTINGS = "Settings";
 	public final static String START_VM = "StartVM";
@@ -71,7 +72,7 @@ public class MainView extends JFrame implements ActionListener {
 	private JLabel hintLbl;
 	private JLabel memoryLbl;
 	// VM properties tabbed pane
-	private JPanel vmPnl;					// VM properties tabbed pane
+	private JPanel vmPnl;							// VM properties tab
 	private JTextField nameTxt; 	
 	private JComboBox<String> architectureCbx;
 	private JComboBox<String> acceleratorCbx;
@@ -79,11 +80,14 @@ public class MainView extends JFrame implements ActionListener {
 	private JSlider memorySld;
 	private JCheckBox verboseChk;
 	private JCheckBox bootMenuChk;
+	private JRadioButton addParametersRBt;			// Advanced tab
+	private JRadioButton qemuDefinitionRBt;
+	private JTextArea qemuParamsTxa;
+	private JTextArea extraParamsTxa;
 	// toolbar buttons
 	private JButton btnStart;
 	private JButton btnStop;
 	private JButton btnRemoveVM;
-	private JButton btnArguments;
 	private JButton btnDiskImage;
 	private JButton btnRunVmInstall;
 	private JButton btnVmWizard;
@@ -129,6 +133,15 @@ public class MainView extends JFrame implements ActionListener {
 			vmList.setSelectedIndex(0);
 		}
 		vmListSelectionEnabler();
+		SwingUtilities.invokeLater(() -> {
+			vmTabbedPane.addChangeListener(new ChangeListener() {
+				@Override
+				public void stateChanged(ChangeEvent e) {
+					// at least Advanced Tab needs this
+					updateVmComponents();
+				}
+			});
+		});
 	}
 
 	/**
@@ -168,6 +181,80 @@ public class MainView extends JFrame implements ActionListener {
             System.out.println(missing);
             Logger.error(missing);
 		}
+	}
+
+	/**
+	 * Create and add the Advanced tab to the VM properties tabbed pane
+	 * 
+	 * @param tabbedPane
+	 */
+	private void addAdvancedTab(JTabbedPane tabbedPane) {
+
+		JPanel advancedPnl = createTabPanel(tabbedPane, 
+				Msg.get(ADVANCED_MSG), ADVANCED, Msg.get(VM_TAB_ADVANCED_PROPERTIES_TT_MSG));
+		int row = 0;
+		// machine
+		JLabel label = CompFactory.createChapterLabel(Msg.get(VM_TAB_ADVANCED_PROPERTIES_TT_MSG));
+		advancedPnl.add(label, new Gbc(0, row, 13, 1, 0, 0, "W H"));
+		row++;
+		// indentation, once only: non-chapter components start on column 1
+		advancedPnl.add(CompFactory.createTabIndentation(), new Gbc(0, row, 1, 1, 0, 0, "W H"));
+		// radio buttons row
+		addParametersRBt = new JRadioButton(Msg.get(ADD_QEMU_PARAMS_MSG));
+		advancedPnl.add(addParametersRBt, new Gbc(2, row, 1, 1, 0, 0, "W H"));
+		addParametersRBt.setSelected(true);
+		addParametersRBt.addActionListener(e -> {
+			storeVmProperty(VMProperties.FULL_QEMU_DEFINITION, "" + false);
+			updateVmComponents();
+			});
+		qemuDefinitionRBt = new JRadioButton(Msg.get(QEMU_BY_DEFINITION_MSG));
+		advancedPnl.add(qemuDefinitionRBt, new Gbc(3, row, 1, 1, 0, 0, "W H"));
+		qemuDefinitionRBt.addActionListener(e -> {
+			storeVmProperty(VMProperties.FULL_QEMU_DEFINITION, "" + true);
+			updateVmComponents();
+			});
+		ButtonGroup group = new ButtonGroup();
+		group.add(addParametersRBt);
+		group.add(qemuDefinitionRBt);
+		row++;
+		// QEMU command text area
+		Gui.setComponentHeight(qemuDefinitionRBt);
+		qemuParamsTxa = new JTextArea();
+		qemuParamsTxa.setEditable(false);
+		qemuParamsTxa.setBackground(Gui.ABOUT_PANEL_BACKGROUND);
+		qemuParamsTxa.getDocument().addDocumentListener(
+				new PropertyDocumentListener(VMProperties.FULL_QEMU_DEFINITION_CMD, qemuParamsTxa));
+		JScrollPane scrollPane = new JScrollPane (qemuParamsTxa, 
+				ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
+				ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+		advancedPnl.add(scrollPane, new Gbc(2, row, 2, 1, 0, 0, "W B"));
+		Gui.setPreferredHeight(scrollPane, 190);
+		
+//		label = new JLabel(Msg.get(COMMAND_MSG));
+//		advancedPnl.add(label, new Gbc(4, row, 1, 1, 0, 0, "NW"));
+		
+		// TODO xxx    MainView  QEMU command text area: buttons store as file, copy to clipboard, copy from settings
+
+		
+		
+		
+		row++;
+		// extra parameters text area
+		extraParamsTxa = new JTextArea();
+		extraParamsTxa.setEditable(true);
+		extraParamsTxa.getDocument().addDocumentListener(
+				new PropertyDocumentListener(VMProperties.EXTRA_PARAMETERS, extraParamsTxa));
+		JScrollPane scrollPaneExtra = new JScrollPane (extraParamsTxa, 
+				ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
+				ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+		advancedPnl.add(scrollPaneExtra, new Gbc(2, row, 2, 1, 0, 0, "W B"));
+		Gui.setPreferredHeight(scrollPaneExtra, 140);
+		label = new JLabel(Msg.get(EXTRA_PARAMS_MSG));
+		advancedPnl.add(label, new Gbc(4, row, 1, 1, 0, 0, "NW"));
+		row++;
+		// push the above
+//		row++;
+//		advancedPnl.add(Gbc.filler(), new Gbc(0, row, 1, 1, 0, 10, "V"));
 	}
 
 	/**
@@ -314,7 +401,8 @@ public class MainView extends JFrame implements ActionListener {
 			VMProperties props = Main.getVmProperties(selectedIndex);
 			bootMenuChk.setSelected(props.getPropertyBool(VMProperties.QEMU_BOOT_MENU));
 		}
-		bootMenuChk.addActionListener(e -> storeVmProperty(VMProperties.QEMU_BOOT_MENU, "" + bootMenuChk.isSelected()));
+		bootMenuChk.addActionListener(e -> 
+			storeVmProperty(VMProperties.QEMU_BOOT_MENU, "" + bootMenuChk.isSelected()));
 		// push the above
 		row++;
 		vmPnl.add(Gbc.filler(), new Gbc(0, row, 1, 1, 0, 10, "V"));
@@ -480,9 +568,6 @@ public class MainView extends JFrame implements ActionListener {
 		btnRemoveVM = createToolBarButton(null, Images.scale(Images.LIST_REMOVE, pixels), 
 				0, Msg.get(REMOVE_VM_TT_MSG), REMOVE_VM);
 		tb.add(btnRemoveVM);
-		btnArguments = createToolBarButton(null, Images.scale(Images.DOWN_SEARCH, pixels), 
-				0, Msg.get(QEMU_CALL_TT_MSG), QEMU_CALL_VM);
-		tb.add(btnArguments);
 		tb.addSeparator();
 		btnDiskImage = createToolBarButton(null, Images.scale(Images.HARDDISK, pixels), 
 				0, Msg.get(DISK_IMAGE_VM_TT_MSG), DISK_IMAGE);
@@ -590,8 +675,9 @@ public class MainView extends JFrame implements ActionListener {
 		vmPnl.setPreferredSize(new Dimension(700, 500));
 		vmTabbedPane = new JTabbedPane(JTabbedPane.TOP);
 		vmPnl.add(vmTabbedPane, BorderLayout.CENTER);
-		// tab VM (VM properties)
+		// tabs for VM properties
 		addVmTab(vmTabbedPane);
+		addAdvancedTab(vmTabbedPane);
 		
 		// exit button
         centerPanel.add(Gbc.filler(), new Gbc(1, 1, 1, 1, 1.0, 0, "C H"));
@@ -646,6 +732,10 @@ public class MainView extends JFrame implements ActionListener {
 		if (selectedIndex < 0) {
 			return;
 		}
+		if (propertyKey.equals(VMProperties.FULL_QEMU_DEFINITION_CMD) && !qemuParamsTxa.isEditable()) {
+			// do not store full qemu command if it is not editable
+			return;
+		}
 		VM vm = Main.getVmManager().getVm(selectedIndex);
 		String oldProperty = vm.getVmProperties().getProperty(propertyKey);
 		if (oldProperty.equals(value)) {
@@ -673,8 +763,36 @@ public class MainView extends JFrame implements ActionListener {
 		acceleratorCbx.setSelectedIndex(Accelerator.findCbxIndexFor(vm));
 		cpusCbx.setSelectedIndex(Cpu.findCbxIndexFor(vm));
 		memorySld.setValue(vm.getMemorySizeMB());
-		verboseChk.setSelected(Main.getVmProperties(selectedIndex).getPropertyBool(VMProperties.VERBOSE));
-		bootMenuChk.setSelected(Main.getVmProperties(selectedIndex).getPropertyBool(VMProperties.QEMU_BOOT_MENU));
+		VMProperties props = Main.getVmProperties(selectedIndex);
+		verboseChk.setSelected(props.getPropertyBool(VMProperties.VERBOSE));
+		bootMenuChk.setSelected(props.getPropertyBool(VMProperties.QEMU_BOOT_MENU));
+		// tab Advanced
+		if (props.getPropertyBool(VMProperties.FULL_QEMU_DEFINITION)) {
+			// full QEMU definition (ignore other settings)
+			qemuDefinitionRBt.setSelected(true);
+			qemuParamsTxa.setEditable(true);
+			qemuParamsTxa.setBackground(extraParamsTxa.getBackground());
+			String cmd = props.getProperty(VMProperties.FULL_QEMU_DEFINITION_CMD).trim();
+			if (cmd.equals("")) {
+				// nothing has been set before, generate the default from the VM properties
+				SwingUtilities.invokeLater(() -> {
+					// invokeLater() is needed, since MainView setup is not finished on first call (startup)
+					qemuParamsTxa.setText(Qemu.toTextAreaString(Qemu.createCommandList(vm, null)));
+				});
+			} else {
+				qemuParamsTxa.setText(Qemu.toTextAreaString(cmd));
+			}
+		} else {
+			// extra parameters only
+			addParametersRBt.setSelected(true);
+			qemuParamsTxa.setEditable(false);
+			qemuParamsTxa.setBackground(Gui.ABOUT_PANEL_BACKGROUND);
+			SwingUtilities.invokeLater(() -> {
+				// invokeLater() is needed, since MainView setup is not finished on first call (startup)
+				qemuParamsTxa.setText(Qemu.toTextAreaString(Qemu.createCommandList(vm, null)));
+			});
+		}
+		extraParamsTxa.setText(vm.getExtraParamsTextAreaString());
 	}
 
 	/**
@@ -726,6 +844,35 @@ public class MainView extends JFrame implements ActionListener {
 		// not touched:
 //		btnVmWizard
 //		btnArguments
+	}
+	
+	/************************* inner classes *************************/
+	
+	/**
+	 * A DocumentListener for a VM property.
+	 */
+	class PropertyDocumentListener implements DocumentListener {
+
+		private String property;
+		private JTextComponent component;
+		
+		public PropertyDocumentListener(String property, JTextComponent component) {
+
+			this.property = property;
+			this.component = component;
+		}
+
+		public void insertUpdate(DocumentEvent e) {
+			
+			storeVmProperty(property, component.getText());
+		}
+
+		public void removeUpdate(DocumentEvent e) {			
+			
+			storeVmProperty(property, component.getText());
+		}
+
+		public void changedUpdate(DocumentEvent e) {}		// not fired for plain text
 	}
 }
 
