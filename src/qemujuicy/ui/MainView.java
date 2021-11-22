@@ -23,7 +23,9 @@
 package qemujuicy.ui;
 
 import java.awt.*;
+import java.awt.datatransfer.*;
 import java.awt.event.*;
+import java.io.*;
 import java.util.*;
 
 import javax.swing.*;
@@ -224,20 +226,47 @@ public class MainView extends JFrame implements ActionListener {
 		qemuParamsTxa.setBackground(Gui.ABOUT_PANEL_BACKGROUND);
 		qemuParamsTxa.getDocument().addDocumentListener(
 				new PropertyDocumentListener(VMProperties.FULL_QEMU_DEFINITION_CMD, qemuParamsTxa));
-		JScrollPane scrollPane = new JScrollPane (qemuParamsTxa, 
+		final JPopupMenu contextMenu = new JPopupMenu("Edit");			// popup menu
+		JMenuItem menuItem = new JMenuItem(Msg.get(COPY_MSG));
+	    contextMenu.add(menuItem);
+	    menuItem.addActionListener(e -> {
+			ArrayList<String> cmdList = Qemu.createCommandList(qemuParamsTxa.getText());
+	    	Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
+	        clipboard.setContents(new StringSelection(Qemu.toCommandString(cmdList)), null);
+	    });
+	    qemuParamsTxa.setComponentPopupMenu(contextMenu);
+		JScrollPane scrollPane = new JScrollPane (qemuParamsTxa, 		// scroll pane
 				ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
 				ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-		advancedPnl.add(scrollPane, new Gbc(2, row, 2, 1, 0, 0, "W B"));
+		advancedPnl.add(scrollPane, new Gbc(2, row, 2, 2, 0, 0, "W B"));
 		Gui.setPreferredHeight(scrollPane, 190);
-		
-//		label = new JLabel(Msg.get(COMMAND_MSG));
-//		advancedPnl.add(label, new Gbc(4, row, 1, 1, 0, 0, "NW"));
-		
-		// TODO xxx    MainView  QEMU command text area: buttons store as file, copy to clipboard, copy from settings
-
-		
-		
-		
+		// buttons
+		JButton button = CompFactory.createButton(Msg.get(COPY_MSG), Msg.get(COPY_CLIPBOARD_TT_MSG));
+		advancedPnl.add(button, new Gbc(4, row, 1, 1, 0, 0, "NW"));
+		button.addActionListener(e -> {
+			ArrayList<String> cmdList = Qemu.createCommandList(qemuParamsTxa.getText());
+			Qemu.addExtraParameters(cmdList, Main.getVm(vmList.getSelectedIndex()));
+	    	Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
+	        clipboard.setContents(new StringSelection(Qemu.toCommandString(cmdList)), null);
+	    });
+		row++;
+		button = CompFactory.createButton(Msg.get(STORE_MSG), Msg.get(STORE_AS_FILE_TT_MSG));
+		advancedPnl.add(button, new Gbc(4, row, 1, 1, 0, 0, "NW"));
+		button.addActionListener(e -> {
+			ArrayList<String> cmdList = Qemu.createCommandList(qemuParamsTxa.getText());
+			Qemu.addExtraParameters(cmdList, Main.getVm(vmList.getSelectedIndex()));
+			FileChooserDlg chooser = new FileChooserDlg(Msg.get(SAVE_TO_FILE_MSG), 
+					Msg.get(OK_BTN_MSG), Msg.get(OK_BTN_MSG), 
+					JFileChooser.FILES_ONLY, null);
+	        if (chooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
+		        String path = chooser.getSelectedFile().getPath();
+		        try {
+					Util.writeFile(path, Qemu.toCommandString(cmdList));
+				} catch (IOException e2) {
+					Logger.error("Cannot write commands to file '" + path + "'", e2);
+				}
+	        }
+	    });
 		row++;
 		// extra parameters text area
 		extraParamsTxa = new JTextArea();

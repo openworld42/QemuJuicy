@@ -10,6 +10,10 @@ Details to start with: [README.md](https://github.com/openworld42/QemuJuicy/blob
 
 ### Features/Enhancements
 
+added: copy QEMU call/parameters to clipboard (button + menu)
+
+added: store QEMU call/parameters to file (to create a shell script or bat file)
+
 ## v0.5.1 "Axolotl"
 
 ### Fixes

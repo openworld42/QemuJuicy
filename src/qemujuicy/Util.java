@@ -460,15 +460,15 @@ public class Util {
 	/**
 	 * Writes the content of a String object to a file.
 	 * 
-	 * @param fileName
+	 * @param filepath
 	 * @param content			the content of the file to write
 	 * @throws IOException
 	 */
-	public void writeFile(String fileName, String content) throws IOException {
+	public static void writeFile(String filepath, String content) throws IOException {
 
 		BufferedWriter writer = null;
 		try {
-			writer = new BufferedWriter(new FileWriter(fileName));
+			writer = new BufferedWriter(new FileWriter(filepath));
 			writer.write(content);
 		} finally {
 			if (writer != null) {

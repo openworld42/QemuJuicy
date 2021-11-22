@@ -331,7 +331,6 @@ public class VMManager {
 				Msg.get(OK_BTN_MSG), 
 				JFileChooser.FILES_ONLY, 
 				null);
-		
 		String installDir = properties.getProperty(AppProperties.INSTALL_DIR);	// might not exist or could be empty
 		File dir = new File(installDir);
 		if (!installDir.trim().equals("") && dir.isDirectory()) {
