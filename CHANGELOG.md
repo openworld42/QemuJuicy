@@ -10,12 +10,13 @@ Details to start with: [README.md](https://github.com/openworld42/QemuJuicy/blob
 
 ### Features/Enhancements
 
-## v0.5.0 "Axolotl"
+## v0.5.1 "Axolotl"
 
 ### Fixes
 
 added missing logging: rename VM
 License text fix in About (About tab)
+missing QEMU parameter when defining the complete QEMU call by hand
 
 ### Features/Enhancements
 	

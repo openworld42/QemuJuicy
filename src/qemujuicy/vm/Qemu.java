@@ -138,7 +138,18 @@ public class Qemu {
 	 */
 	public boolean runVm(VM vm, String vmInstallPath) {
 
-		ArrayList<String> cmdList = createCommandList(vm, vmInstallPath);
+		ArrayList<String> cmdList = null;
+		if (vm.getPropertyBool(VMProperties.FULL_QEMU_DEFINITION)) {
+			String cmd = vm.getProperty(VMProperties.FULL_QEMU_DEFINITION_CMD).trim();
+			cmdList = new ArrayList<String>();
+			Scanner scanner = new Scanner(cmd);
+			while (scanner.hasNext()) {
+				cmdList.add(scanner.next());
+			}
+			scanner.close();
+		} else {
+			cmdList = createCommandList(vm, vmInstallPath);
+		}
 		addExtraParameters(cmdList, vm);
 		// process the generated command
 		String[] cmdArr = cmdList.toArray(new String[0]);
