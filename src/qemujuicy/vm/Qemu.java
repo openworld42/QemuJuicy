@@ -41,7 +41,7 @@ public class Qemu {
 	 * @param cmdList
 	 * @param vm
 	 */
-	private void addExtraParameters(ArrayList<String> cmdList, VM vm) {
+	public static void addExtraParameters(ArrayList<String> cmdList, VM vm) {
 
 		String params = vm.getProperty(VMProperties.EXTRA_PARAMETERS);
 		if (params.trim().equals("")) {
@@ -55,7 +55,24 @@ public class Qemu {
 	}
 
 	/**
-	 * Create a QEMU command ArrayList for a VM.
+	 * Create a QEMU command ArrayList for a VM, using a string of parameters.
+	 * 
+	 * @param command			the QEMU command and a string of parameters
+	 * @return the command ArrayList
+	 */
+	public static ArrayList<String> createCommandList(String command) {
+		
+		ArrayList<String> cmdList = new ArrayList<String>();
+		Scanner scanner = new Scanner(command);
+		while (scanner.hasNext()) {
+			cmdList.add(scanner.next());
+		}
+		scanner.close();
+		return cmdList;
+	}
+
+	/**
+	 * Create a QEMU command ArrayList for a VM, using its properties.
 	 * 
 	 * @param vm				the VM
 	 * @param vmInstallPath		an one-time installation image path or null for an 
@@ -141,22 +158,14 @@ public class Qemu {
 		ArrayList<String> cmdList = null;
 		if (vm.getPropertyBool(VMProperties.FULL_QEMU_DEFINITION)) {
 			String cmd = vm.getProperty(VMProperties.FULL_QEMU_DEFINITION_CMD).trim();
-			cmdList = new ArrayList<String>();
-			Scanner scanner = new Scanner(cmd);
-			while (scanner.hasNext()) {
-				cmdList.add(scanner.next());
-			}
-			scanner.close();
+			cmdList = createCommandList(cmd);
 		} else {
 			cmdList = createCommandList(vm, vmInstallPath);
 		}
 		addExtraParameters(cmdList, vm);
 		// process the generated command
 		String[] cmdArr = cmdList.toArray(new String[0]);
-		String cmdString = "";
-		for (String s : cmdArr) {
-			cmdString += s + " ";
-		}
+		String cmdString = toCommandString(cmdList);
 		Logger.info("executing: " + " " + cmdString);
 		vm.verbose("executing: " + " " + cmdString);
 		try {
@@ -173,6 +182,22 @@ public class Qemu {
 			Logger.error("Error running the VM '" + vm.getName() + "'", e); 
 			return false;
 		}
+	}
+
+	/**
+	 * Creates a command string from an ArrayList of command and parameters.
+	 * 
+	 * @param cmdList			the ArrayList
+	 * @return the command string
+	 */
+	public static String toCommandString(ArrayList<String> cmdList) {
+
+		String[] cmdArr = cmdList.toArray(new String[0]);
+		String cmdString = "";
+		for (String s : cmdArr) {
+			cmdString += s + " ";
+		}
+		return cmdString;
 	}
 
 	/**

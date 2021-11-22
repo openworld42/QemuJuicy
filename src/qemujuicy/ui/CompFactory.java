@@ -43,7 +43,21 @@ public class CompFactory {
 	}
 
 	/**
-	 * Creates an "Back" button.
+	 * Creates an "Apply" button.
+	 * 
+	 * @return the button
+	 */
+	public static JButton createApplyButton() {
+		
+		JButton button = new JButton(Msg.get(APPLY_BTN_MSG), 
+				Images.scale(Images.APPLY_BUTTON, Gui.BUTTON_ICON_SIZE));
+		button.setPreferredSize(Gui.DEFAULT_BTN_SIZE);
+		button.setMinimumSize(Gui.DEFAULT_BTN_SIZE);
+		return button;
+	}
+
+	/**
+	 * Creates a "Back" button.
 	 * 
 	 * @return the button
 	 */
@@ -57,16 +71,20 @@ public class CompFactory {
 	}
 
 	/**
-	 * Creates an "Apply" button.
+	 * Creates an arbitrary button.
 	 * 
+	 * @param text				the label text
+	 * @param toolTipText		the text of a toolTip or null
 	 * @return the button
 	 */
-	public static JButton createApplyButton() {
+	public static JButton createButton(String text, String toolTipText) {
 		
-		JButton button = new JButton(Msg.get(APPLY_BTN_MSG), 
-				Images.scale(Images.APPLY_BUTTON, Gui.BUTTON_ICON_SIZE));
+		JButton button = new JButton(text);
 		button.setPreferredSize(Gui.DEFAULT_BTN_SIZE);
 		button.setMinimumSize(Gui.DEFAULT_BTN_SIZE);
+		if (toolTipText != null) {
+			button.setToolTipText(toolTipText);
+		}
 		return button;
 	}
 
