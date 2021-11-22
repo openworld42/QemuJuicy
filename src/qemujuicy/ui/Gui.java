@@ -154,6 +154,17 @@ public class Gui {
 	}
 	
 	/**
+     * Sets the preferred height of a JComponent, as a convenience method.
+     *
+     * @param component
+	 */
+	public static void setPreferredHeight(JComponent component, int height) {
+		
+		component.setPreferredSize(new Dimension(
+				(int) component.getPreferredSize().getWidth(), height));
+	}
+	
+	/**
      * Sets the width of a JComponent, as a convenience method.
      *
      * @param component

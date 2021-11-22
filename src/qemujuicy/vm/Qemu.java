@@ -36,29 +36,34 @@ import qemujuicy.*;
 public class Qemu {
 
 	/**
-	 * Creates a VM disk image.
+	 * Adds the extra parameters of the VM to the command list, if any.
 	 * 
-	 * @param vm	the VM
-	 * @return true, if the commend worked, false otherwise (Exception caught)
+	 * @param cmdList
+	 * @param vm
 	 */
-	public boolean createDiskImage(VM vm) {
+	private void addExtraParameters(ArrayList<String> cmdList, VM vm) {
 
-		String qemuImg = "qemu-img";
-		String diskPath = Main.getProperty(AppProperties.VM_DISK_PATH)+ File.separator + vm.getDiskName();
-		String output = Util.runProcess(qemuImg, "create", "-f", "qcow2", diskPath, vm.getDiskSizeGB() + "G");
-		return output != null ? true : false;		
+		String params = vm.getProperty(VMProperties.EXTRA_PARAMETERS);
+		if (params.trim().equals("")) {
+			return;
+		}
+		Scanner scanner = new Scanner(params);
+		while (scanner.hasNext()) {
+			cmdList.add(scanner.next());
+		}
+		scanner.close();
 	}
 
 	/**
-	 * Runs a VM.
+	 * Create a QEMU command ArrayList for a VM.
 	 * 
-	 * @param vm				the VM to run
+	 * @param vm				the VM
 	 * @param vmInstallPath		an one-time installation image path or null for an 
 	 * 							existing and installed VM
-	 * @return true, if the command worked, false otherwise (Exception caught)
+	 * @return the command ArrayList
 	 */
-	public boolean runVm(VM vm, String vmInstallPath) {
-
+	public static ArrayList<String> createCommandList(VM vm, String vmInstallPath) {
+		
 		String qemuCmd = Architecture.ARRAY[Architecture.findCbxIndexFor(vm)].getQemuCmd();
 		String diskPath = Main.getProperty(AppProperties.VM_DISK_PATH)+ File.separator + vm.getDiskName();
 		int maxMemMB = vm.getMemorySizeMB();
@@ -106,6 +111,35 @@ public class Qemu {
 
 		cmdList.add("-name");
 		cmdList.add(vm.getNameSafe());	
+		return cmdList;
+	}
+
+	/**
+	 * Creates a VM disk image.
+	 * 
+	 * @param vm	the VM
+	 * @return true, if the commend worked, false otherwise (Exception caught)
+	 */
+	public boolean createDiskImage(VM vm) {
+
+		String qemuImg = "qemu-img";
+		String diskPath = Main.getProperty(AppProperties.VM_DISK_PATH)+ File.separator + vm.getDiskName();
+		String output = Util.runProcess(qemuImg, "create", "-f", "qcow2", diskPath, vm.getDiskSizeGB() + "G");
+		return output != null ? true : false;		
+	}
+
+	/**
+	 * Runs a VM.
+	 * 
+	 * @param vm				the VM to run
+	 * @param vmInstallPath		an one-time installation image path or null for an 
+	 * 							existing and installed VM
+	 * @return true, if the command worked, false otherwise (Exception caught)
+	 */
+	public boolean runVm(VM vm, String vmInstallPath) {
+
+		ArrayList<String> cmdList = createCommandList(vm, vmInstallPath);
+		addExtraParameters(cmdList, vm);
 		// process the generated command
 		String[] cmdArr = cmdList.toArray(new String[0]);
 		String cmdString = "";
@@ -128,6 +162,51 @@ public class Qemu {
 			Logger.error("Error running the VM '" + vm.getName() + "'", e); 
 			return false;
 		}
+	}
+
+	/**
+	 * Create a text area string of a string containing arbitrary white space.
+	 * 
+	 * @param cmd
+	 * @return the text area string
+	 */
+	public static String toTextAreaString(String cmd) {
+		
+		ArrayList<String> cmdList = new ArrayList<String>();
+		Scanner scanner = new Scanner(cmd);
+		while (scanner.hasNext()) {
+			cmdList.add(scanner.next());
+		}
+		scanner.close();
+		return toTextAreaString(cmdList);
+	}
+
+	/**
+	 * Create a text area string from a command ArrayList.
+	 * 
+	 * @param cmdList			the list of the command with options
+	 * @return the text area string
+	 */
+	public static String toTextAreaString(ArrayList<String> cmdList) {
+		
+		StringBuilder sb = new StringBuilder();
+		for (int i = 0; i < 2; i++) {
+			sb.append(cmdList.get(i));
+			sb.append(" ");
+		}
+		sb.append(cmdList.get(2));
+		// divide in lines now
+		for (int i = 3; i < cmdList.size(); i++) {
+			sb.append("\n");
+			sb.append(cmdList.get(i++));
+			if (i < cmdList.size()) {
+				if (!cmdList.get(i).startsWith("-")) {
+					sb.append(" ");
+					sb.append(cmdList.get(i));
+				}
+			}
+		}
+		return sb.toString();
 	}
 	
 	/************************* inner classes *************************/

@@ -42,6 +42,9 @@ public class VMProperties extends Properties {
 	public static final String CREATION_TYPICAL = "creation.typical"; 
 	public static final String DISK_NAME = "disk.name";
 	public static final String DISK_SIZE_GB = "disk.size.GB";		// in GB
+	public static final String EXTRA_PARAMETERS = "extra.parameters";
+	public static final String FULL_QEMU_DEFINITION = "full.qemu.definition";
+	public static final String FULL_QEMU_DEFINITION_CMD = "full.qemu.definition.command";
 	public static final String ICON_PATH = "icon.path";
 	public static final String INSTALLED_FROM_PATH = "installed.from.path";
 	public static final String NETWORK = "network"; 
@@ -97,6 +100,9 @@ public class VMProperties extends Properties {
 		checkProperty(CREATION_TYPICAL, "");
 		checkProperty(DISK_NAME, "");
 		checkProperty(DISK_SIZE_GB, "");
+		checkProperty(EXTRA_PARAMETERS, "");
+		checkProperty(FULL_QEMU_DEFINITION, "false");
+		checkProperty(FULL_QEMU_DEFINITION_CMD, "");
 		checkProperty(ICON_PATH, "");
 		checkProperty(INSTALLED_FROM_PATH, "");
 		checkProperty(NETWORK, "");
@@ -207,5 +213,25 @@ public class VMProperties extends Properties {
 		} catch (Exception e) {
 			Main.exitOnException(e);
 		}
+	}
+
+	/**
+	 * Format a test JTextArea string as a property.
+	 * 
+	 * @param text		the text to be formatted as a one line string
+	 * @return the tex in one line
+	 */
+	public static String qemuTextToProperty(String text) {
+
+		if (text.trim().equals("")) {
+			return "";
+		}
+		Scanner scanner = new Scanner(text.trim());
+		StringBuilder sb = new StringBuilder(scanner.next());
+		while (scanner.hasNext()) {
+			sb.append(" ");
+			sb.append(scanner.next());
+		}
+		return sb.toString();
 	}
 }
