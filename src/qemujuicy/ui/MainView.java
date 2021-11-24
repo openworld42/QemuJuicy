@@ -158,6 +158,8 @@ public class MainView extends JFrame implements ActionListener {
 		} else if (actionCmd.equals(EXIT)) {
             dispose();
             Main.onExit();
+		} else if (actionCmd.equals(HELP)) {
+			Help.call();
 		} else if (actionCmd.equals(MOVE_DOWN)) {
 			Main.getVmManager().moveDownVm(vmList);
 		} else if (actionCmd.equals(MOVE_UP)) {
