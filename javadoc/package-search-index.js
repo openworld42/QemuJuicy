@@ -1,1 +1,1 @@
-packageSearchIndex = [{"l":"All Packages","url":"allpackages-index.html"},{"m":"QemuJuicy","l":"qemujuicy"},{"m":"QemuJuicy","l":"qemujuicy.ui"},{"m":"QemuJuicy","l":"qemujuicy.vm"}]
+packageSearchIndex = [{"l":"All Packages","url":"allpackages-index.html"},{"l":"qemujuicy"},{"l":"qemujuicy.ui"},{"l":"qemujuicy.vm"}]

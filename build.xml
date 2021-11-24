@@ -27,6 +27,7 @@
 	<property name="javadoc" location="javadoc"/>
 	<property name="dir.javadoc" value="javadoc"/>
 	<property name="dir.docs" value="docs"/>
+	<property name="javahelp.jar" value="jhall-2.0.05.ds1.jar"/>
   
 	<target name="init">
 		<!-- Create the time stamp -->
@@ -47,7 +48,11 @@
 	<target name="compile" depends="init"
 		description="compile the source">
 		<!-- Compile the Java code from ${src} into ${build} -->
-		<javac srcdir="${src}" destdir="${build}" includeantruntime="false"/>
+		<javac srcdir="${src}" 
+			destdir="${build}" 
+		    classpath="${javahelp.jar}"
+			includeantruntime="false"
+		/>
 	</target>
 
 	<target name="javadoc" depends="compile" description="generate javadoc">
@@ -60,6 +65,12 @@
 				<![CDATA[Copyright © 2021. All Rights Reserved. Read the license file(s) enclosed. ]]>
 			</bottom>
 			<link href="https://docs.oracle.com/en/java/javase/11/docs/api/"/>
+			<classpath>
+				<fileset dir=".">
+					<include name="${javahelp.jar}"/>
+				</fileset>
+			</classpath>
+
 		</javadoc>
 	</target>
 
@@ -73,6 +84,11 @@
 				<include name="**/*.*"/>
 			</fileset>
 		</copy>
+		<copy todir="${build}/qemujuicy/help">
+			<fileset dir="${src}/qemujuicy/help">
+				<include name="**/*.*"/>
+			</fileset>
+		</copy>
 		<!-- Put everything in ${build} into the Project-${DSTAMP}.jar file -->
  		<jar jarfile="${dist}/${jarprefix}_${version}.jar" basedir="${build}">
 			<fileset file="${base}/README*"/>
@@ -81,6 +97,7 @@
 			<fileset file="${base}/DOCUMENTATION.md"/>
 			<fileset file="${base}/LICENSE*"/>
 			<fileset file="${base}/build.xml"/>
+			<fileset file="${base}/${javahelp.jar}"/>
 			<fileset dir="." includes="${dir.src}/**"/>
 			<fileset dir="." includes="${dir.javadoc}/**"/>
 			<fileset dir="." includes="${dir.docs}/**"/>
@@ -89,6 +106,7 @@
 				<attribute name="Implementation-Version"  value="${version}"/>   
       			<attribute name="Built-Date" value="${DSTAMP}"/>        
 				<attribute name="Implementation-URL" value="${repo}"/>
+				<attribute name="Class-Path" value="${javahelp.jar}"/>
 			</manifest>
 		</jar>
 
