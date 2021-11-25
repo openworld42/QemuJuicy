@@ -50,9 +50,9 @@ public class Main {
 	private CommandLineArgs args;				// command line arguments
 	private AppProperties properties; 			// application properties (config file, version, ...)
 	private MainView mainView;
-	private QemuSetup qemuSetup;			// setup information for qemu commands
-
+	private QemuSetup qemuSetup;				// setup information for qemu commands
 	private VMManager vmManager;
+	private Help help;							// help system
 
 	private boolean isVerbose; 					// verbose messages to System.out
 	private boolean isFirstStart; 				// true, if this is the first start of Qemix
@@ -104,7 +104,7 @@ public class Main {
 		// finish the setup
 		if (isFirstStart) {
 			String vmDisksPath = Files.getAppDirPath() + VM_DISKS_DIR;
-			properties.setProperty(AppProperties.VM_DISK_PATH, vmDisksPath);		// may not exist, ensure it later
+			properties.setProperty(AppProperties.VM_DISK_PATH, vmDisksPath);	// may not exist, ensure it later
 			Files.setVmDiskDirPath(vmDisksPath);
 			vmManager = new VMManager();
 		} else {
@@ -112,10 +112,10 @@ public class Main {
 			vmManager = new VMManager(properties);
 		}
 		// start GUI
-		System.setProperty("awt.useSystemAAFontSettings","on");	// render fonts in a better way
+		System.setProperty("awt.useSystemAAFontSettings","on");					// render fonts in a better way
 		Gbc.setDefaultInset(7);				// generic inset to next grid cell
 		Gbc.setDefaultBorderInset(4);		// generic inset to the view border
-    	UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName()); // in case Nimbus is not found
+    	UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName()); 	// in case Nimbus is not found
     	String lookAndFeel = Main.getProperty(AppProperties.LOOK_AND_FEEL);
     	for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
     		if (lookAndFeel.equals(info.getName())) {
@@ -148,6 +148,17 @@ public class Main {
 	public static CommandLineArgs getArgs() {
 	
 		return instance.args;
+	}
+
+	/**
+	 * @return the help system, lazy creation (needs MainView initiated)
+	 */
+	public static Help getHelp() {
+		
+		if (instance.help == null) {
+			instance.help = new Help();
+		}
+		return instance.help;
 	}
 
 	/**

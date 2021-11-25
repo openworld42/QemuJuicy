@@ -28,6 +28,7 @@ import java.awt.event.*;
 import java.io.*;
 import java.util.*;
 
+import javax.help.*;
 import javax.swing.*;
 import javax.swing.border.*;
 import javax.swing.event.*;
@@ -159,7 +160,7 @@ public class MainView extends JFrame implements ActionListener {
             dispose();
             Main.onExit();
 		} else if (actionCmd.equals(HELP)) {
-			Help.call();
+			Main.getHelp().show();
 		} else if (actionCmd.equals(MOVE_DOWN)) {
 			Main.getVmManager().moveDownVm(vmList);
 		} else if (actionCmd.equals(MOVE_UP)) {
@@ -495,6 +496,8 @@ public class MainView extends JFrame implements ActionListener {
 		menu.add(menuItem);
 		menuItem = createMenuItem(Msg.get(ABOUT_BTN_MSG), true, ABOUT, null);
 		menu.add(menuItem);
+		
+		
 		return menuBar;
     }
 

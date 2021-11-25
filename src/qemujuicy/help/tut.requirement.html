@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="generator" content="Bluefish 2.2.12" >
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <style type="text/css">
+    td, th { border: 1px solid #c3c3c3; padding: 0 3px 0 3px; }
+    table { border-collapse: collapse; }
+    img { max-width: 100%; }
+  </style>
+  <meta name="generator" content="Bluefish 2.2.12" >
+  <title>Prerequisites / Requirements</title>
+  <style type="text/css"></style>
+</head>
+<body>
+  <h1>Prerequisites / Requirements</h1>
+  <p>To run <b>QemuJuicy</b> it is necessary to have <b>QEMU</b> installed (www.qemu.org) 
+  	on your host system (very often the computer you sit in front of),
+  	since <b>QEMU</b> - a pack of applications - contains the simulators for various VMs. In addition,
+  	tools like <i>"qemu-img"</i> are used by <b>QemuJuicy</b> to create a 
+  	virtual "harddisk" of a VM, if the VM is installed on it. 
+  	The "harddisk" is usually a file on your host system.
+ 	There is also the possibility to run a Live System from a CD/DVD or an ISO file,
+ 	which is downloaded or taken from a CD/DVD.</p>
+  <p><b>QemuJuicy</b> needs "<i>qemu-img</i>" to create/copy/convert VM harddisks, and
+  	one or more emulators for virtual machines. <b>QEMU</b> has emulators for many hardware systems.
+  	Each emulator for a specific computer hardware starts with "<i>qemu-system-*</i>", where the "*" 
+  	describes the hardware (e.g. <i>qemu-system-x86_64</i> the 64-bit CPUs for AMD and Intel).</p>
+  <p><b>QemuJuicy</b> will handle this for you at the first start to guess all necessary applications.
+  	If you change your <b>QEMU</b> installation later, you may wish to recheck for this using 
+  	the <i>File -> Settings</i> menu item, selecting the <b>QEMU</b> installation directory.</p>
+  	
+  <h2>Linux / Unix / macOS hosts</h2>
+  	Usually, <b>QEMU</b> is already available through your package manager, and after installation 
+  	located at <i>/usr/bin</i> or on another place of your <i>$PATH</i> variable. If you are interested:
+  	"<i>type qemu-img</i>" might show you the directory, 
+  	"<i>ls /usr/bin/qemu*</i>" lists the installed hardware emulators and some <b>QEMU</b> tools.
+  	<b>QemuJuicy</b> will find it automatically in most cases.
+  	
+  <h2>Windows hosts</h2>
+  	To install <b>QEMU</b> on Windows, download it from <i>www.qemu.org</i> -> Download -> Windows 
+  	and install it, using the <i>exe</i> or <i>msi</i> file. Most likely, <b>QEMU</b> is installed
+  	somewhere in "<i>C:\Program Files\qemu</i>". Mind the space within "Program Files". 
+  	<b>QemuJuicy</b> will try to find it automatically. To use the <b>QEMU</b> commands on 
+  	the command line, you might need to add the path to the environment variable "<i>%PATH%</i>".
+  	
+  <h2>Other hosts</h2>
+  	<b>QEMU</b> comes also as source. Compile it, find the installation directory and choose this 
+  	directory within the setup wizard to select the <b>QEMU</b> programms for <b>QemuJuicy</b>.
+   	
+  <h2>Proof installation if you want, problems</h2>
+  	Find the <b>QEMU</b>installation directory and choose this 
+  	directory within the setup wizard to select the <b>QEMU</b> programms for <b>QemuJuicy</b>.
+  <p>A "<i>qemu-img --version</i>", showing the version on the command line - maybe in the right 
+  	directory or put in front - gives a proof of a correct installation.</p>
+</body>
+</html>
