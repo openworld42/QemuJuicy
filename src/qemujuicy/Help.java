@@ -28,21 +28,49 @@ import javax.help.*;
 
 /**
  * Help handler.
+ * 
+ * @see https://docs.oracle.com/cd/E19253-01/819-0913/819-0913.pdf
  */
 public class Help {
 
-	// resource path
+	public static final String HELP_SET = "/qemujuicy/help/helpSet.hs";			// resource path (jar and class files)
 	
-	public static final String HELP_SET = "/qemujuicy/help/helpSet.hs";	
+	private HelpBroker helpBroker;
 	
-	public static void call() {
-
+	/**
+	 * Create and initiate the help system
+	 */
+	public Help() {
+		
+		Logger.info("intiating help system");
 		try {      
 			URL hsURL = Images.class.getResource(HELP_SET);
-//			HelpSet helpSet = new HelpSet(null, hsURL);   
+			HelpSet helpSet = new HelpSet(null, hsURL);   
+			helpBroker = helpSet.createHelpBroker();
+			// set a help key (usually F1)
+			helpBroker.enableHelpKey(Main.getMainView().getRootPane(), "overview", helpSet);
+//			displayHelp = new CSH.DisplayHelpFromSource(helpBroker);
 		} catch (Exception e) {
 			Util.verbose("Help: cannot load HelpSet "+ HELP_SET);
 			Logger.error("Help: cannot load HelpSet "+ HELP_SET, e);
 		}
+	}
+
+	/**
+	 * @return the helpBroker
+	 */
+	public HelpBroker getHelpBroker() {
+		
+		return helpBroker;
+	}
+
+	/**
+	 * Shows the help system.
+	 */
+	public void show() {
+		
+		Logger.info("showing help system");
+		helpBroker.setCurrentView("TOC");
+		helpBroker.setDisplayed(true);
 	}
 }

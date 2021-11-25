@@ -8,8 +8,8 @@
 			
    <!-- maps --> 
    <maps>
-     <homeID>top </homeID>
-     <mapref location="Map.jhm" />
+     <homeID>top</homeID>
+     <mapref location="map.jhm" />
    </maps>
 	
    <!-- views --> 
@@ -19,7 +19,8 @@
       <type>javax.help.TOCView</type>
       <data>IdeHelpTOC.xml</data>
    </view>
-	
+   
+<!--
    <view xml:lang="en" mergetype="javax.help.SortMerge">
       <name>Index</name>
       <label>Index</label>
@@ -35,36 +36,36 @@
          JavaHelpSearch
          </data>
    </view>
-
-   <!-- A glossary navigator -->
+ --> 
+ 
+   <!-- A glossary navigator
    <view  mergetype="javax.help.SortMerge">
       <name>glossary</name>
       <label>Glossary</label>
       <type>javax.help.GlossaryView</type>
       <data>glossary.xml</data>
    </view>
-
-   <!-- A favorites navigator -->
+ -->
+ 
+   <!-- A favorites navigator
    <view>
       <name>favorites</name>
       <label>Favorites</label>
       <type>javax.help.FavoritesView</type>
    </view>
-
+ -->
+ 
    <!-- presentation windows -->
 
    <!-- This window is the default one for the helpset. 
-     *  Its title bar says "Project X Help". It
-     *  is a tri-paned window because displayviews, not
+     *  It is a tri-paned window because displayviews, not
      *  defined, defaults to true and because a toolbar is defined.
-     *  The toolbar has a back arrow, a forward arrow, and
-     *  a home button that has a user-defined image.
    -->
    <presentation default=true>
        <name>main window</name>
-       <size width="400" height="400" /> 
-       <location x="200" y="200" />
-       <title>Project X Help</title>
+       <size width="1100" height="630" /> 
+       <location x="150" y="150" />
+       <title>QemuJuicy Help</title>
        <toolbar>
            <helpaction>javax.help.BackAction</helpaction>
            <helpaction>javax.help.ForwardAction</helpaction>
@@ -81,16 +82,13 @@
        <size width="200" height="200" /> 
        <location x="200" y="200" />
    </presentation>
- 
-   <!-- subhelpsets --> 
-   <subhelpset location="file:/c:/Foobar/HelpSet2.hs" />
 
    <!-- implementation section -->
    <impl>
       <helpsetregistry helpbrokerclass="javax.help.DefaultHelpBroker" />
       <viewerregistry viewertype="text/html" 
-         viewerclass="com.sun.java.help.impl.CustomKit />
+         viewerclass="com.sun.java.help.impl.CustomKit" />
       <viewerregistry viewertype="text/xml" 
-         viewerclass="com.sun.java.help.impl.CustomXMLKit />
+         viewerclass="com.sun.java.help.impl.CustomXMLKit" />
    </impl>
 </helpset>
