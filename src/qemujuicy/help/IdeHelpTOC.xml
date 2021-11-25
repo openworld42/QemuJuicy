@@ -1,0 +1,17 @@
+<?xml version='1.0' encoding='ISO−8859−1' ?>
+<!DOCTYPE toc PUBLIC "−//Sun Microsystems Inc.//DTD    JavaHelp TOC Version 2.0//EN"  "http://java.sun.com/products/javahelp/toc_2_0.dtd">
+<toc version="2.0">  
+	<tocitem text="Introduction to QemuJuiy" target="qemujuicy.intro" >
+	<tocitem text="QemuJuiy Tutorial" target="tut.qemujuicy" expand="true">
+		<tocitem text="Prerequisites / Requirements" target="tut.requirement" />
+		<tocitem text="First Start" target="tut.first.start" />
+		<tocitem text="Creating Your First VM" target="tut.first.vm" />
+		<tocitem text="VM Properties" target="tut.vm.properties" />
+		<tocitem text="Install a VM" target="tut.vm.install" />
+		<tocitem text="Advanced Usage" target="tut.vm.advanced" />
+	</tocitem>
+	<tocitem text="QemuJuiy Hints" target="qemujuicy.hints" />
+	<tocitem text="Virtual Machines (VM)" target="vm" />
+	<tocitem text="QEMU - Quick Emulator" target="qemu" url="www.qemu.org"/>
+	<tocitem text="tl;dr - Quick Guide" target="quick.guide" />
+</toc>
