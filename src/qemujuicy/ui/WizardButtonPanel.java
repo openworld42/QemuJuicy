@@ -25,6 +25,7 @@ package qemujuicy.ui;
 import java.awt.*;
 import java.awt.event.*;
 
+import javax.help.*;
 import javax.swing.*;
 
 import qemujuicy.*;
@@ -52,25 +53,29 @@ public class WizardButtonPanel extends JPanel {
 
 		super(new GridBagLayout());
 		// buttons 
-		add(Gbc.filler(), new Gbc(0, 0, 1, 1, 10.0, 0, "S B"));
+		JButton helpBtn = CompFactory.createHelpButton();
+		add(helpBtn, new Gbc(0, 0));
+		helpBtn.setEnabled(true);
+		Main.getHelp().enableHelpOnButton(helpBtn, "qemujuicy.intro");
+		add(Gbc.filler(), new Gbc(1, 0, 1, 1, 10.0, 0, "S B"));
 		// button Back, disabled at the beginning
 		backBtn = CompFactory.createBackButton();
-		add(backBtn, new Gbc(1, 0));
+		add(backBtn, new Gbc(3, 0));
 		backBtn.setEnabled(false);
 		backBtn.setActionCommand(BACK_BTN);
 		backBtn.addActionListener(actionListener);
 		// button Next / Finish
 		nextBtn = CompFactory.createNextButton();
-		add(nextBtn, new Gbc(2, 0));
+		add(nextBtn, new Gbc(4, 0));
 		nextBtn.setActionCommand(NEXT_AND_FINISH_BTN);
 		nextBtn.addActionListener(actionListener);
 		// spacer to cancel button
 		Component spacer = Box.createVerticalStrut(1);
 		spacer.setPreferredSize(new Dimension(10, 1));
-		add(spacer, new Gbc(3, 0));
+		add(spacer, new Gbc(5, 0));
 		// button Cancel
 		cancelBtn = CompFactory.createCancelButton();
-		add(cancelBtn, new Gbc(4, 0));
+		add(cancelBtn, new Gbc(6, 0));
 		cancelBtn.setActionCommand(CANCEL_BTN);
 		cancelBtn.addActionListener(actionListener);
 	}

@@ -53,6 +53,7 @@ public class Images {
 	public static final String FIRST_SETUP_WIZARD_BUTTON = OXY32 + "Oxygen480-actions-games-solve.svg.png";
 	public static final String FOLDER = OXY128 + "Oxygen480-places-folder-blue.svg.png";
 	public static final String HARDDISK = OXY128 + "Oxygen480-devices-drive-harddisk.svg.png";
+	public static final String HELP_BUTTON = OXY32 + "Oxygen480-actions-help-contents.svg.png";
 	public static final String LIST_REMOVE = OXY128 + "Oxygen480-actions-list-remove.svg.png";
 	public static final String NETWORK = OXY128 + "Oxygen480-mimetypes-application-x-smb-workgroup.svg.png";
 	public static final String NEXT_BUTTON = OXY32 + "go-next.png";
@@ -106,6 +107,7 @@ public class Images {
 		add(FIRST_SETUP_WIZARD_BUTTON);
 		add(FOLDER);
 		add(HARDDISK);
+		add(HELP_BUTTON);
 		add(LIST_REMOVE);
 		add(NETWORK);
 		add(NEXT_BUTTON);

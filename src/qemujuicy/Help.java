@@ -22,6 +22,7 @@
  */
 package qemujuicy;
 
+import java.awt.*;
 import java.net.*;
 
 import javax.help.*;
@@ -36,7 +37,8 @@ public class Help {
 	public static final String HELP_SET = "/qemujuicy/help/helpSet.hs";			// resource path (jar and class files)
 	
 	private HelpBroker helpBroker;
-	
+	private HelpSet helpSet;
+
 	/**
 	 * Create and initiate the help system
 	 */
@@ -57,11 +59,30 @@ public class Help {
 	}
 
 	/**
+	 * Enable and view help on button click.
+	 * 
+	 * @param component			the button/component
+	 * @param idTopic			the tocitem target id
+	 */
+	public void enableHelpOnButton(Component component, String idTopic) {
+		
+		helpBroker.enableHelpOnButton(component, idTopic, helpSet);
+	}
+
+	/**
 	 * @return the helpBroker
 	 */
 	public HelpBroker getHelpBroker() {
 		
 		return helpBroker;
+	}
+	
+	/**
+	 * @return the helpSet
+	 */
+	public HelpSet getHelpSet() {
+		
+		return helpSet;
 	}
 
 	/**
