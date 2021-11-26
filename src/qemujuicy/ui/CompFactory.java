@@ -131,6 +131,20 @@ public class CompFactory {
 	}
 
 	/**
+	 * Creates a "Help" button.
+	 * 
+	 * @return the button
+	 */
+	public static JButton createHelpButton() {
+		
+		JButton button = new JButton(Msg.get(HELP_BTN_MSG), 
+				Images.scale(Images.HELP_BUTTON, Gui.BUTTON_ICON_SIZE));
+		button.setPreferredSize(Gui.DEFAULT_BTN_SIZE);
+		button.setMinimumSize(Gui.DEFAULT_BTN_SIZE);
+		return button;
+	}
+
+	/**
 	 * Creates an "Indentation" component.
 	 * This should be placed in Gbc column 0. 
 	 * Chapter headers span more component widths, other components on 
