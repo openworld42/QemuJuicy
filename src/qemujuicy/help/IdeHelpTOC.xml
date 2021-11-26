@@ -5,10 +5,11 @@
 	<tocitem text="QemuJuiy Tutorial" target="tut.qemujuicy" expand="true">
 		<tocitem text="Prerequisites / Requirements" target="tut.requirement" />
 		<tocitem text="First Start" target="tut.first.start" />
-		<tocitem text="Creating Your First VM" target="tut.first.vm" />
+		<tocitem text="Creating a VM" target="tut.create.vm" />
 		<tocitem text="VM Properties" target="tut.vm.properties" />
-		<tocitem text="Install a VM" target="tut.vm.install" />
-		<tocitem text="Advanced Usage" target="tut.vm.advanced" />
+		<tocitem text="Install an operating system" target="tut.os.install" />
+		<tocitem text="Run a VM" target="tut.vm.run" />
+		<tocitem text="Advanced Tab Usage" target="tut.vm.advanced" />
 	</tocitem>
 	<tocitem text="QemuJuiy Hints" target="qemujuicy.hints" />
 	<tocitem text="Virtual Machines (VM)" target="vm" />

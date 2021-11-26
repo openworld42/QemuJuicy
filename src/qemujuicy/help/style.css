@@ -1,0 +1,31 @@
+td, th { 
+	border: 1px solid #c3c3c3; padding: 0 3px 0 3px; 
+}
+
+table { 
+	border-collapse: collapse; 
+}
+
+img { 
+	max-width: 100%;
+}
+
+h1 { 
+	color: #4040a0; 
+}
+
+h2, h3 { 
+	color: #202050; 
+}
+
+p, div { 
+	color: #080830
+}
+
+b { 
+	color: #100868; 
+}
+
+i { 
+	color: #004000; 
+}

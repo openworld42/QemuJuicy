@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="generator" content="Bluefish 2.2.12" >
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <link rel="stylesheet" href="style.css">
+  <title>Install an operating system</title>
+</head>
+<body>
+  <h1>Install an operating system</h1>
+  <div>An empty virtual machine hard disk will need an operating system (OS) installed to run the VM.
+  	Very often, the operating system has been downloaded from the World Wide Web as an "<i>*.iso</i>" file
+  	(e.g. "<i>ubuntu-VERSION-desktop-amd64.iso</i>" or more special "<i>archlinux-VERSION-x86_64.iso</i>").
+  	Another, less usual/older possibility is an operating system on a CD/DVD.</div>
+  <p>To install the OS, the VM can be started once from the "<i>*.iso</i>" file or CD/DVD, but afterwards boot
+  	always from the VMs harddisk (except a reinstall, overwriting the old system).</p>
+  <p><b>QemuJuicy</b> supports this, using a "once-only-start", asking for an image file to boot from: choose 
+  	an "<i>*.iso</i>" file within a file selection dialog ("<i>/dev/cdrom</i>" should also work on most 
+  	Linux/Unix systems). The "once-only-start" button is:</p>
+  <p><img src="../images/oxygen32x32/Oxygen480-categories-applications-other.svg.png" width="32" height="32" alt="Install once"></p>
+
+  <p>When the installation process has been finished, operating systems either reboot automatically or simply halt.
+  	<b>QemuJuicys</b> "once-only-start" button sets the proper <b>QEMU</b> parameter if a reboot happens,
+  	booting the second time from the VMs harddisk.</p>
+
+  <p>After the successful installation , use <b>QemuJuicys</b> "run" button to boot the VM from the virtual harddisk:</p>
+  <p><img src="../images/oxygen128x128/Oxygen480-actions-arrow-right.svg.png" width="32" height="32" alt="Install once"></p>
+  
+  <p>As an alternative for OS installation, <b>QemuJuicys</b> "<i>QEMU boot menu</i>" property can be set, choosing the source 
+  	for a boot directly in the VMs emulator window. A un-check of "<i>QEMU boot menu</i>" afterwards speeds up the boot 
+  	process, not waiting for an user action.</p>
+  	
+  <p>Note: Live Systems dont need a harddisk, cause they run very often from an "<i>*.iso</i>" file or CD/DVD without 
+  	an installed system on the harddisk. In that case, one may use the "once-only-start" button several times.<br> 
+  	<b>QemuJuicys</b> remembers the directory from where the last "<i>*.iso</i>" file was selected.
+  	An unused virtual harddisk (qcow2 format) does not consume much disk space, regardless of the 
+  	maximum disk size value.</p>
+</body>
+</html>
+

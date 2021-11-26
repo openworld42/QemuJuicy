@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="generator" content="Bluefish 2.2.12" >
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <link rel="stylesheet" href="style.css">
+  <title>Virtual machine properties</title>
+</head>
+<body>
+  <h1>Virtual machine properties</h1>
+  <div>A virtual machine uses some properties, which define how start and handle the VM.
+  	These are the amount of host memory or host cores are used when running the VM, as an example.
+  	In addition, the associated virtual hardware (e.g. an USB port, a network chip/card or a 
+  	virtual sound driver) may be defined.
+  	The properties of the currently selected VM are shown within the tabbed pane on the right side.
+  	After creation, take a quick look over the properties of the VM on all the tabs of the tabbed pane, 
+  	to ensure that they are correct.</div>
+  <p>Note: the properties of a VM cannot be changed if the VM is running. 
+  	Most <b>QEMU</b> call parameters are constructed from these properties. </p>
+
+  <h2>Important VM properties</h2>
+  <div>Two properties are important: the VM name has to be unique and the "<i>Architecture</i>" will 
+  	define the <b>QEMU</b> emulator.
+  	As an example, the <i>Architecture</i> (emulator) "<i>PC x86 (64 bit)</i>" is used to run Windows or a Linux compiled for PCs,
+  	where "<i>ARM64 (AArch64)</i>" will emulate an ARM processor (e.g. a Raspberry Pi).</div> 
+  	
+  <h2>Other VM properties</h2>
+  <div>Properties showing "<i>Best guess</i>" use the best guess assumption of <b>QemuJuicy</b>, taking into account
+  	the host and guest operating system, and the emulated hardware. One can have a look to this "Best guess" on the 
+  	"<i>Advanced</i>" tab by analyzing the <b>QEMU</b> parameters choosen by <b>QemuJuicy</b>.</div> 
+  	
+  <p>Due to the fact, that a situation might call for a special treatment which cannot be handled by <b>QemuJuicy</b>, 
+  	some properties offer the choice "<i>None/Advanced Tab</i>". On selection of this choice, this property will not be set. 
+  	One might set another value using the "<i>None/Advanced Tab</i>", which has its own help chapter description.</p>
+</body>
+</html>
+
