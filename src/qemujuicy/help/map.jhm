@@ -7,5 +7,9 @@
 	<mapID target="qemujuicy.intro" url="qemujuicy.intro.html"/>
 	<mapID target="tut.qemujuicy" url="tut.qemujuicy.html"/>
 	<mapID target="tut.requirement" url="tut.requirement.html"/>
+	<mapID target="tut.first.start" url="tut.first.start.html"/>
+	<mapID target="tut.create.vm" url="tut.create.vm.html"/>
+	<mapID target="tut.vm.properties" url="tut.vm.properties.html"/>
+	<mapID target="tut.os.install" url="tut.os.install.html"/>
 </mapID>
 </map>

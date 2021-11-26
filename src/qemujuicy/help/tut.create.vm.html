@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="generator" content="Bluefish 2.2.12" >
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <link rel="stylesheet" href="style.css">
+  <title>Create a VM</title>
+</head>
+<body>
+  <h1>Create a VM</h1>
+  <div>A virtual machine usually has a virtual "harddisk" (a file on the host system) and
+  	some properties, which define how start and handle the VM (e.g. how much memory or cores 
+  	are used) and the associated virtual hardware (e.g. an USB port, a network chip/card or a 
+  	virtual sound driver). To make this VM creation easy, just start the Vm creation wizard, a button 
+  	to the right of <b>QemuJuicy</b>:</div>
+  <p><img src="../images/oxygen32x32/Oxygen480-actions-list-add.svg.png" width="24" height="24" alt="Vm creation wizard"></p>
+  	
+  <p>All of these buttons have tool tips if you stay on them, explaining their function.</p>
+  	
+  <p>The wizard will guide through the VM creation. Choose an operating system (OS) for the VM, a unique VM name or
+  	 - if you like - another image icon. Set the maximum hard disk size. The real size of the virtual disk will be much less than 
+  	that if the file system of the OS supports holes (common for Linux or Windows) and grows automatically with the space needed, 
+  	using <b>QEMUs</b> "<i>qcow2</i>" disk format.</p>
+  	
+  <p>Choose all other properties and press the "<i>Finish</i>" button. A virtual machine will be created, its properties 
+  	are set to specified values or defaults. In addition, the virtual harddisk will be initialized.</p>
+  	
+ <p>The new VM will show up in the VM list with its icon and its properties are shown within the tabbed pane on the right side.</p>
+</body>
+</html>
+
