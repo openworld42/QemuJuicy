@@ -7,5 +7,6 @@
 	<mapID target="qemujuicy.intro" url="qemujuicy.intro.html"/>
 	<mapID target="tut.qemujuicy" url="tut.qemujuicy.html"/>
 	<mapID target="tut.requirement" url="tut.requirement.html"/>
+	<mapID target="tut.first.start" url="tut.first.start.html"/>
 </mapID>
 </map>
