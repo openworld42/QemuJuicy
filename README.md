@@ -28,7 +28,7 @@ Run **QemuJuicy** on command line (or create a menu/desktop entry/shell script) 
 
 Follow the setup wizard and 
 create/run your first VM (virtual machine) with **QemuJuicy**.    
-Read the [documentation](https://github.com/openworld42/QemuJuicy/blob/main/DOCUMENTATION.md) before or simply try it out, if tl;dr.
+Read the [documentation](https://github.com/openworld42/QemuJuicy/blob/main/DOCUMENTATION.md) before or use **QemuJuicys** help, or simply try it out, if tl;dr.
 
 Think about [contribution](https://github.com/openworld42/QemuJuicy/blob/main/CONTRIBUTE.md).
 

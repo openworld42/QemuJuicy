@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="generator" content="Bluefish 2.2.12" >
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <link rel="stylesheet" href="style.css">
+  <title>Virtual machine</title>
+</head>
+<body>
+  <h1>Virtual machine</h1>
+  <div>A "<i>Virtual machine</i>" (VM) is the virtualization/emulation of a computer system. 
+  	VMs provide functionality close to a physical computer. 
+  	A VM may involve specialized hardware, software, or a combination of both. 
+  	The layer between the operating system being the host and the VM (the guest system) is called a hypervisor.
+  	A hypervisor could be based completely on software, but nowadays many computers assist 
+  	virtualization through specialized hardware. Therefore, a host system can "host" many guest systems,
+  	with the same or different kinds of emulated hardware. In addition, different operating systems may be used 
+  	at the same time on the same hardware machine.</div>
+  
+  <p>In contrary, "<i>Containers</i>" (e.g. Docker) may be used to separate software systems and provide another
+  	method of "soft" virtualization. Containers and the host share the same operating system, 
+  	being separated from each other. There is no hardware or software emulation, and only one OS. 
+  	This has less OS possibilities and needs more setup effort, with the advantage of better 
+  	hardware efficiency, parallelization and management of large high-availability clusters.</p>
+  	
+  <p>QEMU</b> contains different virtualization emulators, using several hypervisors, depending of the 
+  	architecture of the host and the virtualized guest systems. From the guest systems view, it runs on its
+  	own hardware and doesn't (usually) know about the host system or other VMs.</p>
+  	
+  <p>There is more detailed information within the WWW, Wikipedia is a good starting point.</p>
+  </body>
+</html>
+

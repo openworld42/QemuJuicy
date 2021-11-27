@@ -43,6 +43,7 @@ public class Images {
 	public static final String ADVANCED = OXY32 + "Oxygen-actions-im-aim.svg.png";
 	public static final String APPLY_BUTTON = OXY128 + "Oxygen480-actions-dialog-ok-apply.svg.png";
 	public static final String APP_ICON = OXY128 + "Oxygen480-actions-office-chart-ring2.png";
+	public static final String APP_ICON32 = OXY32 + "Oxygen480-actions-office-chart-ring2.png";
 	public static final String ARROW_RIGHT = OXY128 + "Oxygen480-actions-arrow-right.svg.png";
 	public static final String BACK_BUTTON = OXY32 + "go-previous.png";
 	public static final String CANCEL_BUTTON = OXY32 + "Oxygen15.04.1-dialog-cancel.svg.png";
@@ -97,6 +98,7 @@ public class Images {
 		add(ADVANCED);
 		add(APPLY_BUTTON);
 		add(APP_ICON);
+		add(APP_ICON32);
 		add(ARROW_RIGHT);
 		add(BACK_BUTTON);
 		add(CANCEL_BUTTON);

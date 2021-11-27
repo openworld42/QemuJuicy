@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="generator" content="Bluefish 2.2.12" >
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <link rel="stylesheet" href="style.css">
+  <title>Run a virtual machine</title>
+</head>
+<body>
+  <h1>Run a virtual machine</h1>
+  <div>Run a VM, which has an operating system (OS) installed already, by clicking the "run" button, to boot 
+  	the VM from the virtual harddisk:</div>
+  <p><img src="../images/oxygen128x128/Oxygen480-actions-arrow-right.svg.png" width="32" height="32" alt="Install once"></p>
+  
+  <p>As an alternative for booting from the virtual harddisk, <b>QemuJuicys</b> "<i>QEMU boot menu</i>" property can be set, 
+  	choosing the source for a boot directly in the VMs emulator window. 
+  	A un-check of "<i>QEMU boot menu</i>" speeds up the boot process, not waiting for an user action.</p>
+  
+  <p>It is necessary, that the "<i>Architecture</i>" property (the emulator) of the VM matches the 
+  	architecture of the virtual machine OS.</p>
+ 
+  <p>If the VM virtual harddisk has no OS installed, consider using a "once-only-start", asking for an image file to 
+  	boot from (see help chapter "Install an operating system"):</p>
+  <p><img src="../images/oxygen32x32/Oxygen480-categories-applications-other.svg.png" width="32" height="32" alt="Install once"></p>
+  	
+  <p>Live Systems might not need a harddisk, cause they run very often from an "<i>*.iso</i>" file without persistency or from CD/DVD. 
+  	In that case, one may use the "once-only-start" button instead of the run button.<br> 
+  	<b>QemuJuicys</b> remembers the directory from where the last "<i>*.iso</i>" file was selected.</p>
+  	
+  <p>Note: An unused virtual harddisk (qcow2 format) does not consume much disk space, regardless of the 
+  	maximum disk size value.</p>
+</body>
+</html>
+
