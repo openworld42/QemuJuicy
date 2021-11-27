@@ -11,7 +11,7 @@
   <div>The tabbed pane on the right side of <b>QemuJuicys</b> has a tab "<i>Advanced</i>".</div>
   <p><img src="../images/oxygen32x32/Oxygen-actions-im-aim.svg.png" width="32" height="32" alt="Install once"></p>
   
-  <p>Using a generic VM in a usual way might ignore this tab, but <b>QemuJuicys</b> 
+  <p>If using a generic VM in a usual way only, one might ignore this tab, but <b>QemuJuicys</b> 
   	"<i>Advanced</i>"</div> tab offers several possibilities.</p>
   	
   <p>It has two radio buttons and two text areas. The default "<i>Add special QEMU parameters</i>"
@@ -46,6 +46,13 @@
       or *.bat file can be used as a menu entry to start a VM.
     </li>
     <li>
+      In small to medium VM environments (some tens of VMs, several servers), <b>QemuJuicy</b> can be used 
+      to develop, test and modify the VMs. Use the "<i>Store</i>" button to save the <b>QEMU</b> call, copy
+      the shell/batch file together with the virtual harddisk to the server and start the (now remote) VM 
+      on that server (possibly using ssh, sshfs).<b>
+      Simple, quick solution, no overhead, easy to handle, secure: yes, all components could be Open Source.
+     </li>
+    <li>
       Copying VMs with specialized parameters, including their virtual harddisks.
     </li>
     <li>
@@ -54,7 +61,7 @@
     <li>
       Using <b>QemuJuicy</b> just as a starter, setting the complete <b>QEMU</b> command with 
       "<i>Full QEMU definitions</i>". This could be used for rare VMs, like FPGA machines, 
-      having one place (<b>QemuJuicy</b>) with all the VMs to manage.
+      having one place (<b>QemuJuicy</b>)  to manage all VMs.
     </li>
   </ul>
   </body>

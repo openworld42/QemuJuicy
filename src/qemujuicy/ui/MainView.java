@@ -114,7 +114,7 @@ public class MainView extends JFrame implements ActionListener {
 
 		super(Main.APP_NAME);
 		instance = this;
-		setIconImage(Images.get(APP_ICON).getImage());
+		setIconImage(Images.get(APP_ICON32).getImage());
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         addWindowListener(new WindowAdapter() {
             public void windowClosed(WindowEvent event) {

@@ -13,5 +13,9 @@
 	<mapID target="tut.os.install" url="tut.os.install.html"/>
 	<mapID target="tut.vm.run" url="tut.vm.run.html"/>
 	<mapID target="tut.vm.advanced" url="tut.vm.advanced.html"/>
+	
+	<mapID target="vm.explanation" url="vm.explanation.html"/>
+	<mapID target="qemu.info" url="qemu.info.html"/>
+
 </mapID>
 </map>
