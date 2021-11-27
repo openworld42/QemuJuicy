@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="generator" content="Bluefish 2.2.12" >
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <link rel="stylesheet" href="style.css">
+  <title>Advanced Tab Usage</title>
+</head>
+<body>
+  <h1>Advanced Tab Usage</h1>
+  <div>The tabbed pane on the right side of <b>QemuJuicys</b> has a tab "<i>Advanced</i>".</div>
+  <p><img src="../images/oxygen32x32/Oxygen-actions-im-aim.svg.png" width="32" height="32" alt="Install once"></p>
+  
+  <p>Using a generic VM in a usual way might ignore this tab, but <b>QemuJuicys</b> 
+  	"<i>Advanced</i>"</div> tab offers several possibilities.</p>
+  	
+  <p>It has two radio buttons and two text areas. The default "<i>Add special QEMU parameters</i>"
+  	button displays in the upper area all <b>QEMU</b> parameters created automatically by <b>QemuJuicy</b>,
+  	taking all defined VM properties. This text area cannot be changed or edited, but copied into the clipboard
+  	for further usage. Missing or special <b>QEMU</b> parameters may be added within the lower text area, 
+  	using the same style as above.<br>
+  	Clicking the button "<i>Full QEMU definitions</i>" changes this behaviour. Now the user is completely
+  	responsible for the upper text area, regardless of the settings of VM properties (they are ignored). 
+  	Any parameters from
+  	the lower text area are added, if the VM is started. Changing the radio buttons will not change the 
+	"<i>Full QEMU definitions</i>" content, it is saved and survives a <b>QemuJuicy</b> exit.</p>
+	
+  <p>This offers some possibilities:</p>
+   <ul>
+    <li>
+      Add <b>QEMU</b> parameters not known to <b>QemuJuicy</b>. And yes, there are many
+      of them, take a look at "<i>www.qemu.org</i>" -> main documentation section.
+    </li>
+    <li>
+      To add special parameter options by setting a VM property to "<i>None/Advanced Tab</i>" and 
+      adding the specialiced, more complex parameter option within the lower text area.
+    </li>
+    <li>
+      Set up a VM, use the "<i>Copy</i>" button or context menu to use the complete text for
+      further use (on a CLI/shell).
+    </li>
+    <li>
+      Set up a VM, use the "<i>Store</i>" button to write the <b>QEMU</b> call of this VM to a file.
+      This file - made executable - may be used as a starter for VMs, <b>QemuJuicy</b> doesn't need to run.
+      Complex networking between the VMs (some tens of them) might find this helpful, or a shell 
+      or *.bat file can be used as a menu entry to start a VM.
+    </li>
+    <li>
+      Copying VMs with specialized parameters, including their virtual harddisks.
+    </li>
+    <li>
+      Varying parameters in a GUI for testing, using <b>QemuJuicy</b> as a starter.
+    </li>
+    <li>
+      Using <b>QemuJuicy</b> just as a starter, setting the complete <b>QEMU</b> command with 
+      "<i>Full QEMU definitions</i>". This could be used for rare VMs, like FPGA machines, 
+      having one place (<b>QemuJuicy</b>) with all the VMs to manage.
+    </li>
+  </ul>
+  </body>
+</html>
+
