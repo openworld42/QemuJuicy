@@ -264,7 +264,8 @@ public class MainView extends JFrame implements ActionListener {
 	        if (chooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
 		        String path = chooser.getSelectedFile().getPath();
 		        try {
-					Util.writeFile(path, Qemu.toCommandString(cmdList));
+					Util.writeFile(path, Qemu.toCommandStringStore(cmdList));
+					new File(path).setExecutable(true);
 				} catch (IOException e2) {
 					Logger.error("Cannot write commands to file '" + path + "'", e2);
 				}

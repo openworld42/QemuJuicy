@@ -201,6 +201,23 @@ public class Qemu {
 	}
 
 	/**
+	 * Creates a command string from an ArrayList of command and parameters.
+	 * 
+	 * @param cmdList			the ArrayList
+	 * @return the command string
+	 */
+	public static String toCommandStringStore(ArrayList<String> cmdList) {
+
+		String cmdString = "";
+		String cmdEndString = "";;
+		if (OSType.isLinux() || OSType.isUnix() || OSType.isMac()) {
+			cmdString = "#!/bin/sh\n# script created by QemuJuicy\n";
+			cmdEndString = " $*";
+		}
+		return cmdString + toCommandString(cmdList) + cmdEndString;
+	}
+	
+	/**
 	 * Create a text area string of a string containing arbitrary white space.
 	 * 
 	 * @param cmd
