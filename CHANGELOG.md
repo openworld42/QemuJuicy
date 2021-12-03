@@ -10,7 +10,7 @@ Details to start with: [README.md](https://github.com/openworld42/QemuJuicy/blob
 
 ### Features/Enhancements
 
-added: sound method/card (ComboBox + QEMU call)
+added: sound method/card (ComboBox + QEMU call), help
 
 QemuJuicy help (Menu -> Help, Button)
 
