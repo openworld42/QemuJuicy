@@ -80,6 +80,7 @@ public enum Message {
 	SELECT_QEMU_DLG_EXPLANATION_MSG("To run a virtual machine (VM),\n"
 			+ "a QEMU installation is necessary"),
 	SELECT_QEMU_INSTALL_DIR_LBL_MSG("Select QEMU install directory"),
+	SOUND_MSG("Sound"),
 	STARTING_MSG("\nStarting '$(1) ..."),
 	STORE_MSG("Store"),
 	VERBOSE_MSG("Verbose output"),

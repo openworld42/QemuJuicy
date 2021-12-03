@@ -126,6 +126,11 @@ public class Qemu {
 		cmdList.add("-nic");
 		cmdList.add("user,ipv6=off,model=e1000,mac=52:54:98:76:54:32");	
 
+		int soundIndex = Sound.findCbxIndexFor(vm);
+		if (soundIndex > 0) {					// if == 0 -> advanced tab/default#
+			for(String s : Sound.getParameters(soundIndex)) cmdList.add(s);
+		}
+
 		cmdList.add("-name");
 		cmdList.add(vm.getNameSafe());	
 		return cmdList;
