@@ -33,6 +33,7 @@ import javax.swing.*;
 import javax.swing.border.*;
 import javax.swing.event.*;
 import javax.swing.plaf.*;
+import javax.swing.plaf.basic.*;
 import javax.swing.text.*;
 
 import qemujuicy.*;
@@ -81,6 +82,7 @@ public class MainView extends JFrame implements ActionListener {
 	private JComboBox<String> acceleratorCbx;
 	private JComboBox<String> cpusCbx;
 	private JSlider memorySld;
+	private JComboBox<String> soundCbx;
 	private JCheckBox verboseChk;
 	private JCheckBox bootMenuChk;
 	private JRadioButton addParametersRBt;			// Advanced tab
@@ -419,14 +421,27 @@ public class MainView extends JFrame implements ActionListener {
 		label = CompFactory.createChapterLabel(Msg.get(MISC_MSG));
 		vmPnl.add(label, new Gbc(0, row, 13, 1, 0, 0, "W H"));
 		row++;
+		// sound 
+		vmPnl.add(CompFactory.createTabLabel(Msg.get(SOUND_MSG)), new Gbc(1, row, 1, 1, 0, 0, "W H", insets));
+		soundCbx = new JComboBox<String>(Sound.getNameArray());
+		vmPnl.add(soundCbx, new Gbc(2, row, 1, 1, 0, 0, "W H", insets));
+		soundCbx.setPreferredSize(new Dimension(160, Gui.DEFAULT_BTN_HEIGHT));
+		soundCbx.setMaximumRowCount(15);
+		soundCbx.addActionListener(e -> {
+			if (soundCbx.getSelectedIndex() >= 0) {
+				storeVmProperty(VMProperties.SOUND, 
+						Sound.ARRAY[soundCbx.getSelectedIndex()].name());
+			}
+		});
 		// verbose flag
 		verboseChk = new JCheckBox(Msg.get(VERBOSE_MSG));
-		vmPnl.add(verboseChk, new Gbc(2, row, 1, 1, 0, 0, "W H", insets));
+		vmPnl.add(verboseChk, new Gbc(5, row, 1, 1, 0, 0, "W H", insets));
 		if (selectedIndex >= 0) {
 			VMProperties props = Main.getVmProperties(selectedIndex);
 			verboseChk.setSelected(props.getPropertyBool(VMProperties.VERBOSE));
 		}
 		verboseChk.addActionListener(e -> storeVmProperty(VMProperties.VERBOSE, "" + verboseChk.isSelected()));
+		row++;
 		// qemu boot menu flag
 		bootMenuChk = new JCheckBox(Msg.get(BOOT_MENU_MSG));
 		vmPnl.add(bootMenuChk, new Gbc(5, row, 1, 1, 0, 0, "W H", insets));
@@ -724,7 +739,6 @@ public class MainView extends JFrame implements ActionListener {
 		exitBtn.setText(Msg.get(EXIT_BTN_MSG));
 		exitBtn.setIcon(Images.scale(Images.EXIT_BUTTON, Gui.BUTTON_ICON_SIZE));
 		
-
 		// TODO xxx    MainView  enable / disable buttons
 
 		//		buttonXY.setEnabled(false);
@@ -799,6 +813,7 @@ public class MainView extends JFrame implements ActionListener {
 		cpusCbx.setSelectedIndex(Cpu.findCbxIndexFor(vm));
 		memorySld.setValue(vm.getMemorySizeMB());
 		VMProperties props = Main.getVmProperties(selectedIndex);
+		soundCbx.setSelectedIndex(Sound.findCbxIndexFor(vm));
 		verboseChk.setSelected(props.getPropertyBool(VMProperties.VERBOSE));
 		bootMenuChk.setSelected(props.getPropertyBool(VMProperties.QEMU_BOOT_MENU));
 		// tab Advanced

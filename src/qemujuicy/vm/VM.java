@@ -232,7 +232,14 @@ public class VM {
 		
 		return vmProperties.getPropertyBool(key);
 	}
-
+	
+	/**
+	 * @return the sound method/card of the VM
+	 */
+	public String getSound() {
+		
+		return vmProperties.getProperty(VMProperties.SOUND);
+	}
 	
 	/**
 	 * @return the properties of this VM
