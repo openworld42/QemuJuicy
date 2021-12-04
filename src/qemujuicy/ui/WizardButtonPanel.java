@@ -25,7 +25,6 @@ package qemujuicy.ui;
 import java.awt.*;
 import java.awt.event.*;
 
-import javax.help.*;
 import javax.swing.*;
 
 import qemujuicy.*;

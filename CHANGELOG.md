@@ -10,6 +10,10 @@ Details to start with: [README.md](https://github.com/openworld42/QemuJuicy/blob
 
 ### Features/Enhancements
 
+## v0.5.12 "Beaver"
+
+### Features/Enhancements
+
 added: sound method/card (ComboBox + QEMU call), help
 
 QemuJuicy help (Menu -> Help, Button)
