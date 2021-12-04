@@ -28,12 +28,10 @@ import java.awt.event.*;
 import java.io.*;
 import java.util.*;
 
-import javax.help.*;
 import javax.swing.*;
 import javax.swing.border.*;
 import javax.swing.event.*;
 import javax.swing.plaf.*;
-import javax.swing.plaf.basic.*;
 import javax.swing.text.*;
 
 import qemujuicy.*;
