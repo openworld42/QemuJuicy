@@ -11,7 +11,7 @@
 		<tocitem text="Advanced Tab Usage" target="tut.vm.advanced" />
 	</tocitem>
 	<tocitem text="QemuJuiy Hints" target="qemujuicy.hints" >
-		<tocitem text="Sound" target="hints.sound" />
+		<tocitem text="Sound" target="qemujuicy.hints.sound" />
 	</tocitem>
 	<tocitem text="Virtual Machines (VM)" target="vm.explanation" />
 	<tocitem text="QEMU - Quick Emulator" target="qemu.info" url="www.qemu.org"/>

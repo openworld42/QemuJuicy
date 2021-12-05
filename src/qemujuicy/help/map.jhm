@@ -14,7 +14,7 @@
 	<mapID target="tut.vm.run" url="tut.vm.run.html"/>
 	<mapID target="tut.vm.advanced" url="tut.vm.advanced.html"/>
 	<mapID target="qemujuicy.hints" url="qemujuicy.hints.html"/>
-	<mapID target="hints.sound" url="hints.sound.html"/>
+	<mapID target="qemujuicy.hints.sound" url="qemujuicy.hints.sound.html"/>
 	<mapID target="vm.explanation" url="vm.explanation.html"/>
 	<mapID target="qemu.info" url="qemu.info.html"/>
 
