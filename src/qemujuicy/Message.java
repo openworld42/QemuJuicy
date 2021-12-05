@@ -63,7 +63,6 @@ public enum Message {
 	VM_EXITS_WITH_CODE("The VM exits with code '$(1)', was it already running?"),
 	FILE_EXITS_ALREADY_MSG("A file '$(1)' exists already"),
 	FIRST_SETUP_DLG_MSG("Setup: should " + Main.APP_NAME + " search for QEMU installations?"),
-	FIRST_SETUP_DLG_TITLE_MSG(Main.APP_NAME + " setup"),
 	HINTS_MSG("Hints in status line"),
 	MEMORY_MSG("Memory"),
 	MEMORY_DEFAULT_MSG("Default memory ($(1) MB)"),
@@ -89,8 +88,10 @@ public enum Message {
 	VM_MSG("Virtual machine"),
 	
 	// hints in status bar: ends with _HINT_MSG
-	CONFIG_DIR_SETTINGS_HINT_MSG("Hint: configure settings and directories, File->Settings"),
-	FIRST_VM_HINT_MSG("Create the first virtual machine using the wizzard"),
+	CONFIG_DIR_SETTINGS_HINT_MSG("Setup wizard: configure QEMU, settings and directories"),
+	CONFIG_DIR_SETTINGS_FINISH_HINT_MSG("After setup, everthing can be changed: File->Settings"),
+	FIRST_VM_HINT_MSG("Read the help (menu) or create the first virtual machine using the VM wizard (+)"),
+	USE_INSTALL_VM_BUTTON_HINT_MSG("Use the install button to install the VM once from CD/DVD/*.iso file"),
 	
 	// tooltips: ends with _TT_MSG
 	ADD_VM_TT_MSG("Create a virtual machine"),
