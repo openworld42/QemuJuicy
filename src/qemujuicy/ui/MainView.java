@@ -548,15 +548,9 @@ public class MainView extends JFrame implements ActionListener {
 		statusPnl.setPreferredSize(new Dimension(getWidth(), Gui.COMP_HEIGHT + 2 * inset));
 		statusPnl.setLayout(new GridBagLayout());
 		EmptyBorder labelBorder = new EmptyBorder(inset, inset, inset, inset);
-		statusLbl = new JLabel(Msg.get(FIRST_SETUP_DLG_TITLE_MSG) + " ...");
+		statusLbl = new JLabel("");
 		statusLbl.setBorder(labelBorder);
-		statusLbl.setText(Msg.get(FIRST_SETUP_DLG_TITLE_MSG) + " ...");
 		statusPnl.add(statusLbl, new Gbc(0, 0, 1, 1, 2, 0, "H"));
-		JLabel lineLbl = new JLabel("|");
-		lineLbl.setPreferredSize(new Dimension(2, 2));
-		statusPnl.add(lineLbl, new Gbc(2, 0, 1, 1, 0, 0, ""));
-		hintLbl = new JLabel("");
-		statusPnl.add(hintLbl, new Gbc(3, 0, 1, 1, 6, 0, "H"));
 		return statusPnl;
 	}
 
@@ -714,6 +708,7 @@ public class MainView extends JFrame implements ActionListener {
 			public void valueChanged(ListSelectionEvent arg0) {
 				vmListSelectionEnabler();
 				updateVmComponents();
+				setHint(null);
 			}
         });
 		// VM properties tabbed pane
@@ -751,11 +746,11 @@ public class MainView extends JFrame implements ActionListener {
 		
 		if (hint == null || hint.trim().equals("")) {
 			// this is a clear, it will always work
-			MainView.instance.hintLbl.setText("");
+			MainView.instance.statusLbl.setText("");
 			return;
 		}
 		if (Main.getPropertyBool(AppProperties.GIVE_HINTS)) {
-			MainView.instance.hintLbl.setText(hint);
+			MainView.instance.statusLbl.setText(hint);
 		}
 	}
 

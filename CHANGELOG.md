@@ -10,6 +10,8 @@ Details to start with: [README.md](https://github.com/openworld42/QemuJuicy/blob
 
 ### Features/Enhancements
 
+added: hints in status line
+
 ## v0.5.12 "Beaver"
 
 ### Features/Enhancements

@@ -130,6 +130,7 @@ public class SettingsDlg extends JDialog implements ActionListener {
 		// create all panels within the right area, layout is done dynamically in actionPerformed()
 		if (wizardMode) {
 			wizardExplanationPnl = createWizardExplanationPanel();
+			MainView.setHint(Msg.get(CONFIG_DIR_SETTINGS_HINT_MSG));
 		}
 		qemuInstallationPnl = createQemuInstallationPanel();
 		settingsPnl = createSettingsPnl();
@@ -221,6 +222,7 @@ public class SettingsDlg extends JDialog implements ActionListener {
 					display(foldersPnl);
 					wizardButtonPnl.changeToFinishedBtn(false);
 					activePnl = ActivePnl.FOLDERS_PNL;
+					MainView.setHint(Msg.get(CONFIG_DIR_SETTINGS_FINISH_HINT_MSG));
 					break;
 				default:
 					throw new IllegalArgumentException("Unexpected value: " + activePnl);

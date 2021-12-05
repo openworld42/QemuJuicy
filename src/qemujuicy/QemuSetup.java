@@ -152,7 +152,6 @@ public class QemuSetup {
 		}
 		checkQemuInstallation(qemuDir);
 		new SettingsDlg(true, mainView, qemuImg, qemuImgVersion, qemuCmdList, versionList);
-		MainView.setHint(Msg.get(CONFIG_DIR_SETTINGS_HINT_MSG));
 		MainView.setHint(Msg.get(FIRST_VM_HINT_MSG));
 	}
 

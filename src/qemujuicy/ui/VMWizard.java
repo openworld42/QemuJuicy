@@ -117,6 +117,7 @@ public class VMWizard extends JDialog implements ActionListener {
 
 		String actionCmd = event.getActionCommand();
 		if (actionCmd.equals(WizardButtonPanel.CANCEL_BTN)) {
+			MainView.setHint(null);
 			dispose();
 		} else if (actionCmd.equals(WizardButtonPanel.BACK_BTN)) {
 			mainPnl.removeAll();
@@ -187,6 +188,7 @@ public class VMWizard extends JDialog implements ActionListener {
 					// error handling tests have been done in collectVmProperties()
 					Main.getVmManager().createVM(vmProperties);
 //					SwingUtilities.invokeLater(() -> Main.getVmManager().createVM(vmProperties));
+					MainView.setHint(Msg.get(USE_INSTALL_VM_BUTTON_HINT_MSG));
 					dispose();
 				} else {
 					mainPnl.add(vmFinishedPnl, BorderLayout.CENTER);
