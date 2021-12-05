@@ -82,6 +82,7 @@ public class MainView extends JFrame implements ActionListener {
 	private JSlider memorySld;
 	private JComboBox<String> soundCbx;
 	private JCheckBox verboseChk;
+	private JCheckBox localtimeChk;
 	private JCheckBox bootMenuChk;
 	private JRadioButton addParametersRBt;			// Advanced tab
 	private JRadioButton qemuDefinitionRBt;
@@ -439,6 +440,17 @@ public class MainView extends JFrame implements ActionListener {
 			verboseChk.setSelected(props.getPropertyBool(VMProperties.VERBOSE));
 		}
 		verboseChk.addActionListener(e -> storeVmProperty(VMProperties.VERBOSE, "" + verboseChk.isSelected()));
+		row++;
+		// -rtc base=localtime flag
+		localtimeChk = new JCheckBox(Msg.get(Message.LOCALTIME_MSG));
+		vmPnl.add(localtimeChk, new Gbc(5, row, 1, 1, 0, 0, "W H", insets));
+		localtimeChk.setToolTipText(Msg.get(Message.LOCALTIME_TT_MSG));
+		if (selectedIndex >= 0) {
+			VMProperties props = Main.getVmProperties(selectedIndex);
+			localtimeChk.setSelected(props.getPropertyBool(VMProperties.LOCALTIME)); 
+		}
+		localtimeChk.addActionListener(e -> 
+			storeVmProperty(VMProperties.LOCALTIME, "" + localtimeChk.isSelected()));
 		row++;
 		// qemu boot menu flag
 		bootMenuChk = new JCheckBox(Msg.get(BOOT_MENU_MSG));
@@ -808,6 +820,7 @@ public class MainView extends JFrame implements ActionListener {
 		VMProperties props = Main.getVmProperties(selectedIndex);
 		soundCbx.setSelectedIndex(Sound.findCbxIndexFor(vm));
 		verboseChk.setSelected(props.getPropertyBool(VMProperties.VERBOSE));
+		localtimeChk.setSelected(props.getPropertyBool(VMProperties.LOCALTIME));
 		bootMenuChk.setSelected(props.getPropertyBool(VMProperties.QEMU_BOOT_MENU));
 		// tab Advanced
 		if (props.getPropertyBool(VMProperties.FULL_QEMU_DEFINITION)) {

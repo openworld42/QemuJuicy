@@ -47,6 +47,7 @@ public class VMProperties extends Properties {
 	public static final String FULL_QEMU_DEFINITION_CMD = "full.qemu.definition.command";
 	public static final String ICON_PATH = "icon.path";
 	public static final String INSTALLED_FROM_PATH = "installed.from.path";
+	public static final String LOCALTIME = "localtime";				// use local time (instad of utc)
 	public static final String NETWORK = "network"; 
 	public static final String OS = "os"; 
 	public static final String QEMU_BOOT_MENU = "qemu.boot.menu"; 	
@@ -106,6 +107,7 @@ public class VMProperties extends Properties {
 		checkProperty(FULL_QEMU_DEFINITION_CMD, "");
 		checkProperty(ICON_PATH, "");
 		checkProperty(INSTALLED_FROM_PATH, "");
+		checkProperty(LOCALTIME, "false");
 		checkProperty(NETWORK, "");
 		checkProperty(OS, "");
 		checkProperty(QEMU_BOOT_MENU, "");

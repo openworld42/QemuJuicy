@@ -121,6 +121,10 @@ public class Qemu {
 			bootParams += ",menu=on";
 		}
 		cmdList.add(bootParams);			
+		if (vm.getPropertyBool(VMProperties.LOCALTIME)) {
+			cmdList.add("-rtc"); 
+			cmdList.add("base=localtime");
+		}
 		
 		// TODO xxx    Qemu runVm()      change hard coded nic / networking  
 		cmdList.add("-nic");

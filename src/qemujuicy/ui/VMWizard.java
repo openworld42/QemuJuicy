@@ -260,6 +260,12 @@ public class VMWizard extends JDialog implements ActionListener {
 		// defaults
 		vmProperties.setProperty(ACCELERATOR, Accelerator.BEST_GUESS.getName());
 		vmProperties.setProperty(QEMU_BOOT_MENU, "" + false);
+		if (VM.OSType.values()[osCbx.getSelectedIndex()].equals(VM.OSType.WINDOWS)) {
+			// MS-DOS/Windows needs -rtc base=localtime for correct date (QEMU doc)
+			vmProperties.setProperty(LOCALTIME, "" + true);
+		} else {
+			vmProperties.setProperty(LOCALTIME, "" + false);
+		}
 		
 		// TODO xxx    VMWizard additional properties 
 		
