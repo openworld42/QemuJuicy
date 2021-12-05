@@ -212,18 +212,33 @@ public class Qemu {
 	/**
 	 * Creates a command string from an ArrayList of command and parameters.
 	 * 
-	 * @param cmdList			the ArrayList
+	 * @param cmdList				the ArrayList
+	 * @param separateLines			separate QEMU parameters on lines + "\"
 	 * @return the command string
 	 */
-	public static String toCommandStringStore(ArrayList<String> cmdList) {
+	public static String toCommandStringStore(ArrayList<String> cmdList, boolean separateLines) {
 
 		String cmdString = "";
 		String cmdEndString = "";;
 		if (OSType.isLinux() || OSType.isUnix() || OSType.isMac()) {
 			cmdString = "#!/bin/sh\n# script created by QemuJuicy\n";
 			cmdEndString = " $*";
+		} else if (OSType.isWindows()) {
+			cmdEndString = " %*";
 		}
-		return cmdString + toCommandString(cmdList) + cmdEndString;
+		if (!separateLines) {
+			return cmdString + toCommandString(cmdList) + cmdEndString;  
+		}
+		// separated lines
+		String[] cmdArr = cmdList.toArray(new String[0]);
+		cmdString += cmdArr[0] + " \\" + System.lineSeparator();
+		for (int i = 1; i < cmdArr.length; i++) {
+			cmdString += cmdArr[i] + " ";
+			if (i < cmdArr.length - 1 && !cmdArr[i].startsWith("-")) {
+				cmdString += " \\" + System.lineSeparator();
+			}
+		}
+		return cmdString + cmdEndString;
 	}
 	
 	/**

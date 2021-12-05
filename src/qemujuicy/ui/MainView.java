@@ -190,6 +190,29 @@ public class MainView extends JFrame implements ActionListener {
 	}
 
 	/**
+	 * ActionListener/actionPerformed for the Advanced Tab "Store" buttons.
+	 * 
+	 * @param separateLines			separate QEMU parameters on lines + "\"
+	 */
+	private void actionStoreButton(boolean separateLines) {
+		
+		ArrayList<String> cmdList = Qemu.createCommandList(qemuParamsTxa.getText());
+		Qemu.addExtraParameters(cmdList, Main.getVm(vmList.getSelectedIndex()));
+		FileChooserDlg chooser = new FileChooserDlg(Msg.get(SAVE_TO_FILE_MSG), 
+				Msg.get(OK_BTN_MSG), Msg.get(OK_BTN_MSG), 
+				JFileChooser.FILES_ONLY, null);
+        if (chooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
+	        String path = chooser.getSelectedFile().getPath();
+	        try {
+				Util.writeFile(path, Qemu.toCommandStringStore(cmdList, separateLines));
+				new File(path).setExecutable(true);
+			} catch (IOException e2) {
+				Logger.error("Cannot write commands to file '" + path + "'", e2);
+			}
+        }
+	}
+
+	/**
 	 * Create and add the Advanced tab to the VM properties tabbed pane
 	 * 
 	 * @param tabbedPane
@@ -242,7 +265,7 @@ public class MainView extends JFrame implements ActionListener {
 		JScrollPane scrollPane = new JScrollPane (qemuParamsTxa, 		// scroll pane
 				ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
 				ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
-		advancedPnl.add(scrollPane, new Gbc(2, row, 2, 2, 0, 0, "W B"));
+		advancedPnl.add(scrollPane, new Gbc(2, row, 2, 3, 0, 0, "W B"));
 		Gui.setPreferredHeight(scrollPane, 190);
 		// buttons
 		JButton button = CompFactory.createButton(Msg.get(COPY_MSG), Msg.get(COPY_CLIPBOARD_TT_MSG));
@@ -256,22 +279,11 @@ public class MainView extends JFrame implements ActionListener {
 		row++;
 		button = CompFactory.createButton(Msg.get(STORE_MSG), Msg.get(STORE_AS_FILE_TT_MSG));
 		advancedPnl.add(button, new Gbc(4, row, 1, 1, 0, 0, "NW"));
-		button.addActionListener(e -> {
-			ArrayList<String> cmdList = Qemu.createCommandList(qemuParamsTxa.getText());
-			Qemu.addExtraParameters(cmdList, Main.getVm(vmList.getSelectedIndex()));
-			FileChooserDlg chooser = new FileChooserDlg(Msg.get(SAVE_TO_FILE_MSG), 
-					Msg.get(OK_BTN_MSG), Msg.get(OK_BTN_MSG), 
-					JFileChooser.FILES_ONLY, null);
-	        if (chooser.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
-		        String path = chooser.getSelectedFile().getPath();
-		        try {
-					Util.writeFile(path, Qemu.toCommandStringStore(cmdList));
-					new File(path).setExecutable(true);
-				} catch (IOException e2) {
-					Logger.error("Cannot write commands to file '" + path + "'", e2);
-				}
-	        }
-	    });
+		button.addActionListener(e -> actionStoreButton(false));
+		row++;
+		button = CompFactory.createButton(Msg.get(STORE_LINES_MSG), Msg.get(STORE_AS_FILE_LINES_TT_MSG));
+		advancedPnl.add(button, new Gbc(4, row, 1, 1, 0, 0, "NW"));
+		button.addActionListener(e -> actionStoreButton(true));
 		row++;
 		// extra parameters text area
 		extraParamsTxa = new JTextArea();
@@ -725,7 +737,7 @@ public class MainView extends JFrame implements ActionListener {
         });
 		// VM properties tabbed pane
 		vmPnl = new JPanel(new BorderLayout());
-		centerPanel.add(vmPnl, new Gbc(1, 0, 2, 1, 2.0, 1.0, "B"));
+		centerPanel.add(vmPnl, new Gbc(1, 0, 3, 1, 2.0, 1.0, "B"));
 		vmPnl.setBorder(new EmptyBorder(new Insets(2, 0, 0, 0)));
 		vmPnl.setPreferredSize(new Dimension(700, 500));
 		vmTabbedPane = new JTabbedPane(JTabbedPane.TOP);
@@ -734,10 +746,15 @@ public class MainView extends JFrame implements ActionListener {
 		addVmTab(vmTabbedPane);
 		addAdvancedTab(vmTabbedPane);
 		
+		// help button
+		JButton helpBtn = CompFactory.createHelpButton();
+		centerPanel.add(helpBtn, new Gbc(1, 1, 1, 1, 0.0, 0.0, "SW b r"));
+		helpBtn.setEnabled(true);
+		Main.getHelp().enableHelpOnButton(helpBtn, "qemujuicy.intro");
 		// exit button
-        centerPanel.add(Gbc.filler(), new Gbc(1, 1, 1, 1, 1.0, 0, "C H"));
+        centerPanel.add(Gbc.filler(), new Gbc(2, 1, 1, 1, 1.0, 0, "C H"));
 		JButton exitBtn = new JButton(EXIT);
-		centerPanel.add(exitBtn, new Gbc(2, 1, 1, 1, 0.0, 0.0, "SE b r"));
+		centerPanel.add(exitBtn, new Gbc(3, 1, 1, 1, 0.0, 0.0, "SE b r"));
 		exitBtn.addActionListener(this);
         exitBtn.setIcon(Images.scale(Images.EXIT_BUTTON, Gui.BUTTON_ICON_SIZE));
 		exitBtn.setPreferredSize(Gui.DEFAULT_BTN_SIZE);

@@ -10,6 +10,8 @@ Details to start with: [README.md](https://github.com/openworld42/QemuJuicy/blob
 
 ### Features/Enhancements
 
+added: Help button main view + Store \ button advanced tab
+
 added: hints in status line
 
 ## v0.5.12 "Beaver"
