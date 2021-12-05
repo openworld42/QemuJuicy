@@ -8,30 +8,30 @@
 </head>
 <body>
   <h1>Sound Hints</h1>
-  <p><center><img src="../images/oxygen128x128/Oxygen480-apps-preferences-desktop-sound.svg.png" width="48" height="48" alt="Vm creation wizard"></center></p>
-  <p>The setup of a sound system with VMs may be somewhat tricky. Since the sound stream is routed from the VM application through the VM-OS -> QEMU hypervisor
-  	to the sound system of the host OS -> sound system -> sound hardware, several components in that chain may cause troubles.
-  	<b>QEMU</b> has the "<i>-audiodev</i>" and "<i>-device</i>" parameters to handle sound. <b>QemuJuicy</b> has a combo box selection for some of the methods and hardware, 
-   	but they may not work or cause glitches or has other malfunctions.</p>
+  <center><img src="../images/oxygen128x128/Oxygen480-apps-preferences-desktop-sound.svg.png" width="48" height="48" alt="Vm creation wizard"></center>
+  <p>The setup of a sound system with VMs can be somewhat tricky. Since the sound stream is routed from the VM application through the VM-OS -> QEMU hypervisor
+  	-> host OS / host sound system -> sound hardware, several components in that chain may cause troubles.</p>
+  <p><b>QEMU</b> has the "<i>-audiodev</i>" and "<i>-device</i>" parameters to handle sound. <b>QemuJuicy</b> has a combo box selection for some of the methods and hardware, 
+   	but in some environments they may not work or cause glitches or hava other malfunctions.</p>
   <p>A malfunction (e.g. no sound at all) is usually caused by the following: the defined sound system or the sound hardware is not existing. Try to use another 
   	choice and/or detect which sound system within the host OS is used and which hardware generates the sound. Nowadays sound hardware is very often integrated in 
   	your motherboard (e.g. the south bridge of an Intel based PC, using an "Intel High Definition" part of that bridge IC). Try with your OS 
   	hardware detection application to find out, which sound hardware you are running on. Change the "<i>-audiodev</i>" and "<i>-device</i>" accordingly.<br>
   	If there is no choice for your host OS/hardware/VM setup, choose the "<i>None/Advanced Tab</i>" sound option and set your <b>QEMU</b> parameters manually within the 
   	"<i>Advanced Tab</i>". Web search may help, others could have solved your setup. Share your information to help others, either by mail to the author of
-  	<b>QemuJuicy</b> or a github issue. The author will add your choice, if it is something general.</p>
+  	<b>QemuJuicy</b> or a github issue. The author will add your choice, if it contains something general.</p>
   
   <p>A glitch, crack or snap has usually other reasons, if the sound could be at least identified: the sound stream has been interrupted for a short time. 
   	Sound streams are - quite simplified - defined by two items: one or more buffers and a delay. Since the sound stream is routed through several processes on two
   	operating systems, processes are interrupted (scheduled) to pass control to other processes. Within this short period, no audio data are streamed by this process.
-  	Therefore, audio streams are usually buffered (queued), causing a delay. Otherwise, with no audio stream for a short time, audio will have glitches.<br>
+  	Therefore, audio streams are usually buffered (i.e. audio data are queued), causing a delay. If there is no audio stream for a short time, audio output will have glitches.<br>
   	To overcome this, the buffers should never run empty. Increasing the buffers to much will delay the stream and my cause other problems, synchronization is
   	one of them.<br>
   	This is, again simplified, the theory behind the behaviour of sound streams. The trick is, depending on your host OS/hardware/VM setup, to fiddle with the 
   	parameters (buffer sizes, delays) until the variation works in a satisfactory manner and the result sounds well. To have duplex or 5:1 sound increases the
   	complexity.<br>
   	Again, choose the "<i>None/Advanced Tab</i>" sound option and set your <b>QEMU</b> parameters manually within the 
-  	"<i>Advanced Tab</i>". Read about the <b>QEMU</b> parameters "<i>-audiodev</i>" and "<i>-device</i>" at www.qemu.org, using virtio may be an option in more
+  	"<i>Advanced Tab</i>". Read about the <b>QEMU</b> parameters "<i>-audiodev</i>" and "<i>-device</i>" at www.qemu.org. Using virtio may be an option in more
   	complex environments. Web search may help, a lot of people have already tried special hardware/software combinations.
 </body>
 </html>
