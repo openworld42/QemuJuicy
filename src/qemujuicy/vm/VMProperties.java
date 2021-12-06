@@ -40,9 +40,14 @@ public class VMProperties extends Properties {
 	public static final String ACCELERATOR = "accelerator"; 
 	public static final String CPUS = "cpus"; 
 	public static final String CREATION_TYPICAL = "creation.typical"; 
+	public static final String DRIVE_CD_DVD_NAME = "drive.cd.name";
 	public static final String DRIVE_HDA_NAME = "drive.hda.name";
 	public static final String DRIVE_HDA_SIZE_GB = "drive.hda.size.GB";		// in GB
+	public static final String DRIVE_HDB_NAME = "drive.hdb.name";
+	public static final String DRIVE_HDD_NAME = "drive.hdd.name";
 	public static final String EXTRA_PARAMETERS = "extra.parameters";
+	public static final String FLOPPY_A_NAME = "floppy.a.name";
+	public static final String FLOPPY_B_NAME = "floppy.b.name";
 	public static final String FULL_QEMU_DEFINITION = "full.qemu.definition";
 	public static final String FULL_QEMU_DEFINITION_CMD = "full.qemu.definition.command";
 	public static final String ICON_PATH = "icon.path";
@@ -59,7 +64,6 @@ public class VMProperties extends Properties {
 	public static final String VM_NAME_SAFE = "vm.name.safe"; 		// the visible name of the VM, but spaces 
 																	// within the name are replaced by underscores
 	public static final String VM_QEMU = "vm.qemu"; 				// the emulator of the VM 
-																	
 	
 	private String pathname;
 
@@ -100,9 +104,14 @@ public class VMProperties extends Properties {
 		checkProperty(ACCELERATOR, "");
 		checkProperty(CPUS, "");
 		checkProperty(CREATION_TYPICAL, "");
+		checkProperty(DRIVE_CD_DVD_NAME, "");
 		checkProperty(DRIVE_HDA_NAME, "");
 		checkProperty(DRIVE_HDA_SIZE_GB, "");
+		checkProperty(DRIVE_HDB_NAME, "");
+		checkProperty(DRIVE_HDD_NAME, "");
 		checkProperty(EXTRA_PARAMETERS, "");
+		checkProperty(FLOPPY_A_NAME, "");
+		checkProperty(FLOPPY_B_NAME, "");
 		checkProperty(FULL_QEMU_DEFINITION, "false");
 		checkProperty(FULL_QEMU_DEFINITION_CMD, "");
 		checkProperty(ICON_PATH, "");
