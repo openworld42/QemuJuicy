@@ -49,6 +49,10 @@ public class MainView extends JFrame implements ActionListener {
 	// constants
 
 	public final static String ABOUT = "About";
+	public final static String DEVICE_ADD_CD_DVD = "DeviceAddCdDvd";
+	public final static String DEVICE_ADD_DRIVE = "DeviceAddDrive";
+	public final static String DEVICE_ADD_FLOPPY = "DeviceAddFloppy";
+	public final static String DEVICE_REMOVE = "DeviceRemove";
 	public final static String DISK_IMAGE = "DiskImage";
 	public final static String EXIT = "Exit";
 	public final static String HELP = "Help";
@@ -71,7 +75,6 @@ public class MainView extends JFrame implements ActionListener {
 	private JToolBar toolBar;
 	private JPanel statusBar;
 	private JLabel statusLbl;
-	private JLabel hintLbl;
 	private JLabel memoryLbl;
 	// VM properties tabbed pane
 	private JPanel vmPnl;							// VM properties tab
@@ -103,7 +106,7 @@ public class MainView extends JFrame implements ActionListener {
 	private JMenuItem menuItemRemoveVM;
 	private JMenuItem menuItemRunVmInstall;
 
-	// components
+	// other components
 	JList<VM> vmList;
 
 	/**
@@ -325,6 +328,80 @@ public class MainView extends JFrame implements ActionListener {
 		button.addActionListener(this);
 		centerPanel.add(button, gbc);
 		return(button);
+	}
+
+	/**
+	 * Create and add the Devices tab to the VM properties tabbed pane
+	 * 
+	 * @param tabbedPane
+	 */
+	private void addDevicesTab(JTabbedPane tabbedPane) {
+
+		JPanel devicesPnl = createTabPanel(tabbedPane, 
+				Msg.get(DEVICES_MSG), DISK, Msg.get(VM_TAB_VM_DEVICES_TT_MSG));
+		int row = 0;
+		// chapter
+		JLabel label = CompFactory.createChapterLabel(Msg.get(DEVICES_MANAGER_MSG));
+		devicesPnl.add(label, new Gbc(0, row, 13, 1, 0, 0, "W H"));
+		row++;
+		// indentation, once only: non-chapter components start on column 1
+		devicesPnl.add(CompFactory.createTabIndentation(), new Gbc(0, row, 1, 1, 0, 0, "W H"));
+		// add, manage
+
+		label = new JLabel(Msg.get(ADD_MSG));
+		devicesPnl.add(label, new Gbc(2, row, 1, 1, 0, 0, "W H"));
+//		devicesPnl.add(label, new Gbc(2, row, 1, 1, 0, 0, "W H", insets));
+		
+		devicesPnl.add(Box.createHorizontalStrut(40), new Gbc(7, row, 1, 2, 0, 0, "H"));
+		JSeparator sep = new JSeparator(SwingConstants.VERTICAL);
+		sep.setPreferredSize(new Dimension(3, 50));
+		devicesPnl.add(sep, new Gbc(8, row, 1, 2, 0, 0, "C B"));		// uses 2 rows (buttons too)
+		label = new JLabel(Msg.get(MANAGE_MSG));
+		devicesPnl.add(label, new Gbc(9, row, 1, 1, 0, 0, "W H"));
+		row++;
+		// button add floppy
+		int pixels = 28;		// images will be scaled down to # of pixels
+		JButton btnAddFloppy = createToolBarButton(null, Images.scale(Images.FLOPPY, pixels), 
+				0, Msg.get(ADD_FLOPPY_TT_MSG), DEVICE_ADD_FLOPPY);
+		devicesPnl.add(btnAddFloppy, new Gbc(2, row, 1, 1, 0, 0, "W H"));
+		// button add CD/DVD
+		JButton btnAddCdDvd = createToolBarButton(null, Images.scale(Images.CD_DVD, pixels), 
+				0, Msg.get(ADD_CD_DVD_TT_MSG), DEVICE_ADD_CD_DVD);
+		devicesPnl.add(btnAddCdDvd, new Gbc(3, row, 1, 1, 0, 0, "W H"));
+		// button add drive
+		JButton btnAddDrive = createToolBarButton(null, Images.scale(Images.DISK, pixels), 
+				0, Msg.get(ADD_DRIVE_TT_MSG), DEVICE_ADD_DRIVE);
+		devicesPnl.add(btnAddDrive, new Gbc(4, row, 1, 1, 0, 0, "W H"));
+		// button remove device
+		JButton btnRemoveDevice = createToolBarButton(null, Images.scale(Images.LIST_REMOVE, pixels - 4), 
+				0, Msg.get(REMOVE_DEVICE_TT_MSG), DEVICE_REMOVE);
+		devicesPnl.add(btnRemoveDevice, new Gbc(9, row, 1, 1, 0, 0, "W H"));
+		row++;
+		// devices list
+		JPanel deviceListPnl = new JPanel(new BorderLayout());
+		devicesPnl.add(deviceListPnl, new Gbc(2, row, 14, 1, 1.0, 1.0, "B"));
+		deviceListPnl.setBackground(Gui.PANEL_BACKGROUND);
+		// list
+		JList<Device> deviceList = new JList<>();
+		JScrollPane scrollPane = new JScrollPane(deviceList, 
+				ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
+				ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+		scrollPane.setPreferredSize(new Dimension(640, 300));
+		deviceListPnl.add(scrollPane, BorderLayout.CENTER);
+		deviceList.setModel(Main.getVmManager().getDeviceListModel());
+		deviceList.setCellRenderer(new LabelListCellRenderer(LabelListCellRenderer.TYPE.DEVICE));
+		deviceList.addListSelectionListener(new ListSelectionListener() {
+			@Override
+			public void valueChanged(ListSelectionEvent arg0) {
+//				vmListSelectionEnabler();
+//				updateVmComponents();
+//				setHint(null);
+			}
+        });
+		row++;
+		// push the above
+//		row++;
+//		advancedPnl.add(Gbc.filler(), new Gbc(0, row, 1, 1, 0, 10, "V"));
 	}
 
 	/**
@@ -726,7 +803,7 @@ public class MainView extends JFrame implements ActionListener {
 		scrollPane.setPreferredSize(new Dimension(280, 500));
 		vmListPnl.add(scrollPane, BorderLayout.CENTER);
 		vmList.setModel(Main.getVmManager().createVmListModel(vmList));
-		vmList.setCellRenderer(new VMListCellRenderer());
+		vmList.setCellRenderer(new LabelListCellRenderer(LabelListCellRenderer.TYPE.VM));
 		vmList.addListSelectionListener(new ListSelectionListener() {
 			@Override
 			public void valueChanged(ListSelectionEvent arg0) {
@@ -744,6 +821,7 @@ public class MainView extends JFrame implements ActionListener {
 		vmPnl.add(vmTabbedPane, BorderLayout.CENTER);
 		// tabs for VM properties
 		addVmTab(vmTabbedPane);
+		addDevicesTab(vmTabbedPane);
 		addAdvancedTab(vmTabbedPane);
 		
 		// help button
@@ -824,6 +902,7 @@ public class MainView extends JFrame implements ActionListener {
 	private void updateVmComponents() {
 		
 		int selectedIndex = vmList.getSelectedIndex();
+		Main.getVmManager().fillVmDeviceModel(selectedIndex);
 		if (selectedIndex < 0) {
 			return;
 		}

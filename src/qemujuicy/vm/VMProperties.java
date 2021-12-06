@@ -40,8 +40,8 @@ public class VMProperties extends Properties {
 	public static final String ACCELERATOR = "accelerator"; 
 	public static final String CPUS = "cpus"; 
 	public static final String CREATION_TYPICAL = "creation.typical"; 
-	public static final String DISK_NAME = "disk.name";
-	public static final String DISK_SIZE_GB = "disk.size.GB";		// in GB
+	public static final String DRIVE_HDA_NAME = "drive.hda.name";
+	public static final String DRIVE_HDA_SIZE_GB = "drive.hda.size.GB";		// in GB
 	public static final String EXTRA_PARAMETERS = "extra.parameters";
 	public static final String FULL_QEMU_DEFINITION = "full.qemu.definition";
 	public static final String FULL_QEMU_DEFINITION_CMD = "full.qemu.definition.command";
@@ -100,8 +100,8 @@ public class VMProperties extends Properties {
 		checkProperty(ACCELERATOR, "");
 		checkProperty(CPUS, "");
 		checkProperty(CREATION_TYPICAL, "");
-		checkProperty(DISK_NAME, "");
-		checkProperty(DISK_SIZE_GB, "");
+		checkProperty(DRIVE_HDA_NAME, "");
+		checkProperty(DRIVE_HDA_SIZE_GB, "");
 		checkProperty(EXTRA_PARAMETERS, "");
 		checkProperty(FULL_QEMU_DEFINITION, "false");
 		checkProperty(FULL_QEMU_DEFINITION_CMD, "");

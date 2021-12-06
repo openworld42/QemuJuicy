@@ -38,9 +38,10 @@ import static qemujuicy.Message.*;
  */
 public class VMManager {
 
-	private ArrayList<VM> vmList;				// contains all VM objects
-	private JList<VM> vmJList;					// JList of VMs (mainView)
-	private DefaultListModel<VM> listModel;		// data model for the JList of VMs
+	private ArrayList<VM> vmList;							// contains all VM objects
+	private JList<VM> vmJList;								// JList of VMs (mainView)
+	private DefaultListModel<VM> vmListModel;				// data model for the JList of VMs
+	private DefaultListModel<Device> deviceListModel;		// data model for the JList of devices
 
 	/**
 	 * Construction with no VMs.
@@ -48,6 +49,7 @@ public class VMManager {
 	public VMManager() {
 		
 		vmList = new ArrayList<>(); 
+		deviceListModel = new DefaultListModel<Device>();
 	}
 
 	/**
@@ -86,11 +88,11 @@ public class VMManager {
 	public ListModel<VM> createVmListModel(JList<VM> vmJList) {
 		
 		this.vmJList = vmJList;
-		listModel = new DefaultListModel<VM>();
+		vmListModel = new DefaultListModel<VM>();
 		for (VM vm : vmList) {
-			listModel.addElement(vm);
+			vmListModel.addElement(vm);
 		}
-		return listModel;
+		return vmListModel;
 	}
 
 	/**
@@ -118,7 +120,7 @@ public class VMManager {
 		vmProperties.storeToXML();
 		properties.storeToXML();
 		vmList.add(vm);
-		listModel.addElement(vm);
+		vmListModel.addElement(vm);
 		vmJList.setSelectedIndex(vmList.size() - 1);
 		vmJList.ensureIndexIsVisible(vmList.size() - 1);
 	}
@@ -137,6 +139,28 @@ public class VMManager {
 			}
 		}
 		return false;
+	}
+
+	/**
+	 * Fills the device model for the selected VM or clears the model.
+	 * 
+	 * @param selectedIndex
+	 */
+	public void fillVmDeviceModel(int selectedIndex) {
+
+		deviceListModel.clear();
+		if (selectedIndex < 0) {
+			return;
+		}
+		deviceListModel.addAll(vmList.get(selectedIndex).getDeviceList());
+	}
+
+	/**
+	 * @return the deviceListModel
+	 */
+	public DefaultListModel<Device> getDeviceListModel() {
+		
+		return deviceListModel;
 	}
 
 	/**
@@ -171,10 +195,10 @@ public class VMManager {
 			return;
 		}
 		VM temp = vmList.remove(index);
-		listModel.remove(index);
+		vmListModel.remove(index);
 		index++;
 		vmList.add(index, temp);
-		listModel.add(index, temp);
+		vmListModel.add(index, temp);
 		vmJList.setSelectedIndex(index);
 		reorgAndStoreVmListToConfigFile();
 	}
@@ -192,10 +216,10 @@ public class VMManager {
 			return;
 		}
 		VM temp = vmList.remove(index);
-		listModel.remove(index);
+		vmListModel.remove(index);
 		index--;
 		vmList.add(index, temp);
-		listModel.add(index, temp);
+		vmListModel.add(index, temp);
 		vmJList.setSelectedIndex(index);
 		reorgAndStoreVmListToConfigFile();
 	}
@@ -225,12 +249,12 @@ public class VMManager {
 		}
 		Logger.info("removing VM '" + vm.getName() + "'");
 		vmList.remove(selectedIndex);
-		listModel.remove(selectedIndex);
+		vmListModel.remove(selectedIndex);
 		String xmlFile = vm.getPathname();
 		new File(xmlFile).delete();
 		if (answer == 2) {
 			// remove the disk(s) too
-			String diskPath = Main.getProperty(AppProperties.VM_DISK_PATH)+ File.separator + vm.getDiskName();
+			String diskPath = Main.getProperty(AppProperties.VM_DISK_PATH)+ File.separator + vm.getDriveHdaName();
 			Logger.info("VM '" + vm.getName() + "': removing file " + diskPath);
 			new File(diskPath).delete();
 		}
@@ -268,8 +292,8 @@ public class VMManager {
 			return false;
 		}
 		String vmDir = Main.getProperty(AppProperties.VM_DISK_PATH);
-		String vmDiskPath = vmDir + File.separator + vm.getDiskName();
-		String diskName = vm.getDiskName();
+		String vmDiskPath = vmDir + File.separator + vm.getDriveHdaName();
+		String diskName = vm.getDriveHdaName();
 		String newDiskName = "";
 		Logger.info("Renaming VM '" + vm.getName() + "' to '" + newName + "'");
 		if (!diskName.trim().equals("")) {
@@ -282,7 +306,7 @@ public class VMManager {
 		}
 		vm.setProperty(VMProperties.VM_NAME, newName);
 		vm.setProperty(VMProperties.VM_NAME_SAFE, newNameSafe);
-		vm.setProperty(VMProperties.DISK_NAME, newDiskName);
+		vm.setProperty(VMProperties.DRIVE_HDA_NAME, newDiskName);
 		String filename = vm.getProperty(VMProperties.VM_FILENAME);
 		String newFilename = newNameSafe + filename.substring(filename.lastIndexOf("."));
 		vm.setProperty(VMProperties.VM_FILENAME, newFilename);

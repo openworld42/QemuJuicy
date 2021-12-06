@@ -8,7 +8,11 @@ Details to start with: [README.md](https://github.com/openworld42/QemuJuicy/blob
 
 ### Fixes
 
+disk.* properties changed to drive.hda.* (for future devices, hdb, hdd, cdrom, fda, fdb, ...)
+
 ### Features/Enhancements
+
+devices tab and management
 
 added: Help button main view + Store \ button advanced tab
 

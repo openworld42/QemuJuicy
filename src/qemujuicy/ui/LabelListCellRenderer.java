@@ -30,13 +30,20 @@ import qemujuicy.*;
 import qemujuicy.vm.*;
 
 /**
- * A renderer for the VMs in the main view VM list.
+ * A generic JLabel list cell renderer for:<br>
+ * VMs in the main view VM list<br>
+ * Devices in the devices tab list
  */
 @SuppressWarnings("serial")
-public class VMListCellRenderer extends DefaultListCellRenderer {
+public class LabelListCellRenderer extends DefaultListCellRenderer {
 	
-	public VMListCellRenderer() {
+	public enum TYPE {VM, DEVICE};
+	
+	private TYPE type;
+	
+	public LabelListCellRenderer(TYPE type) {
 		
+		this.type = type;
 	}
 	
 	@Override
@@ -45,10 +52,21 @@ public class VMListCellRenderer extends DefaultListCellRenderer {
 		
 		JLabel label = (JLabel) super.getListCellRendererComponent(list,
 				value, index, isSelected, cellHasFocus);
-		// render the selected VM
-	 	VM vm = Main.getVmManager().getVm(index);
-		label.setText(" " + vm.getName());
-		label.setIcon(vm.getImageIcon());
+		switch (type) {
+		case VM: 		// render the selected VM
+		 	VM vm = Main.getVmManager().getVm(index);
+			label.setText(" " + vm.getName());
+			label.setIcon(vm.getImageIcon());
+			break;
+		case DEVICE: 	// render the selected device
+			DefaultListModel<Device> devListModel = Main.getVmManager().getDeviceListModel();
+			Device device = devListModel.get(index);
+			label.setText(" " + device.getPath());
+			label.setIcon(device.getImageIcon());
+			break;
+		default:
+			throw new IllegalArgumentException("Unexpected value: " + type);
+		}
 		return label;
 	}
 }

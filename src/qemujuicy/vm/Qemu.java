@@ -82,7 +82,7 @@ public class Qemu {
 	public static ArrayList<String> createCommandList(VM vm, String vmInstallPath) {
 		
 		String qemuCmd = Architecture.ARRAY[Architecture.findCbxIndexFor(vm)].getQemuCmd();
-		String diskPath = Main.getProperty(AppProperties.VM_DISK_PATH)+ File.separator + vm.getDiskName();
+		String diskPath = Main.getProperty(AppProperties.VM_DISK_PATH)+ File.separator + vm.getDriveHdaName();
 		int maxMemMB = vm.getMemorySizeMB();
 		// create the parameters
 		ArrayList<String> cmdList = new ArrayList<>();
@@ -149,8 +149,8 @@ public class Qemu {
 	public boolean createDiskImage(VM vm) {
 
 		String qemuImg = "qemu-img";
-		String diskPath = Main.getProperty(AppProperties.VM_DISK_PATH)+ File.separator + vm.getDiskName();
-		String output = Util.runProcess(qemuImg, "create", "-f", "qcow2", diskPath, vm.getDiskSizeGB() + "G");
+		String diskPath = Main.getProperty(AppProperties.VM_DISK_PATH)+ File.separator + vm.getDriveHdaName();
+		String output = Util.runProcess(qemuImg, "create", "-f", "qcow2", diskPath, vm.getDriveHdaSizeGB() + "G");
 		return output != null ? true : false;		
 	}
 

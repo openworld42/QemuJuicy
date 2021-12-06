@@ -243,12 +243,12 @@ public class VMWizard extends JDialog implements ActionListener {
 		vmProperties.setProperty(VM_NAME, vmName);
 		vmProperties.setProperty(VM_NAME_SAFE, vmNameSafe);
 		vmProperties.setProperty(VMProperties.VM_FILENAME, vmFilename);
-		vmProperties.setProperty(DISK_NAME, vmDiskName);
+		vmProperties.setProperty(DRIVE_HDA_NAME, vmDiskName);
 		Check.ifTrue(typicalCreationRBt.isSelected());		// customized creation not implemented now
 		vmProperties.setProperty(CREATION_TYPICAL, "" + typicalCreationRBt.isSelected());
 		vmProperties.setProperty(OS, VM.OSType.values()[osCbx.getSelectedIndex()].name());
 		vmProperties.setProperty(ICON_PATH, vmIconPath);
-		vmProperties.setProperty(DISK_SIZE_GB, diskSizeSld.getValue());
+		vmProperties.setProperty(DRIVE_HDA_SIZE_GB, diskSizeSld.getValue());
 		vmProperties.setProperty(NETWORK, "" + netConnectedRBt.isSelected());
 		// add general setting properties
 		vmProperties.setProperty(CPUS, appProps.getProperty(DEFAULT_CPUS));
