@@ -22,7 +22,7 @@
  */
 package qemujuicy.vm;
 
-import java.util.Scanner;
+import java.util.*;
 
 import javax.swing.*;
 
@@ -71,6 +71,7 @@ public class VM {
 
 	private VMProperties vmProperties;
 	private Process process;					// the process running this VM, if running
+	private ArrayList<Device> deviceList;		// the devices of this VM
 
 	private ImageIcon imageIcon;
 	private boolean isRunning;					// indicates if the VM has been started
@@ -85,6 +86,7 @@ public class VM {
 		this.vmProperties = vmProperties;
 		imageIcon = Images.find(vmProperties.getProperty(VMProperties.ICON_PATH));
 		imageIcon = Images.scale(imageIcon, 32);
+		deviceList = new ArrayList<Device>();
 	}
 
 	/**
@@ -128,19 +130,27 @@ public class VM {
 	}
 
 	/**
-	 * @return the name of the disk (the VM image)
+	 * @return an ArrayList of devices for this VM
 	 */
-	public String getDiskName() {
+	public ArrayList<Device> getDeviceList() {
 		
-		return vmProperties.getProperty(VMProperties.DISK_NAME);
+		return deviceList;
+	}
+
+	/**
+	 * @return the name of the hda drive (the VM default boot image)
+	 */
+	public String getDriveHdaName() {
+		
+		return vmProperties.getProperty(VMProperties.DRIVE_HDA_NAME);
 	}
 
 	/**
 	 * @return the (maximum size) of the VM image in GB
 	 */
-	public int getDiskSizeGB() {
+	public int getDriveHdaSizeGB() {
 
-		return Integer.parseInt(vmProperties.getProperty(VMProperties.DISK_SIZE_GB));
+		return Integer.parseInt(vmProperties.getProperty(VMProperties.DRIVE_HDA_SIZE_GB));
 	}
 
 	/**

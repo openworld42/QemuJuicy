@@ -47,10 +47,13 @@ public class Images {
 	public static final String ARROW_RIGHT = OXY128 + "Oxygen480-actions-arrow-right.svg.png";
 	public static final String BACK_BUTTON = OXY32 + "go-previous.png";
 	public static final String CANCEL_BUTTON = OXY32 + "Oxygen15.04.1-dialog-cancel.svg.png";
+	public static final String CD_DVD = OXY32 + "Oxygen480-devices-media-optical-dvd.svg.png";
 	public static final String CONFIG = OXY128 + "Oxygen480-categories-preferences-other.svg.png";
+	public static final String DISK = OXY32 + "Oxygen480-devices-drive-harddisk.svg.png";
 	public static final String DOWN_BUTTON = OXY128 + "Oxygen480-actions-go-down.svg.png";
 	public static final String DOWN_SEARCH = OXY128 + "Oxygen480-actions-go-down-search.svg.png";
 	public static final String EXIT_BUTTON = OXY32 + "Actions-application-exit-icon.png";
+	public static final String FLOPPY = OXY32 + "Oxygen15.04.1-media-floppy.svg.png";
 	public static final String FIRST_SETUP_WIZARD_BUTTON = OXY32 + "Oxygen480-actions-games-solve.svg.png";
 	public static final String FOLDER = OXY128 + "Oxygen480-places-folder-blue.svg.png";
 	public static final String HARDDISK = OXY128 + "Oxygen480-devices-drive-harddisk.svg.png";
@@ -102,10 +105,13 @@ public class Images {
 		add(ARROW_RIGHT);
 		add(BACK_BUTTON);
 		add(CANCEL_BUTTON);
+		add(CD_DVD);
 		add(CONFIG);
+		add(DISK);
 		add(DOWN_BUTTON);
 		add(DOWN_SEARCH);
 		add(EXIT_BUTTON);
+		add(FLOPPY);
 		add(FIRST_SETUP_WIZARD_BUTTON);
 		add(FOLDER);
 		add(HARDDISK);
