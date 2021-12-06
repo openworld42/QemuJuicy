@@ -9,6 +9,7 @@ Details to start with: [README.md](https://github.com/openworld42/QemuJuicy/blob
 ### Fixes
 
 disk.* properties changed to drive.hda.* (for future devices, hdb, hdd, cdrom, fda, fdb, ...)
+!broken property names! (for <= v0.5.12 "Beaver"), change all "disk." to "drive.hda." in properties file of all existing VMs
 
 ### Features/Enhancements
 
