@@ -13,7 +13,7 @@ disk.* properties changed to drive.hda.* (for future devices, hdb, hdd, cdrom, f
 
 ### Features/Enhancements
 
-devices tab and management
+devices tab and management, added devices hdb, hdd, cdrom, fda, fdb
 
 added: Help button main view + Store \ button advanced tab
 
