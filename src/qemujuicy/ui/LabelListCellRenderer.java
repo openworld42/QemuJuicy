@@ -59,9 +59,9 @@ public class LabelListCellRenderer extends DefaultListCellRenderer {
 			label.setIcon(vm.getImageIcon());
 			break;
 		case DEVICE: 	// render the selected device
-			DefaultListModel<Device> devListModel = Main.getVmManager().getDeviceListModel();
-			Device device = devListModel.get(index);
-			label.setText(" " + device.getPath());
+			Device device = Main.getVmManager().getDeviceListModel().get(index);
+		 	VM vm2 = Main.getVmManager().getSelectedVm();
+			label.setText(vm2.getProperty(device.getPropertyName()));
 			label.setIcon(device.getImageIcon());
 			break;
 		default:

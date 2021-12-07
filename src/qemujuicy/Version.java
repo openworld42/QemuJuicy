@@ -32,7 +32,7 @@ public class Version {
 
 	public static final int MAJOR = 0;
 	public static final int MINOR = 6;
-	public static final int RELEASE = 4;
+	public static final int RELEASE = 5;
 
 	/**
 	 * No external construction.

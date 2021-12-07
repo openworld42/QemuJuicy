@@ -42,6 +42,7 @@ public class VMManager {
 	private JList<VM> vmJList;								// JList of VMs (mainView)
 	private DefaultListModel<VM> vmListModel;				// data model for the JList of VMs
 	private DefaultListModel<Device> deviceListModel;		// data model for the JList of devices
+	private VM selectedVm;									// data model for the JList of devices
 
 	/**
 	 * Construction with no VMs.
@@ -150,9 +151,11 @@ public class VMManager {
 
 		deviceListModel.clear();
 		if (selectedIndex < 0) {
+			selectedVm = null;
 			return;
 		}
-		deviceListModel.addAll(vmList.get(selectedIndex).getDeviceList());
+		selectedVm = vmList.get(selectedIndex);
+		deviceListModel.addAll(selectedVm.getDeviceList());
 	}
 
 	/**
@@ -161,6 +164,16 @@ public class VMManager {
 	public DefaultListModel<Device> getDeviceListModel() {
 		
 		return deviceListModel;
+	}
+
+	/**
+	 * Returns the selected VM or null if none is selected.
+	 * 
+	 * @return the selected VM or null if none is selected
+	 */
+	public VM getSelectedVm() {
+		
+		return selectedVm;
 	}
 
 	/**
