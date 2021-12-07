@@ -19,7 +19,8 @@
     51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
     
     See <http://www.gnu.org/licenses/>.
- */package qemujuicy.vm;
+ */
+package qemujuicy.vm;
 
 import java.util.EnumSet;
 

@@ -19,9 +19,8 @@
     51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
     
     See <http://www.gnu.org/licenses/>.
- */package qemujuicy.vm;
-
-import java.util.EnumSet;
+ */
+package qemujuicy.vm;
 
 import javax.swing.*;
 
@@ -32,21 +31,22 @@ import qemujuicy.*;
  */
 public enum Device {
 	
-    FLOPPY_A,
-    FLOPPY_B,
-    HDA,
-    HDB,
-    HDD,
-    CD_DVD,
+    HDA(VMProperties.DRIVE_HDA_NAME),
+    HDB(VMProperties.DRIVE_HDB_NAME),
+    HDD(VMProperties.DRIVE_HDD_NAME),
+    CD_DVD(VMProperties.DRIVE_CD_DVD_NAME),
+    FLOPPY_A(VMProperties.FLOPPY_A_NAME),
+    FLOPPY_B(VMProperties.FLOPPY_B_NAME),
     ;
 	
-	private String path;
+	private String propertyName;
 
 	/**
 	 * Construction, the path will be set later.
 	 */
-	Device() { 
+	Device(String propertyName) { 
 		
+		this.propertyName = propertyName;
 	}
 
 	/**
@@ -55,36 +55,26 @@ public enum Device {
 	public Icon getImageIcon() {
 
 		switch (this) {
-		case FLOPPY_A: 
-		case FLOPPY_B: 
-			return Images.get(Images.FLOPPY);
 		case HDA: 
 		case HDB: 
 		case HDD: 
 			return Images.get(Images.DISK);
 		case CD_DVD: 
 			return Images.get(Images.CD_DVD);
+		case FLOPPY_A: 
+		case FLOPPY_B: 
+			return Images.get(Images.FLOPPY);
 		default:
 			throw new IllegalArgumentException("Unexpected value: " + this);
 		}
 	}
 	
 	/**
-	 * @return the path of this device
+	 * @return the name of the property of this device
 	 */
-	public String getPath() {
+	public String getPropertyName() {
 		
-		return path;
-	}
-
-	/**
-	 * Sets the path for this device.
-	 * 
-	 * @param path 		
-	 */
-	public void setPath(String path) {
-		
-		this.path = path;
+		return propertyName;
 	}
 }
 

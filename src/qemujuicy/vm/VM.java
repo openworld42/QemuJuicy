@@ -87,6 +87,12 @@ public class VM {
 		imageIcon = Images.find(vmProperties.getProperty(VMProperties.ICON_PATH));
 		imageIcon = Images.scale(imageIcon, 32);
 		deviceList = new ArrayList<Device>();
+		for (Device device : Device.values()) {
+			String path = vmProperties.getProperty(device.getPropertyName());
+			if (path != null && !path.trim().equals("")) {
+				deviceList.add(device);
+			}
+		}
 	}
 
 	/**
