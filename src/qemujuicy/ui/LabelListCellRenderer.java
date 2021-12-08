@@ -44,6 +44,7 @@ public class LabelListCellRenderer extends DefaultListCellRenderer {
 	public LabelListCellRenderer(TYPE type) {
 		
 		this.type = type;
+		setLayout(new GridBagLayout());
 	}
 	
 	@Override
@@ -57,16 +58,15 @@ public class LabelListCellRenderer extends DefaultListCellRenderer {
 		 	VM vm = Main.getVmManager().getVm(index);
 			label.setText(" " + vm.getName());
 			label.setIcon(vm.getImageIcon());
-			break;
+			return label;
 		case DEVICE: 	// render the selected device
 			Device device = Main.getVmManager().getDeviceListModel().get(index);
 		 	VM vm2 = Main.getVmManager().getSelectedVm();
-			label.setText(vm2.getProperty(device.getPropertyName()));
+			label.setText(device.getDisplayName() + ":   " + vm2.getProperty(device.getPropertyName()));
 			label.setIcon(device.getImageIcon());
-			break;
+			return label;
 		default:
 			throw new IllegalArgumentException("Unexpected value: " + type);
 		}
-		return label;
 	}
 }
