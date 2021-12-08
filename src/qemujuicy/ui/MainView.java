@@ -76,6 +76,7 @@ public class MainView extends JFrame implements ActionListener {
 	private JPanel statusBar;
 	private JLabel statusLbl;
 	private JLabel memoryLbl;
+	private JButton helpBtn;
 	// VM properties tabbed pane
 	private JPanel vmPnl;							// VM properties tab
 	private JTextField nameTxt; 	
@@ -122,11 +123,9 @@ public class MainView extends JFrame implements ActionListener {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         addWindowListener(new WindowAdapter() {
             public void windowClosed(WindowEvent event) {
-                // delegate to enable subclass to overwrite
                 Main.onExit();
             }
             public void windowOpened(WindowEvent event) {
-                // delegate to enable subclass to overwrite
 //                onWindowOpened(args);
             }});
  		initFrame();
@@ -141,6 +140,7 @@ public class MainView extends JFrame implements ActionListener {
 		}
 		vmListSelectionEnabler();
 		SwingUtilities.invokeLater(() -> {
+			Main.getHelp().enableHelpOnButton(helpBtn, "qemujuicy.intro");
 			vmTabbedPane.addChangeListener(new ChangeListener() {
 				@Override
 				public void stateChanged(ChangeEvent e) {
@@ -769,8 +769,7 @@ public class MainView extends JFrame implements ActionListener {
 	 */
 	private void initFrame() throws Exception {
 		
- 		mainPanel = new JPanel();
- 		mainPanel.setLayout(new BorderLayout());
+ 		mainPanel = new JPanel(new BorderLayout());
 		getContentPane().add(mainPanel, BorderLayout.CENTER);
         // menu
 		JMenuBar menuBar = createMenu();
@@ -825,10 +824,9 @@ public class MainView extends JFrame implements ActionListener {
 		addAdvancedTab(vmTabbedPane);
 		
 		// help button
-		JButton helpBtn = CompFactory.createHelpButton();
+		helpBtn = CompFactory.createHelpButton();
 		centerPanel.add(helpBtn, new Gbc(1, 1, 1, 1, 0.0, 0.0, "SW b r"));
 		helpBtn.setEnabled(true);
-		Main.getHelp().enableHelpOnButton(helpBtn, "qemujuicy.intro");
 		// exit button
         centerPanel.add(Gbc.filler(), new Gbc(2, 1, 1, 1, 1.0, 0, "C H"));
 		JButton exitBtn = new JButton(EXIT);

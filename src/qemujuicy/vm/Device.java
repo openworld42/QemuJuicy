@@ -31,22 +31,32 @@ import qemujuicy.*;
  */
 public enum Device {
 	
-    HDA(VMProperties.DRIVE_HDA_NAME),
-    HDB(VMProperties.DRIVE_HDB_NAME),
-    HDD(VMProperties.DRIVE_HDD_NAME),
-    CD_DVD(VMProperties.DRIVE_CD_DVD_NAME),
-    FLOPPY_A(VMProperties.FLOPPY_A_NAME),
-    FLOPPY_B(VMProperties.FLOPPY_B_NAME),
+    HDA(VMProperties.DRIVE_HDA_NAME, "Drive hda"),
+    HDB(VMProperties.DRIVE_HDB_NAME, "Drive hdb"),
+    HDD(VMProperties.DRIVE_HDD_NAME, "Drive hdd"),
+    CD_DVD(VMProperties.DRIVE_CD_DVD_NAME, "CD/DVD"),
+    FLOPPY_A(VMProperties.FLOPPY_A_NAME, "Floppy A"),
+    FLOPPY_B(VMProperties.FLOPPY_B_NAME, "Floppy B"),
     ;
 	
 	private String propertyName;
+	private String displayName;
 
 	/**
 	 * Construction, the path will be set later.
 	 */
-	Device(String propertyName) { 
+	Device(String propertyName, String displayName) { 
 		
 		this.propertyName = propertyName;
+		this.displayName = displayName;
+	}
+
+	/**
+	 * @return the displayName
+	 */
+	public String getDisplayName() {
+		
+		return displayName;
 	}
 
 	/**
