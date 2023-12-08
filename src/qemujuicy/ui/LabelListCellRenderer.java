@@ -60,6 +60,10 @@ public class LabelListCellRenderer extends DefaultListCellRenderer {
 			label.setIcon(vm.getImageIcon());
 			return label;
 		case DEVICE: 	// render the selected device
+			
+			// TODO next step to do 
+
+			
 			Device device = Main.getVmManager().getDeviceListModel().get(index);
 		 	VM vm2 = Main.getVmManager().getSelectedVm();
 			label.setText(device.getDisplayName() + ":   " + vm2.getProperty(device.getPropertyName()));

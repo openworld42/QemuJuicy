@@ -71,7 +71,7 @@ public class VM {
 
 	private VMProperties vmProperties;
 	private Process process;					// the process running this VM, if running
-	private ArrayList<Device> deviceList;		// the devices of this VM
+	private ArrayList<VMDevice> vmDeviceList;		// the devices of this VM
 
 	private ImageIcon imageIcon;
 	private boolean isRunning;					// indicates if the VM has been started
@@ -86,11 +86,12 @@ public class VM {
 		this.vmProperties = vmProperties;
 		imageIcon = Images.find(vmProperties.getProperty(VMProperties.ICON_PATH));
 		imageIcon = Images.scale(imageIcon, 32);
-		deviceList = new ArrayList<Device>();
+		vmDeviceList = new ArrayList<VMDevice>();
 		for (Device device : Device.values()) {
 			String path = vmProperties.getProperty(device.getPropertyName());
 			if (path != null && !path.trim().equals("")) {
-				deviceList.add(device);
+				VMDevice vmDev = new VMDevice(device);
+				vmDeviceList.add(vmDev);
 			}
 		}
 	}
@@ -138,9 +139,9 @@ public class VM {
 	/**
 	 * @return an ArrayList of devices for this VM
 	 */
-	public ArrayList<Device> getDeviceList() {
+	public ArrayList<VMDevice> getDeviceList() {
 		
-		return deviceList;
+		return vmDeviceList;
 	}
 
 	/**
@@ -322,6 +323,23 @@ public class VM {
 //		if (Main.isVerbose() || vmProperties.getPropertyBool(VMProperties.VERBOSE)) {
 		if (vmProperties.getPropertyBool(VMProperties.VERBOSE)) {
 			System.out.println(text);
+		}
+	}
+	
+	/************************* inner classes *************************/
+	
+	/**
+	 * A DocumentListener for a VM property.
+	 */
+	public class VMDevice {
+		
+		private Device device;
+		private int driveIndex;
+		
+		public VMDevice(Device device) {
+
+			this.device = device;
+			this.driveIndex = device.ordinal();
 		}
 	}
 }
