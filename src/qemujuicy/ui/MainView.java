@@ -92,6 +92,7 @@ public class MainView extends JFrame implements ActionListener {
 	private JRadioButton qemuDefinitionRBt;
 	private JTextArea qemuParamsTxa;
 	private JTextArea extraParamsTxa;
+	private JList<VM.VMDevice> deviceList;
 	// toolbar buttons
 	private JButton btnStart;
 	private JButton btnStop;
@@ -160,6 +161,8 @@ public class MainView extends JFrame implements ActionListener {
 		String actionCmd = event.getActionCommand();
 		if (actionCmd.equals(ABOUT)) {
 			new AboutDlg(this);
+		} else if (actionCmd.equals(DEVICE_ADD_CD_DVD)) {
+			Device.addCD(this, vmList, deviceList);
 		} else if (actionCmd.equals(EXIT)) {
             dispose();
             Main.onExit();
@@ -382,7 +385,7 @@ public class MainView extends JFrame implements ActionListener {
 		devicesPnl.add(deviceListPnl, new Gbc(2, row, 14, 1, 1.0, 1.0, "B"));
 		deviceListPnl.setBackground(Gui.PANEL_BACKGROUND);
 		// list
-		JList<Device> deviceList = new JList<>();
+		deviceList = new JList<>();
 		JScrollPane scrollPane = new JScrollPane(deviceList, 
 				ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
 				ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);

@@ -41,7 +41,7 @@ public class VMManager {
 	private ArrayList<VM> vmList;							// contains all VM objects
 	private JList<VM> vmJList;								// JList of VMs (mainView)
 	private DefaultListModel<VM> vmListModel;				// data model for the JList of VMs
-	private DefaultListModel<Device> deviceListModel;		// data model for the JList of devices
+	private DefaultListModel<VM.VMDevice> deviceListModel;		// data model for the JList of devices
 	private VM selectedVm;									// data model for the JList of devices
 
 	/**
@@ -50,7 +50,7 @@ public class VMManager {
 	public VMManager() {
 		
 		vmList = new ArrayList<>(); 
-		deviceListModel = new DefaultListModel<Device>();
+		deviceListModel = new DefaultListModel<VM.VMDevice>();
 	}
 
 	/**
@@ -161,7 +161,7 @@ public class VMManager {
 	/**
 	 * @return the deviceListModel
 	 */
-	public DefaultListModel<Device> getDeviceListModel() {
+	public DefaultListModel<VM.VMDevice> getDeviceListModel() {
 		
 		return deviceListModel;
 	}

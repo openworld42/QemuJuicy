@@ -22,12 +22,15 @@
  */
 package qemujuicy.vm;
 
+import static qemujuicy.Message.*;
+
 import javax.swing.*;
 
 import qemujuicy.*;
+import qemujuicy.ui.*;
 
 /**
- * Enumeration of devices for a VM.
+ * Enumeration and handling of devices for a VM.
  */
 public enum Device {
 	
@@ -49,6 +52,54 @@ public enum Device {
 		
 		this.propertyName = propertyName;
 		this.displayName = displayName;
+	}
+
+	/**
+	 * Adds a CD/DVD device or *.iso file to the devices of this VM.
+	 * 
+	 * @param mainView
+	 * @param vmList
+	 * @param deviceList
+	 */
+	public static void addCD(MainView mainView, JList<VM> vmList, JList<VM.VMDevice> deviceList) {
+		
+		int selectedIndex = vmList.getSelectedIndex();
+		if (selectedIndex < 0) {
+			return;
+		}
+		VM vm = Main.getVm(selectedIndex);
+		Device newDevice = null;
+		if (CD_DVD.isEmpty(vm)) {
+			// no CD defined
+			newDevice = CD_DVD;
+		} else {
+			// CD already defined, choose an empty disk drive
+			for (Device dev : new Device[] {HDA, HDB, HDD}) {
+				if (dev.isEmpty(vm)) {
+					newDevice = dev;
+					break;
+				}
+			}
+		}
+		if (newDevice == null) {
+			// no empty device slot available
+			Logger.error("Device.addCD(): no empty device slot available");
+			Gui.errorDlg(mainView, 
+					Msg.get(DEVICE_SLOT_NOT_AVAILABLE), Msg.get(ERROR_TITLE_DLG_MSG));
+			return;
+		}
+		
+		
+		path erfragen
+		
+		enabler für die device tab buttons
+		
+		
+//		vm.addDevice();
+		
+		DefaultListModel<VM.VMDevice> deviceListModel = Main.getVmManager().getDeviceListModel();
+		deviceListModel.clear();
+		deviceListModel.addAll(vm.getDeviceList());
 	}
 
 	/**
@@ -85,6 +136,15 @@ public enum Device {
 	public String getPropertyName() {
 		
 		return propertyName;
+	}
+	
+	/**
+	 * @return true, if the device is not set in the VM, false otherwise
+	 */
+	public boolean isEmpty(VM vm) {
+		
+		String name = vm.getProperty(getDisplayName());
+		return name == null || name.trim().equals("");
 	}
 }
 

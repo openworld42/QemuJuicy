@@ -58,6 +58,7 @@ public enum Message {
 	BOOT_MENU_MSG("QEMU boot menu"),
 	CANNOT_CREATE_OR_WRITE_TO_MSG("Cannot create or write to file '$(1)'"),
 	COPY_MSG("Copy"),
+	DEVICE_SLOT_NOT_AVAILABLE("No empty device available"),
 	ERROR_LOADING_VM_DLG_MSG("VMManager: error loading VM from '$(1)'"),
 	ERROR_TITLE_DLG_MSG("Error"),
 	EXTRA_PARAMS_MSG("Extra parameters"),
